@@ -1,0 +1,26 @@
+{
+  "name": "conjure-lite",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "import": "./lib/index.js"
+    }
+  },
+  "bin": "./bin/conjure-lite.mjs",
+  "devDependencies": {
+    "@types/yargs": "^17.0.31",
+    "bun-types": "latest",
+    "dprint": "^0.42.5"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0",
+    "tsup": "^7.2.0"
+  },
+  "dependencies": {
+    "conjure-api": "^4.31.0",
+    "prettier": "^3.0.3",
+    "yargs": "^17.7.2",
+    "@types/node": "^20.9.0",
+    "conjure-lite": "."
+  }
+}
