@@ -1,6 +1,6 @@
 {
   "name": "conjure-lite",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "exports": {
     ".": {
       "types": "./lib/index.d.ts",
@@ -9,8 +9,13 @@
   },
   "bin": "./bin/conjure-lite.mjs",
   "type": "module",
+  "files": [
+    "package.json",
+    "lib",
+    "bin"
+  ],
   "scripts": {
-    "prepublish": "tsc"
+    "prepack": "rm -rf lib tsconfig.tsbuildinfo && tsc"
   },
   "devDependencies": {
     "@types/node": "^20.9.0",
