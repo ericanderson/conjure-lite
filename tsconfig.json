@@ -2,7 +2,7 @@
   "compilerOptions": {
     "rootDir": "src",
     "outDir": "lib",
-    "lib": ["ESNext"],
+    "lib": ["ESNext", "webworker"],
     "module": "Node16",
     "target": "ESNext",
     "moduleResolution": "Node16",
@@ -13,7 +13,12 @@
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
-    "noEmitOnError": false
+    "noEmitOnError": false,
+    "types": [],
+    "paths": {
+      "conjure-lite": ["./src"],
+      "node:*": ["./node_modules/@types/node/*.d.ts"],
+    }
   },
   "exclude": ["adsrc/tmp/**/*"],
   "include": ["src"]

@@ -1,6 +1,8 @@
-import yargs, { CommandModule } from "yargs";
+import type { CommandModule } from "yargs";
+import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
-import { HandleGenerateArgs } from "./cli/HandleGenerateArgs.js";
+import type { HandleGenerateArgs } from "./cli/HandleGenerateArgs.js";
+import type {} from "node:process";
 
 export async function cli() {
   const generate: CommandModule<{}, HandleGenerateArgs> = {
@@ -26,6 +28,5 @@ export async function cli() {
   };
 
   await yargs(hideBin(process.argv))
-    
     .command(generate).demandCommand().parseAsync();
 }

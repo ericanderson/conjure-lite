@@ -1,6 +1,6 @@
-import * as ConjureApi from "conjure-api";
+import type { IArgumentDefinition, IEndpointDefinition, IParameterType_Query } from "conjure-api";
 
-export function calculateTemplatedUrlForEndpoint(endpoint: ConjureApi.IEndpointDefinition) {
+export function calculateTemplatedUrlForEndpoint(endpoint: IEndpointDefinition) {
   const queryArgs = endpoint.args.filter(isQueryArgument);
   const queryPortion = queryArgs.length === 0
     ? ""
@@ -42,7 +42,7 @@ export function calculateTemplatedUrlForEndpoint(endpoint: ConjureApi.IEndpointD
 }
 
 function isQueryArgument(
-  a: ConjureApi.IArgumentDefinition,
-): a is ConjureApi.IArgumentDefinition & { paramType: ConjureApi.IParameterType_Query } {
+  a: IArgumentDefinition,
+): a is IArgumentDefinition & { paramType: IParameterType_Query } {
   return a.paramType.type === "query";
 }

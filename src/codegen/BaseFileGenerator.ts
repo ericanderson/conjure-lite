@@ -1,22 +1,42 @@
-import * as ConjureApi from "conjure-api";
+import type * as ConjureApi from "conjure-api";
+import * as fs from "node:fs";
 import * as path from "node:path";
 import { writeCodeFile } from "../util/writeCodeFile.js";
-import { CodeGen } from "./CodeGen.js";
+import type { CodeGen } from "./CodeGen.js";
 
-export class BaseFileGenerator {
-  protected readonly filePath: string;
-  protected readonly codeGen: CodeGen;
-  protected readonly imports = new Map<string, string>();
+export class BaseFileGenerator<D> {
+  public readonly def: D;
+  public readonly filePath: string;
+  public readonly codeGen: CodeGen;
+  public readonly imports = new Map<string, string>();
 
   constructor(
     filePath: string,
     codeGen: CodeGen,
+    def: D,
   ) {
     this.filePath = filePath;
     this.codeGen = codeGen;
+    this.def = def;
   }
 
-  ensureImportForType(type: ConjureApi.IType): void {
+  ensureImportForType(
+    type: ConjureApi.IType | ConjureApi.IServiceDefinition | ConjureApi.ITypeName,
+  ): void {
+    if ("package" in type) {
+      const importPath = this.getImportModuleSpecifier(type);
+
+      this.imports.set(
+        `${type.package}.${type.name}`,
+        `import type { ${type.name} } from "${importPath}";`,
+      );
+      return;
+    }
+
+    if ("serviceName" in type) {
+      return this.ensureImportForType(type.serviceName);
+    }
+
     switch (type.type) {
       case "list":
         this.ensureImportForType(type.list.itemType);
@@ -25,18 +45,9 @@ export class BaseFileGenerator {
       case "primitive":
         return;
 
-      case "reference":
-        let importPath = path.relative(
-          path.dirname(this.filePath),
-          this.codeGen.getFilePathForImport(type.reference),
-        );
-        if (importPath != ".") importPath = `./${importPath}`;
-
-        this.imports.set(
-          `${type.reference.package}.${type.reference.name}`,
-          `import { ${type.reference.name} } from "${importPath}";`,
-        );
-        return;
+      case "reference": {
+        return this.ensureImportForType(type.reference);
+      }
 
       case "optional":
         this.ensureImportForType(type.optional.itemType);
@@ -44,6 +55,21 @@ export class BaseFileGenerator {
     }
 
     return;
+  }
+
+  getImportModuleSpecifier(targetFile: string): string;
+  getImportModuleSpecifier(type: ConjureApi.ITypeName): string;
+  getImportModuleSpecifier(type: ConjureApi.ITypeName | string) {
+    let importPath = path.relative(
+      path.dirname(this.filePath),
+      this.codeGen.getFilePathForImport(type),
+    );
+
+    if (!importPath.startsWith(".")) importPath = `./${importPath}`;
+
+    if (this.codeGen.includeExtensions) {
+      return importPath;
+    }
   }
 
   getTypeForCode(type: ConjureApi.IType): string {
@@ -94,7 +120,8 @@ export class BaseFileGenerator {
     return `/* OOOOOOPS */any`;
   }
 
-  protected async writeFile(body: string) {
+  async writeFile(body: string) {
+    await fs.promises.mkdir(path.dirname(this.filePath), { recursive: true });
     await writeCodeFile(
       this.filePath,
       `${Array.from(this.imports.values()).join("\n")}

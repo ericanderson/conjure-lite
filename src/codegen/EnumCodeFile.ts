@@ -1,30 +1,12 @@
-import * as ConjureApi from "conjure-api";
-import { BaseFileGenerator } from "./BaseFileGenerator.js";
-import { CodeGen } from "./CodeGen.js";
+import type { IEnumDefinition } from "conjure-api";
+import { generatorFactory } from "./generatorFactory.js";
 
-export class EnumCodeFile extends BaseFileGenerator {
-  def: ConjureApi.ITypeDefinition_Enum;
-
-  constructor(
-    filePath: string,
-    codeGen: CodeGen,
-    def: ConjureApi.ITypeDefinition_Enum,
-  ) {
-    super(filePath, codeGen);
-
-    this.def = def;
-  }
-
-  get name() {
-    return this.def.enum.typeName.name;
-  }
-
-  async generate() {
+export const enumCodeGenerator = generatorFactory<IEnumDefinition>(
+  async function() {
+    const { typeName: { name }, values } = this.def;
     const source = `
-    export type ${this.name} = ${this.def.enum.values.map(v => `"${v.value}"`).join("|")}
-        
-    `;
+      export type ${name} = ${values.map(({ value }) => `"${value}"`).join("|")};\n`;
 
     await this.writeFile(source);
-  }
-}
+  },
+);

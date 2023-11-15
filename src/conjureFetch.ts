@@ -1,4 +1,4 @@
-import { ConjureContext } from ".";
+import type { ConjureContext } from "./ConjureContext.js";
 
 export async function conjureFetch<T>(
   { fetchFn, basePath }: ConjureContext,
@@ -20,11 +20,12 @@ export async function conjureFetch<T>(
       body instanceof URLSearchParams || body instanceof Blob || body instanceof FormData
       || typeof body === "string" || body instanceof ArrayBuffer
     ) {
+      //
     } else {
       body = JSON.stringify(body);
     }
   }
-  const response = await fetchFn(url, {
+  const response = await fetchFn(`${basePath}/${url}`, {
     method,
     credentials: "same-origin",
     headers: {

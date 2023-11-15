@@ -1,8 +1,10 @@
 export function findCommonPrefix(strings: Array<string>) {
-  for (let stringIndex = 0; stringIndex < strings[0].length; stringIndex++) {
-    for (let i = 1; i < strings.length; i++) {
-      if (strings[0][stringIndex] != strings[i][stringIndex]) {
-        return strings[0].substring(0, stringIndex);
+  const splitStrings = strings.map(s => s.split("."));
+
+  for (let i = 0; i < splitStrings[0].length; i++) {
+    for (let j = 1; j < splitStrings.length; j++) {
+      if (splitStrings[0][i] != splitStrings[j][i]) {
+        return splitStrings[0].slice(0, i).join(".");
       }
     }
   }

@@ -1,27 +1,12 @@
-import * as ConjureApi from "conjure-api";
-import { BaseFileGenerator } from "./BaseFileGenerator.js";
-import { CodeGen } from "./CodeGen.js";
+import type { IAliasDefinition } from "conjure-api";
+import { generatorFactory } from "./generatorFactory.js";
 
-export class TypeAliasCodeFile extends BaseFileGenerator {
-  name: string;
-  target: ConjureApi.IType;
-  constructor(
-    filePath: string,
-    codeGen: CodeGen,
-    name: string,
-    target: ConjureApi.IType,
-  ) {
-    super(filePath, codeGen);
-    this.name = name;
-    this.target = target;
-  }
+export const typeAliasCodeGenerator = generatorFactory<IAliasDefinition>(
+  async function() {
+    const { typeName: { name }, alias } = this.def;
 
-  async generate() {
-    const source = `
-    export type ${this.name} = ${this.getTypeForCode(this.target)}
-        
-    `;
+    const source = `export type ${name} = ${this.getTypeForCode(alias)};\n`;
 
     await this.writeFile(source);
-  }
-}
+  },
+);
