@@ -3,7 +3,7 @@ import type { ConjureContext } from "./ConjureContext.js";
 // This is the ONLY file that gets put into someones build.
 
 export async function conjureFetch<T>(
-  { fetchFn, basePath }: ConjureContext,
+  { fetchFn, baseUrl, servicePath, tokenProvider }: ConjureContext,
   url: string,
   method: string,
   body?:
@@ -27,13 +27,15 @@ export async function conjureFetch<T>(
       body = JSON.stringify(body);
     }
   }
-  const response = await fetchFn(`${basePath}/${url}`, {
+
+  const response = await (fetchFn ?? fetch)(`${baseUrl}${servicePath}${url}`, {
     method,
     credentials: "same-origin",
     headers: {
       "Fetch-User-Agent": "conjure-lite",
       "Content-Type": contentType ?? "application/json",
       accept: accept ?? "application/json",
+      ...(tokenProvider ? { "Authorization": `Bearer ${await tokenProvider()}` } : {}),
     },
     ...(body ? { body } as any : {}),
   });
