@@ -1,5 +1,4 @@
 import type { IServiceDefinition, ITypeName } from "conjure-api";
-import dedent from "dedent";
 import { generatorFactory } from "./generatorFactory.js";
 import { spreadIntoTypes } from "./spreadIntoTypes.js";
 
@@ -11,7 +10,7 @@ export const packageIndexCodeGenerator = generatorFactory<
       const qualifier = this.getImportModuleSpecifier(
         this.codeGen.getFilePathForImport(serviceName),
       );
-      return `export type * as ${serviceName.name} from "${qualifier}";`;
+      return `export * as ${serviceName.name} from "${qualifier}";`;
     };
 
     const getTypeExport = (typeName: ITypeName) => {
@@ -33,17 +32,11 @@ export const packageIndexCodeGenerator = generatorFactory<
       p.startsWith(`${this.def.packageName}.`)
     ).map(p => p.substring(this.def.packageName.length + 1).split(".")[0]);
 
-    const source = dedent`
-      ${services.map(getServiceExport).join("\n")}
-
-      ${types.map(getTypeExport).join("\n")}
-
-      ${
-      childPackages.map(p =>
-        `export type * as ${p} from "./${p}/index${this.codeGen.includeExtensions ? ".js" : ""}"`
-      ).join("\n")
-    }
-      `;
+    const source = services.map(getServiceExport).join("\n") + "\n\n"
+      + types.map(getTypeExport).join("\n") + "\n\n"
+      + childPackages.map(p =>
+        `export * as ${p} from "./${p}/index${this.codeGen.includeExtensions ? ".js" : ""}"`
+      ).join("\n");
 
     await this.writeFile(source);
   },

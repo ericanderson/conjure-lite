@@ -1,0 +1,103 @@
+{
+  "types": [
+    {
+      "type": "object",
+      "object": {
+        "typeName": { "name": "Widget", "package": "com.palantir.widget" },
+        "fields": [
+          {
+            "fieldName": "description",
+            "type": { "type": "primitive", "primitive": "STRING" }
+          },
+          {
+            "fieldName": "exampleEnum",
+            "type": {
+              "type": "reference",
+              "reference": {
+                "name": "ExampleEnum",
+                "package": "com.palantir.foo"
+              }
+            }
+          }
+        ],
+        "docs": "ExampleObject has two fields, a string description and a reference to ExampleEnum."
+      }
+    },
+    {
+      "type": "enum",
+      "enum": {
+        "typeName": {
+          "name": "ExampleEnum",
+          "package": "com.palantir.foo"
+        },
+        "values": [{ "value": "FOO" }, { "value": "BAR" }],
+        "docs": "Valid values for ExampleEnum include \"FOO\" and \"BAR\"."
+      }
+    }
+  ],
+  "services": [
+    {
+      "serviceName": {
+        "name": "WidgetService",
+        "package": "com.palantir.widget"
+      },
+      "endpoints": [
+        {
+          "endpointName": "createWidget",
+          "httpMethod": "POST",
+          "httpPath": "/widgets",
+          "auth": { "type": "header", "header": {} },
+          "docs": "An endpoint for creating a widget. Requires an \"Authorization\" header."
+        },
+        {
+          "endpointName": "getWidget",
+          "httpMethod": "GET",
+          "httpPath": "/widgets/{widgetRid}",
+          "auth": { "type": "header", "header": {} },
+          "args": [
+            {
+              "argName": "widgetRid",
+              "type": { "type": "primitive", "primitive": "RID" },
+              "paramType": { "type": "path", "path": {} }
+            }
+          ],
+          "returns": {
+            "type": "reference",
+            "reference": { "name": "Widget", "package": "com.palantir.widget" }
+          },
+          "docs": "An endpoint for retrieving a widget. The RID of the desired widget is specified in the path of the request.\n"
+        },
+        {
+          "endpointName": "getWidgets",
+          "httpMethod": "GET",
+          "httpPath": "/widgets",
+          "auth": { "type": "header", "header": {} },
+          "args": [
+            {
+              "argName": "createdAfter",
+              "type": { "type": "primitive", "primitive": "DATETIME" },
+              "paramType": {
+                "type": "query",
+                "query": { "paramId": "createdAfter" }
+              }
+            }
+          ],
+          "returns": {
+            "type": "list",
+            "list": {
+              "itemType": {
+                "type": "reference",
+                "reference": {
+                  "name": "Widget",
+                  "package": "com.palantir.widget"
+                }
+              }
+            }
+          },
+          "docs": "An endpoint for retrieving all widgets, with optional filtering by the date of widget creation."
+        }
+      ],
+      "docs": "API for creating and retrieving widgets."
+    }
+  ]
+}

@@ -1,7 +1,8 @@
 import type { IArgumentDefinition, IEndpointDefinition, IParameterType_Query } from "conjure-api";
 
 export function calculateTemplatedUrlForEndpoint(endpoint: IEndpointDefinition) {
-  const queryArgs = endpoint.args.filter(isQueryArgument);
+  const args = endpoint.args ?? [];
+  const queryArgs = args.filter(isQueryArgument) ?? [];
   const queryPortion = queryArgs.length === 0
     ? ""
     : "?${" + `new URLSearchParams({ ${
@@ -30,7 +31,7 @@ export function calculateTemplatedUrlForEndpoint(endpoint: IEndpointDefinition) 
       }).join(",")
     } })` + "}";
 
-  return "`" + endpoint.args.reduce(
+  return "`" + args.reduce(
     (p, c) => {
       if (c.paramType.type === "path") {
         return p.replace(`{${c.argName}}`, `\${${c.argName}}`);

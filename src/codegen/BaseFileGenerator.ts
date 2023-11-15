@@ -1,5 +1,4 @@
 import type * as ConjureApi from "conjure-api";
-import * as fs from "node:fs";
 import * as path from "node:path";
 import { writeCodeFile } from "../util/writeCodeFile.js";
 import type { CodeGen } from "./CodeGen.js";
@@ -121,13 +120,9 @@ export class BaseFileGenerator<D> {
   }
 
   async writeFile(body: string) {
-    await fs.promises.mkdir(path.dirname(this.filePath), { recursive: true });
     await writeCodeFile(
       this.filePath,
-      `${Array.from(this.imports.values()).join("\n")}
-
-      ${body}
-      `,
+      `${Array.from(this.imports.values()).join("\n")}\n${body}`,
     );
   }
 }

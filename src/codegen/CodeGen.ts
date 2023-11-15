@@ -44,17 +44,26 @@ export class CodeGen {
   async generate() {
     const codeFiles: Array<() => Promise<void>> = [];
 
-    const completedPackages = new Set<string>([this.#commonPackageBase]);
+    const completedPackages = new Set<string>();
+    const actuallyAddPackage = async (packageName: string) => {
+      if (packageName.endsWith(".")) {
+        // special case where everything is in the common package
+        return;
+      }
+      if (completedPackages.has(packageName)) return;
+
+      const packagePath = this.getPackageDir(packageName);
+      await fs.promises.mkdir(packagePath, { recursive: true });
+      codeFiles.push(
+        packageIndexCodeGenerator(path.join(packagePath, "index.ts"), this, {
+          packageName,
+        }),
+      );
+      completedPackages.add(packageName);
+    };
+
     // "root package"
-    codeFiles.push(
-      packageIndexCodeGenerator(
-        path.join(this.getPackageDir(this.#commonPackageBase), "index.ts"),
-        this,
-        {
-          packageName: this.#commonPackageBase,
-        },
-      ),
-    );
+    await actuallyAddPackage(this.#commonPackageBase);
 
     for (const fullPackageName of this.packages) {
       const partsAfterCommon = fullPackageName.substring(this.#commonPackageBase.length + 1).split(
@@ -64,15 +73,8 @@ export class CodeGen {
       for (let i = 0; i < partsAfterCommon.length; i++) {
         const packageName = this.#commonPackageBase + "."
           + partsAfterCommon.slice(0, i + 1).join(".");
-        if (completedPackages.has(packageName)) continue;
 
-        const packagePath = this.getPackageDir(packageName);
-        await fs.promises.mkdir(packagePath, { recursive: true });
-        codeFiles.push(
-          packageIndexCodeGenerator(path.join(packagePath, "index.ts"), this, {
-            packageName: packageName,
-          }),
-        );
+        await actuallyAddPackage(packageName);
       }
     }
 

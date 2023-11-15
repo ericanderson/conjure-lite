@@ -15,7 +15,9 @@
     "bin"
   ],
   "scripts": {
-    "prepack": "rm -rf lib tsconfig.tsbuildinfo && tsc"
+    "prepack": "npm run clean && tsc",
+    "clean": "rm -rf lib tsconfig.tsbuildinfo",
+    "generateExamples": "npm run prepack && rm -rf examples/widget/src/generated examples/widget/lib examples/widget/tsconfig.tsbuildinfo && ./bin/conjure-lite.mjs  generate --ir examples/widget/ir.json --outDir examples/widget/src/generated && tsc --build examples/widget"
   },
   "devDependencies": {
     "@types/node": "^20.9.0",

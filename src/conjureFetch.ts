@@ -1,5 +1,7 @@
 import type { ConjureContext } from "./ConjureContext.js";
 
+// This is the ONLY file that gets put into someones build.
+
 export async function conjureFetch<T>(
   { fetchFn, basePath }: ConjureContext,
   url: string,
@@ -75,7 +77,7 @@ async function readBody(response: Response) {
 type ConjureErrorType = "NETWORK" | "OTHER" | "PARSE" | "STATUS";
 
 export class ConjureError<E> {
-  public readonly type: "NETWORK" | "OTHER" | "PARSE" | "STATUS";
+  public readonly type: ConjureErrorType;
   public readonly originalError?: any;
   public readonly status?: number;
   public readonly body?: string | E;
