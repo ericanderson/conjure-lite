@@ -3,8 +3,9 @@ import type { foo } from "./generated/index.js";
 import { widget } from "./generated/index.js";
 
 const ctx: ConjureContext = {
-  basePath: "https://localhost:8433",
-  fetchFn: fetch,
+  baseUrl: "https://localhost:8433",
+  tokenProvider: () => Promise.resolve("Hi"),
+  servicePath: "/myservice/api"
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

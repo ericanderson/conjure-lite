@@ -23,6 +23,9 @@ export class BaseFileGenerator<D> {
     type: ConjureApi.IType | ConjureApi.IServiceDefinition | ConjureApi.ITypeName,
   ): void {
     if ("package" in type) {
+      if (this.codeGen.getFilePath(type) === this.filePath) {
+        return;
+      }
       const importPath = this.getImportModuleSpecifier(type);
 
       this.imports.set(
