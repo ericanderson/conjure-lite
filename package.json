@@ -7,7 +7,9 @@
       "import": "./lib/index.js"
     }
   },
-  "bin": "./bin/conjure-lite.mjs",
+  "bin": {
+    "conjure-lite": "bin/conjure-lite.mjs"
+  },
   "type": "module",
   "files": [
     "package.json",
