@@ -78,6 +78,9 @@ export class BaseFileGenerator<D> {
     this.ensureImportForType(type);
 
     switch (type.type) {
+      case "external":
+        return this.getTypeForCode(type.external.fallback);
+
       case "list":
         return `Array<${this.getTypeForCode(type.list.itemType)}>`;
 
