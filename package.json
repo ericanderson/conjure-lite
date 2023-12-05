@@ -14,7 +14,7 @@
   "type": "module",
   "files": [
     "package.json",
-    "lib",
+    "dist",
     "bin"
   ],
   "scripts": {
