@@ -55,7 +55,7 @@ export class CodeGen {
       const packagePath = this.getPackageDir(packageName);
       await fs.promises.mkdir(packagePath, { recursive: true });
       codeFiles.push(
-        packageIndexCodeGenerator(path.join(packagePath, "index.mts"), this, {
+        packageIndexCodeGenerator(path.join(packagePath, "index.ts"), this, {
           packageName,
         }),
       );
@@ -122,7 +122,7 @@ export class CodeGen {
   }
 
   getFilePath(typeName: ConjureApi.ITypeName) {
-    return `${path.join(this.getPackageDir(typeName.package), `${typeName.name}.mts`)}`;
+    return `${path.join(this.getPackageDir(typeName.package), `${typeName.name}.ts`)}`;
   }
 
   getFilePathForImport(typeName: ConjureApi.ITypeName | string) {
@@ -130,7 +130,7 @@ export class CodeGen {
       ? path.join(path.dirname(typeName), path.basename(typeName, path.extname(typeName)))
       : path.join(this.getPackageDir(typeName.package), `${typeName.name}`);
 
-    return this.includeExtensions ? withoutExt + ".mjs" : withoutExt;
+    return this.includeExtensions ? withoutExt + ".js" : withoutExt;
   }
 
   getServiceDir(service: ConjureApi.IServiceDefinition) {
@@ -149,6 +149,6 @@ export class CodeGen {
         this.getServiceDir(service),
         endpoint.endpointName,
       )
-    }.mts`;
+    }.ts`;
   }
 }
