@@ -1,11 +1,11 @@
 import type { IFieldDefinition, IUnionDefinition } from "conjure-api";
 import dedent from "dedent";
 import { generatorFactory } from "./generatorFactory.js";
+import { getDocs } from "./getDocs.js";
 
 export const unionCodeGenerator = generatorFactory<IUnionDefinition>(
   async function() {
-    const { typeName: { name }, union } = this.def;
-    
+    const { typeName: { name }, union, docs } = this.def;
 
     const createUnionInterface = (u: IFieldDefinition) => {
       return dedent`
@@ -17,9 +17,11 @@ export const unionCodeGenerator = generatorFactory<IUnionDefinition>(
 
     const source = dedent`
         ${union.map(createUnionInterface).join("\n")}
-
-        export type ${name} = ${union.map(u => `${name}_${u.fieldName}`).join(" | ")}
-    `;
+        `
+      + getDocs(docs)
+      + dedent`
+          export type ${name} = ${union.map(u => `${name}_${u.fieldName}`).join(" | ")}
+        `;
 
     await this.writeFile(source);
   },
