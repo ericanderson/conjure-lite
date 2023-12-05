@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "rootDir": "src",
-    "outDir": "lib",
+    "outDir": "dist",
     "lib": ["ESNext", "webworker"],
     "module": "Node16",
     "target": "ESNext",
@@ -9,6 +9,7 @@
     "moduleDetection": "force",
     "composite": true,
     "strict": true,
+    "emitDeclarationOnly": true,
     "downlevelIteration": true,
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,

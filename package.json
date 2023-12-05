@@ -3,8 +3,9 @@
   "version": "0.1.1",
   "exports": {
     ".": {
-      "types": "./lib/index.d.ts",
-      "import": "./lib/index.js"
+      "types": "./dist/index.d.ts",
+      "import": "./lib/index.js",
+      "require": "./lib/index.cjs"
     }
   },
   "bin": {
@@ -17,11 +18,13 @@
     "bin"
   ],
   "scripts": {
-    "prepack": "npm run clean && tsc",
-    "clean": "rm -rf lib tsconfig.tsbuildinfo",
+    "prepack": "npm run clean && tsup && tsc",
+    "foo": "&& tsc --emitDeclarationOnly --declaration",
+    "clean": "rm -rf lib tsconfig.tsbuildinfo dist",
     "generateExamples": "npm run prepack && rm -rf examples/widget/src/generated examples/widget/lib examples/widget/tsconfig.tsbuildinfo && ./bin/conjure-lite.mjs  generate --ir examples/widget/ir.json --outDir examples/widget/src/generated && tsc --build examples/widget"
   },
   "devDependencies": {
+    "@microsoft/api-extractor": "^7.38.4",
     "@types/node": "^20.9.0",
     "@types/yargs": "^17.0.31",
     "@typescript-eslint/eslint-plugin": "^6.11.0",
@@ -29,6 +32,7 @@
     "conjure-api": "^4.31.0",
     "dprint": "^0.42.5",
     "eslint": "^8.53.0",
+    "tsup": "^8.0.1",
     "typescript": "^5.2.2"
   },
   "dependencies": {
