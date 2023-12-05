@@ -2,6 +2,7 @@ import type { IEndpointDefinition, IType } from "conjure-api";
 import dedent from "dedent";
 import { calculateTemplatedUrlForEndpoint } from "./calculateTemplatedUrlForEndpoint.js";
 import { generatorFactory } from "./generatorFactory.js";
+import { getDocs } from "./getDocs.js";
 
 export const endpointCodeGenerator = generatorFactory<IEndpointDefinition>(
   async function() {
@@ -33,7 +34,7 @@ export const endpointCodeGenerator = generatorFactory<IEndpointDefinition>(
       }
     }
 
-    const functionSource = dedent`
+    const functionSource = getDocs(this.def.docs) + dedent`
       export async function ${this.def.endpointName}(ctx: ConjureContext, ${
       (this.def.args ?? []).map(a => `${a.argName}: ${this.getTypeForCode(a.type)}`).join(`, `)
     }): Promise<${this.def.returns ? this.getTypeForCode(this.def.returns) : "void"}> {
