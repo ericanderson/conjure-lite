@@ -91,7 +91,7 @@ export class BaseFileGenerator<D> {
         return `${this.getTypeForCode(type.optional.itemType)} | undefined`;
 
       case "map":
-        return `Map<${this.getTypeForCode(type.map.keyType)}, ${
+        return `Record<${this.getTypeForCode(type.map.keyType)}, ${
           this.getTypeForCode(type.map.valueType)
         }>`;
 
