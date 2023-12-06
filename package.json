@@ -4,8 +4,8 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./lib/index.js",
-      "require": "./lib/index.cjs"
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
     }
   },
   "bin": {
