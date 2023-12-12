@@ -7,9 +7,9 @@ export const objectCodeGenerator = generatorFactory<IObjectDefinition>(
   async function() {
     const { typeName: { name }, docs } = this.def;
     const fields = this.def.fields.map(f =>
-      `  ${f.fieldName.includes("-") ? `"${f.fieldName}"` : f.fieldName}: ${
-        this.getTypeForCode(f.type)
-      };`
+      `  ${
+        f.fieldName.includes("-") || f.fieldName.includes("_") ? `"${f.fieldName}"` : f.fieldName
+      }: ${this.getTypeForCode(f.type)};`
     )
       .join(
         "\n",
