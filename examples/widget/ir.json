@@ -3,11 +3,17 @@
     {
       "type": "object",
       "object": {
-        "typeName": { "name": "Widget", "package": "com.palantir.widget" },
+        "typeName": {
+          "name": "Widget",
+          "package": "com.palantir.widget"
+        },
         "fields": [
           {
             "fieldName": "description",
-            "type": { "type": "primitive", "primitive": "STRING" }
+            "type": {
+              "type": "primitive",
+              "primitive": "STRING"
+            }
           },
           {
             "fieldName": "exampleEnum",
@@ -17,6 +23,13 @@
                 "name": "ExampleEnum",
                 "package": "com.palantir.foo"
               }
+            }
+          },
+          {
+            "fieldName": "dash-separated",
+            "type": {
+              "type": "primitive",
+              "primitive": "BOOLEAN"
             }
           }
         ],
@@ -30,7 +43,14 @@
           "name": "ExampleEnum",
           "package": "com.palantir.foo"
         },
-        "values": [{ "value": "FOO" }, { "value": "BAR" }],
+        "values": [
+          {
+            "value": "FOO"
+          },
+          {
+            "value": "BAR"
+          }
+        ],
         "docs": "Valid values for ExampleEnum include \"FOO\" and \"BAR\"."
       }
     }
@@ -46,24 +66,39 @@
           "endpointName": "createWidget",
           "httpMethod": "POST",
           "httpPath": "/widgets",
-          "auth": { "type": "header", "header": {} },
+          "auth": {
+            "type": "header",
+            "header": {}
+          },
           "docs": "An endpoint for creating a widget. Requires an \"Authorization\" header."
         },
         {
           "endpointName": "getWidget",
           "httpMethod": "GET",
           "httpPath": "/widgets/{widgetRid}",
-          "auth": { "type": "header", "header": {} },
+          "auth": {
+            "type": "header",
+            "header": {}
+          },
           "args": [
             {
               "argName": "widgetRid",
-              "type": { "type": "primitive", "primitive": "RID" },
-              "paramType": { "type": "path", "path": {} }
+              "type": {
+                "type": "primitive",
+                "primitive": "RID"
+              },
+              "paramType": {
+                "type": "path",
+                "path": {}
+              }
             }
           ],
           "returns": {
             "type": "reference",
-            "reference": { "name": "Widget", "package": "com.palantir.widget" }
+            "reference": {
+              "name": "Widget",
+              "package": "com.palantir.widget"
+            }
           },
           "docs": "An endpoint for retrieving a widget. The RID of the desired widget is specified in the path of the request.\n"
         },
@@ -71,14 +106,40 @@
           "endpointName": "getWidgets",
           "httpMethod": "GET",
           "httpPath": "/widgets",
-          "auth": { "type": "header", "header": {} },
+          "auth": {
+            "type": "header",
+            "header": {}
+          },
           "args": [
             {
               "argName": "createdAfter",
-              "type": { "type": "primitive", "primitive": "DATETIME" },
+              "type": {
+                "type": "primitive",
+                "primitive": "DATETIME"
+              },
               "paramType": {
                 "type": "query",
-                "query": { "paramId": "createdAfter" }
+                "query": {
+                  "paramId": "createdAfter"
+                }
+              }
+            },
+            {
+              "argName": "containingProperties",
+              "type": {
+                "type": "set",
+                "set": {
+                  "itemType": {
+                    "type": "primitive",
+                    "primitive": "STRING"
+                  }
+                }
+              },
+              "paramType": {
+                "type": "query",
+                "query": {
+                  "paramId": "containingProperties"
+                }
               }
             }
           ],

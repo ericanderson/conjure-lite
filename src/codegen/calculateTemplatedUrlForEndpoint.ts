@@ -9,12 +9,13 @@ export function calculateTemplatedUrlForEndpoint(endpoint: IEndpointDefinition) 
       queryArgs.map(a => {
         // a.type.type === "primitive"  && a.type.primitive === ""
         switch (a.type.type) {
-          case "list":
           case "map":
-          case "set":
             throw new Error(
               `Unsupported type ${a.type.type} while generating ${endpoint.endpointName}`,
             );
+          case "list":
+          case "set":
+            return `"${a.paramType.query.paramId}": ${a.argName}.join(",")`;
 
           case "reference":
             return `"${a.paramType.query.paramId}": ${a.argName}`;
