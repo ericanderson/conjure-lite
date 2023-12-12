@@ -6,7 +6,11 @@ import { getDocs } from "./getDocs.js";
 export const objectCodeGenerator = generatorFactory<IObjectDefinition>(
   async function() {
     const { typeName: { name }, docs } = this.def;
-    const fields = this.def.fields.map(f => `  ${f.fieldName}: ${this.getTypeForCode(f.type)};`)
+    const fields = this.def.fields.map(f =>
+      `  ${f.fieldName.includes("-") ? `"${f.fieldName}"` : f.fieldName}: ${
+        this.getTypeForCode(f.type)
+      };`
+    )
       .join(
         "\n",
       );

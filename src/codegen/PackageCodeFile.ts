@@ -28,10 +28,15 @@ export const packageIndexCodeGenerator = generatorFactory<
       t.package === this.def.packageName
     );
 
-    const childPackages = Array.from(this.codeGen.packages).filter(p =>
-      p.startsWith(`${this.def.packageName}.`)
-    ).map(p => p.substring(this.def.packageName.length + 1).split(".")[0]);
+    const childPackagesSet = new Set();
+    this.codeGen.packages.forEach(p => {
+      if (p.startsWith(`${this.def.packageName}.`)) {
+        const childPackage = p.substring(this.def.packageName.length + 1).split(".")[0];
+        childPackagesSet.add(childPackage);
+      }
+    });
 
+    const childPackages = Array.from(childPackagesSet);
     const source = services.map(getServiceExport).join("\n") + "\n\n"
       + types.map(getTypeExport).join("\n") + "\n\n"
       + childPackages.map(p =>
