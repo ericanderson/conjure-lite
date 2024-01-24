@@ -1,6 +1,6 @@
 {
   "name": "conjure-lite",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -21,7 +21,6 @@
   ],
   "scripts": {
     "prepack": "npm run clean && tsup && tsc",
-    "foo": "&& tsc --emitDeclarationOnly --declaration",
     "clean": "rm -rf lib tsconfig.tsbuildinfo dist",
     "generateExamples": "npm run prepack && rm -rf examples/widget/src/generated examples/widget/lib examples/widget/tsconfig.tsbuildinfo && ./bin/conjure-lite.mjs  generate --ir examples/widget/ir.json --outDir examples/widget/src/generated && tsc --build examples/widget"
   },
