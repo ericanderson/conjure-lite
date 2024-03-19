@@ -14,6 +14,7 @@ export async function conjureFetch<T>(
     | null
     | string
     | {},
+  params?: { [key: string]: string | number | boolean | any[] | undefined | null },
   contentType?: "application/json" | "application/octet-stream",
   accept?: "application/json" | "application/octet-stream",
 ): Promise<T> {
@@ -28,7 +29,24 @@ export async function conjureFetch<T>(
     }
   }
 
-  const response = await (fetchFn ?? fetch)(`${baseUrl}${servicePath}${url}`, {
+  const queryParams = Object.entries(params ?? {}).reduce(
+      (acc, [key, value]) => {
+        // omit undefined, null and empty parameter values
+        if (value == null) {
+          return acc;
+        }
+        const paramValue = Array.isArray(value) ? value.join(",") : "" + value;
+        if (paramValue.length === 0) {
+          return acc;
+        }
+        acc[key] = paramValue;
+        return acc;
+      },
+      {} as { [key: string]: string },
+  )
+  const query = Object.keys(queryParams).length === 0 ? "" : `?${new URLSearchParams(queryParams).toString()}`;
+
+  const response = await (fetchFn ?? fetch)(`${baseUrl}${servicePath}${url}${query}`, {
     method,
     credentials: "same-origin",
     headers: {
