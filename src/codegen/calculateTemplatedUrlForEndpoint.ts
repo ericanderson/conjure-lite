@@ -5,7 +5,7 @@ export function calculateTemplatedUrlForEndpoint(endpoint: IEndpointDefinition) 
   const queryArgs = args.filter(isQueryArgument) ?? [];
   const queryPortion = queryArgs.length === 0
     ? ""
-    : "?${" + `new URLSearchParams({ ${
+    : "?${" + `new URLSearchParams(Object.entries({ ${
       queryArgs.map(a => {
         // a.type.type === "primitive"  && a.type.primitive === ""
         switch (a.type.type) {
@@ -29,9 +29,23 @@ export function calculateTemplatedUrlForEndpoint(endpoint: IEndpointDefinition) 
             }
         }
 
-        return `"${a.paramType.query.paramId}": "" + ${a.argName}`;
+        return `"${a.paramType.query.paramId}": ${a.argName}`;
       }).join(",")
-    } })` + "}";
+      // omit undefined or empty query values
+    } }).reduce(
+      (acc, [key, value]) => {
+        if (value == null) {
+          return acc;
+        }
+        const paramValue = "" + value;
+        if (paramValue.length === 0) {
+          return acc;
+        }
+        acc[key] = paramValue;
+        return acc;
+      },
+      {} as { [key: string]: string },
+    )` + ")}";
 
   return "`" + args.reduce(
     (p, c) => {
