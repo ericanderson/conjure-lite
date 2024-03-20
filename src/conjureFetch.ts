@@ -29,20 +29,17 @@ export async function conjureFetch<T>(
     }
   }
 
-  const queryParams = Object.entries(params ?? {}).reduce(
-      (acc, [key, value]) => {
-        // omit undefined, null and empty parameter values
+  const queryParams = Object.entries(params ?? {}).flatMap(
+      ( [key, value]) => {
         if (value == null) {
-          return acc;
+          return [];
         }
-        const paramValue = Array.isArray(value) ? value.join(",") : "" + value;
-        if (paramValue.length === 0) {
-          return acc;
+        if (Array.isArray(value)) {
+          return value.map(item => ([key, item]));
         }
-        acc[key] = paramValue;
-        return acc;
+        const stringValue = "" + value;
+        return stringValue.length === 0 ? [] : [[key, stringValue]];
       },
-      {} as { [key: string]: string },
   )
   const query = Object.keys(queryParams).length === 0 ? "" : `?${new URLSearchParams(queryParams).toString()}`;
 
