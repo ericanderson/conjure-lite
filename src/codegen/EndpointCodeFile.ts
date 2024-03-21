@@ -14,13 +14,12 @@ export const endpointCodeGenerator = generatorFactory<IEndpointDefinition>(
     const queryParams = (this.def.args ?? []).filter(isQueryArgument);
     const queryArg = queryParams.length === 0 ? undefined : `{ ${
         queryParams.map(a => {
-            // a.type.type === "primitive"  && a.type.primitive === ""
             if (a.type.type === "map") {
               throw new Error(
                 `Unsupported type ${a.type.type} while generating ${this.def.endpointName}`,
               );
             }
-            return `"${a.paramType.query.paramId}": ${a.argName}`;
+            return a.paramType.query.paramId === a.argName ? a.paramType.query.paramId : `"${a.paramType.query.paramId}": ${a.argName}`;
         }).join(",")
     } }`;
 
