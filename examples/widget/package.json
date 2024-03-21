@@ -1,0 +1,8 @@
+{
+  "name": "conjure-lite.example",
+  "private": true,
+  "dependencies": {
+    "conjure-lite": "workspace:*"
+  },
+  "type": "module"
+}

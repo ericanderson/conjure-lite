@@ -14,10 +14,7 @@
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "noEmitOnError": false,
-    "types": [],
-    "paths": {
-      "conjure-lite": ["../../src"],
-    }
+    "types": []
   },
   "exclude": ["adsrc/tmp/**/*"],
   "include": ["src"]

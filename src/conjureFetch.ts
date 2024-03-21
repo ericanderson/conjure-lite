@@ -30,18 +30,20 @@ export async function conjureFetch<T>(
   }
 
   const queryParams = Object.entries(params ?? {}).flatMap(
-      ( [key, value]) => {
-        if (value == null) {
-          return [];
-        }
-        if (Array.isArray(value)) {
-          return value.map(item => ([key, item]));
-        }
-        const stringValue = "" + value;
-        return stringValue.length === 0 ? [] : [[key, stringValue]];
-      },
-  )
-  const query = Object.keys(queryParams).length === 0 ? "" : `?${new URLSearchParams(queryParams).toString()}`;
+    ([key, value]) => {
+      if (value == null) {
+        return [];
+      }
+      if (Array.isArray(value)) {
+        return value.map(item => [key, item]);
+      }
+      const stringValue = "" + value;
+      return stringValue.length === 0 ? [] : [[key, stringValue]];
+    },
+  );
+  const query = Object.keys(queryParams).length === 0
+    ? ""
+    : `?${new URLSearchParams(queryParams).toString()}`;
 
   const response = await (fetchFn ?? fetch)(`${baseUrl}${servicePath}${url}${query}`, {
     method,
