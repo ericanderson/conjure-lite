@@ -2,6 +2,9 @@ import type { ConjureContext } from "./ConjureContext.js";
 
 // This is the ONLY file that gets put into someones build.
 
+/**
+ * @public
+ */
 export async function conjureFetch<T>(
   { fetchFn, baseUrl, servicePath, tokenProvider }: ConjureContext,
   url: string,

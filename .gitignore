@@ -179,3 +179,4 @@ src/tmp
 /artifacts-*.json
 tsconfig.tsbuildinfo
 
+/temp/

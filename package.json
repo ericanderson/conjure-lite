@@ -25,30 +25,32 @@
     "dist"
   ],
   "scripts": {
-    "prepack": "pnpm run clean && pnpm run build && pnpm run generateExamples && pnpm run format",
-    "clean": "rm -rf lib tsconfig.tsbuildinfo dist",
     "build": "pkgroll --target=es2020",
+    "check:api": "api-extractor run",
+    "check:attw": "attw --pack",
+    "check:format": "dprint check",
+    "check": "pnpm run prepack && pnpm run check:format && pnpm run check:api && pnpm run check:attw",
+    "clean": "rm -rf lib tsconfig.tsbuildinfo dist",
     "format": "dprint fmt",
     "generateExamples": "rm -rf examples/widget/src/generated examples/widget/lib examples/widget/tsconfig.tsbuildinfo && ./dist/conjure-lite.mjs generate --ir examples/widget/ir.json --outDir examples/widget/src/generated && tsc --build examples/widget",
-    "check": "pnpm run prepack && attw --pack"
+    "prepack": "pnpm run clean && pnpm run build && pnpm run generateExamples && pnpm run format"
   },
   "devDependencies": {
+    "@arethetypeswrong/cli": "^0.15.2",
+    "@changesets/cli": "^2.27.1",
     "@microsoft/api-extractor": "^7.38.4",
     "@types/node": "^20.9.0",
     "@types/yargs": "^17.0.31",
     "@typescript-eslint/eslint-plugin": "^6.11.0",
     "@typescript-eslint/parser": "^6.11.0",
     "conjure-api": "^4.31.0",
+    "dedent": "^1.5.1",
     "dprint": "^0.42.5",
     "eslint": "^8.57.0",
-    "tsup": "^8.0.1",
+    "pkgroll": "^2.0.2",
     "typescript": "^5.2.2",
-    "@changesets/cli": "^2.27.1",
-    "@arethetypeswrong/cli": "^0.15.2",
-    "pkgroll": "^2.0.2"
+    "yargs": "^17.7.2"
   },
   "dependencies": {
-    "dedent": "^1.5.1",
-    "yargs": "^17.7.2"
   }
 }
