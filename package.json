@@ -4,16 +4,21 @@
   "license": "Apache-2.0",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.js"
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      }
     }
   },
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "bin": {
-    "conjure-lite": "bin/conjure-lite.mjs"
+    "conjure-lite": "./dist/conjure-lite.mjs"
   },
   "files": [
     "package.json",
@@ -21,10 +26,12 @@
     "bin"
   ],
   "scripts": {
-    "prepack": "pnpm run clean && tsup && tsc && dprint fmt",
+    "prepack": "pnpm run clean && pnpm run build && pnpm run generateExamples && pnpm run format",
     "clean": "rm -rf lib tsconfig.tsbuildinfo dist",
-    "generateExamples": "pnpm run prepack && rm -rf examples/widget/src/generated examples/widget/lib examples/widget/tsconfig.tsbuildinfo && ./bin/conjure-lite.mjs  generate --ir examples/widget/ir.json --outDir examples/widget/src/generated && tsc --build examples/widget && dprint fmt",
-    "check": "pnpm run prepack"
+    "build": "pkgroll",
+    "format": "dprint fmt",
+    "generateExamples": "rm -rf examples/widget/src/generated examples/widget/lib examples/widget/tsconfig.tsbuildinfo && ./dist/conjure-lite.mjs generate --ir examples/widget/ir.json --outDir examples/widget/src/generated && tsc --build examples/widget",
+    "check": "pnpm run prepack && attw --pack"
   },
   "devDependencies": {
     "@microsoft/api-extractor": "^7.38.4",
@@ -37,7 +44,9 @@
     "eslint": "^8.53.0",
     "tsup": "^8.0.1",
     "typescript": "^5.2.2",
-    "@changesets/cli": "^2.27.1"
+    "@changesets/cli": "^2.27.1",
+    "@arethetypeswrong/cli": "^0.15.2",
+    "pkgroll": "^2.0.2"
   },
   "dependencies": {
     "dedent": "^1.5.1",
