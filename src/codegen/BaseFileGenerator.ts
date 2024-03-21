@@ -108,9 +108,9 @@ export class BaseFileGenerator<D> {
           case "DATETIME":
             return "string";
           case "DOUBLE":
-            return "string";
+            return "number";
           case "INTEGER":
-            return "string";
+            return "number";
           case "RID":
             return "string";
           case "SAFELONG":
