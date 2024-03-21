@@ -1,4 +1,4 @@
-import type { IEndpointDefinition, IType } from "conjure-api";
+import type { IArgumentDefinition, IEndpointDefinition, IParameterType_Query, IType } from "conjure-api";
 import dedent from "dedent";
 import { calculateTemplatedUrlForEndpoint } from "./calculateTemplatedUrlForEndpoint.js";
 import { generatorFactory } from "./generatorFactory.js";
@@ -11,6 +11,18 @@ export const endpointCodeGenerator = generatorFactory<IEndpointDefinition>(
     const bodyArg = (this.def.args ?? []).find(a => a.paramType.type === "body");
     const bodyArgContentType = getContentType(bodyArg?.type);
 
+    const queryParams = (this.def.args ?? []).filter(isQueryArgument);
+    const queryArg = queryParams.length === 0 ? undefined : `{ ${
+        queryParams.map(a => {
+            if (a.type.type === "map") {
+              throw new Error(
+                `Unsupported type ${a.type.type} while generating ${this.def.endpointName}`,
+              );
+            }
+            return a.paramType.query.paramId === a.argName ? a.paramType.query.paramId : `"${a.paramType.query.paramId}": ${a.argName}`;
+        }).join(",")
+    } }`;
+
     const acceptContentType = getContentType(this.def.returns);
 
     this.imports.set(
@@ -22,7 +34,8 @@ export const endpointCodeGenerator = generatorFactory<IEndpointDefinition>(
       "ctx",
       templatedUrl,
       `"${this.def.httpMethod}"`,
-      bodyArg?.argName,
+      bodyArg == null && queryArg ? "undefined" : bodyArg?.argName,
+      queryArg,
       bodyArgContentType === "application/json" ? undefined : bodyArgContentType,
       acceptContentType === "application/json" ? undefined : acceptContentType,
     ];
@@ -56,4 +69,10 @@ export function getContentType(arg: IType | undefined | null) {
 
 function isBinary(type: IType) {
   return type.type === "primitive" && type.primitive === "BINARY";
+}
+
+function isQueryArgument(
+    a: IArgumentDefinition,
+): a is IArgumentDefinition & { paramType: IParameterType_Query } {
+    return a.paramType.type === "query";
 }
