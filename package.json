@@ -40,7 +40,7 @@
     "@typescript-eslint/parser": "^6.11.0",
     "conjure-api": "^4.31.0",
     "dprint": "^0.42.5",
-    "eslint": "^8.53.0",
+    "eslint": "^8.57.0",
     "tsup": "^8.0.1",
     "typescript": "^5.2.2",
     "@changesets/cli": "^2.27.1",
