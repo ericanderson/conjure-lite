@@ -41,7 +41,7 @@
     "conjure-api": "^4.31.0",
     "dprint": "^0.42.5",
     "eslint": "^8.57.0",
-    "tsup": "^8.0.1",
+    "tsup": "^8.0.2",
     "typescript": "^5.2.2",
     "@changesets/cli": "^2.27.1",
     "@arethetypeswrong/cli": "^0.15.2",
