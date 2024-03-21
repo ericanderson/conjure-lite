@@ -33,7 +33,8 @@
     "clean": "rm -rf lib tsconfig.tsbuildinfo dist",
     "format": "dprint fmt",
     "generateExamples": "rm -rf examples/widget/src/generated examples/widget/lib examples/widget/tsconfig.tsbuildinfo && ./dist/conjure-lite.mjs generate --ir examples/widget/ir.json --outDir examples/widget/src/generated && tsc --build examples/widget",
-    "prepack": "pnpm run clean && pnpm run build && pnpm run generateExamples && pnpm run format"
+    "prepack": "pnpm run clean && pnpm run build && pnpm run generateExamples && pnpm run format",
+    "prepare": "husky"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.15.2",
@@ -47,10 +48,11 @@
     "dedent": "^1.5.1",
     "dprint": "^0.42.5",
     "eslint": "^8.57.0",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.2",
     "pkgroll": "^2.0.2",
     "typescript": "^5.2.2",
     "yargs": "^17.7.2"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }
