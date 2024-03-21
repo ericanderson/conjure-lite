@@ -22,13 +22,12 @@
   },
   "files": [
     "package.json",
-    "dist",
-    "bin"
+    "dist"
   ],
   "scripts": {
     "prepack": "pnpm run clean && pnpm run build && pnpm run generateExamples && pnpm run format",
     "clean": "rm -rf lib tsconfig.tsbuildinfo dist",
-    "build": "pkgroll",
+    "build": "pkgroll --target=es2020",
     "format": "dprint fmt",
     "generateExamples": "rm -rf examples/widget/src/generated examples/widget/lib examples/widget/tsconfig.tsbuildinfo && ./dist/conjure-lite.mjs generate --ir examples/widget/ir.json --outDir examples/widget/src/generated && tsc --build examples/widget",
     "check": "pnpm run prepack && attw --pack"
