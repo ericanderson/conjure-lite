@@ -21,7 +21,7 @@
     "bin"
   ],
   "scripts": {
-    "prepack": "npm run clean && tsup && tsc",
+    "prepack": "npm run clean && tsup && tsc && dprint fmt",
     "clean": "rm -rf lib tsconfig.tsbuildinfo dist",
     "generateExamples": "npm run prepack && rm -rf examples/widget/src/generated examples/widget/lib examples/widget/tsconfig.tsbuildinfo && ./bin/conjure-lite.mjs  generate --ir examples/widget/ir.json --outDir examples/widget/src/generated && tsc --build examples/widget"
   },
@@ -35,7 +35,8 @@
     "dprint": "^0.42.5",
     "eslint": "^8.53.0",
     "tsup": "^8.0.1",
-    "typescript": "^5.2.2"
+    "typescript": "^5.2.2",
+    "@changesets/cli": "^2.27.1"
   },
   "dependencies": {
     "dedent": "^1.5.1",

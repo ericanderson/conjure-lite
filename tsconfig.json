@@ -18,7 +18,7 @@
     "types": [],
     "paths": {
       "conjure-lite": ["./src"],
-      "node:*": ["./node_modules/@types/node/*.d.ts"],
+      "node:*": ["./node_modules/@types/node/*.d.ts"]
     }
   },
   "exclude": ["adsrc/tmp/**/*"],

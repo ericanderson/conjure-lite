@@ -5,7 +5,7 @@ import { widget } from "./generated/index.js";
 const ctx: ConjureContext = {
   baseUrl: "https://localhost:8433",
   tokenProvider: () => Promise.resolve("Hi"),
-  servicePath: "/myservice/api"
+  servicePath: "/myservice/api",
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

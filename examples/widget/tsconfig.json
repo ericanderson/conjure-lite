@@ -16,7 +16,7 @@
     "noEmitOnError": false,
     "types": [],
     "paths": {
-      "conjure-lite": ["../../src"],
+      "conjure-lite": ["../../src"]
     }
   },
   "exclude": ["adsrc/tmp/**/*"],
