@@ -21,9 +21,10 @@
     "bin"
   ],
   "scripts": {
-    "prepack": "npm run clean && tsup && tsc && dprint fmt",
+    "prepack": "pnpm run clean && tsup && tsc && dprint fmt",
     "clean": "rm -rf lib tsconfig.tsbuildinfo dist",
-    "generateExamples": "npm run prepack && rm -rf examples/widget/src/generated examples/widget/lib examples/widget/tsconfig.tsbuildinfo && ./bin/conjure-lite.mjs  generate --ir examples/widget/ir.json --outDir examples/widget/src/generated && tsc --build examples/widget"
+    "generateExamples": "pnpm run prepack && rm -rf examples/widget/src/generated examples/widget/lib examples/widget/tsconfig.tsbuildinfo && ./bin/conjure-lite.mjs  generate --ir examples/widget/ir.json --outDir examples/widget/src/generated && tsc --build examples/widget && dprint fmt",
+    "check": "pnpm run prepack"
   },
   "devDependencies": {
     "@microsoft/api-extractor": "^7.38.4",
