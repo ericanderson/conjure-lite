@@ -30,8 +30,8 @@ importers:
         specifier: ^7.3.1
         version: 7.3.1(eslint@8.57.0)(typescript@5.4.3)
       conjure-api:
-        specifier: ^4.31.0
-        version: 4.31.0
+        specifier: ^4.47.0
+        version: 4.47.0
       dedent:
         specifier: ^1.5.1
         version: 1.5.1
@@ -1564,8 +1564,8 @@ packages:
     resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
     dev: true
 
-  /conjure-api@4.31.0:
-    resolution: {integrity: sha512-LMSMLtNZ/6SzcDNRbx9YDu3660uQxIIGi8c7bP2xwP4ZvRUO3JmY+rLKTCRcRTcqsUMhcKn+JRq84zVgwd9yZw==}
+  /conjure-api@4.47.0:
+    resolution: {integrity: sha512-wMLTLvPFZhpOjCyKKYYyYXsTMjfanaBdxfYM8Saq60EkMLMyr+wnvWgNUJ6hR8sUnIOOyUYkAbfTBn2wIRNiSg==}
     dependencies:
       conjure-client: 2.9.0
     dev: true
