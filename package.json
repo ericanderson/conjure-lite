@@ -37,7 +37,7 @@
     "prepare": "husky"
   },
   "devDependencies": {
-    "@arethetypeswrong/cli": "^0.15.2",
+    "@arethetypeswrong/cli": "^0.15.3",
     "@changesets/cli": "^2.27.1",
     "@microsoft/api-extractor": "^7.43.0",
     "@types/node": "^20.12.7",
