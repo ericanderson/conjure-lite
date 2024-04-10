@@ -42,7 +42,7 @@
     "@microsoft/api-extractor": "^7.43.0",
     "@types/node": "^20.12.7",
     "@types/yargs": "^17.0.31",
-    "@typescript-eslint/eslint-plugin": "^7.5.0",
+    "@typescript-eslint/eslint-plugin": "^7.6.0",
     "@typescript-eslint/parser": "^7.6.0",
     "conjure-api": "^4.47.0",
     "dedent": "^1.5.1",
