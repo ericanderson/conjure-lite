@@ -6,7 +6,6 @@ on:
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
 
-
 jobs:
   build:
     name: Build and Test
@@ -24,7 +23,7 @@ jobs:
 
       - uses: pnpm/action-setup@v3
         with:
-          version: 8.7.4
+          version: 9.0.6
 
       - name: Setup Node.js environment
         uses: actions/setup-node@v4
