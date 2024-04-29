@@ -24,6 +24,7 @@ export class CodeGen {
   ir: ConjureApi.IConjureDefinition;
   #commonPackageBase: string;
   packages: Set<string>;
+  header: string;
 
   readonly includeExtensions: boolean;
 
@@ -31,6 +32,7 @@ export class CodeGen {
     this.ir = ir;
     this.#outDir = args.outDir;
     this.includeExtensions = args.includeExtensions;
+    this.header = args.header ?? "";
 
     this.packages = new Set<string>();
 

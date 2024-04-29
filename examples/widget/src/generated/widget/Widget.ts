@@ -1,3 +1,4 @@
+/* sample header */
 import type { ExampleEnum } from "../foo/ExampleEnum.js";
 
 /**

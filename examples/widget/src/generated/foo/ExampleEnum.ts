@@ -1,3 +1,5 @@
+/* sample header */
+
 /**
  * Valid values for ExampleEnum include "FOO" and "BAR".
  */
