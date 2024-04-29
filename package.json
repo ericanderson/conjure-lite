@@ -9,14 +9,14 @@
         "default": "./dist/index.mjs"
       },
       "require": {
-        "types": "./dist/index.d.ts",
-        "default": "./dist/index.js"
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
       }
     }
   },
-  "main": "./dist/index.js",
+  "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
+  "types": "./dist/index.d.cts",
   "bin": {
     "conjure-lite": "./dist/conjure-lite.mjs"
   },
@@ -25,14 +25,14 @@
     "dist"
   ],
   "scripts": {
-    "build": "pkgroll --target=es2020",
+    "build": "pkgroll --target=node18",
     "check:api": "api-extractor run",
     "check:attw": "attw --pack",
     "check:format": "dprint check",
     "check": "pnpm run prepack && pnpm run check:format && pnpm run check:api && pnpm run check:attw",
     "clean": "rm -rf lib tsconfig.tsbuildinfo dist",
     "format": "dprint fmt",
-    "generateExamples": "rm -rf examples/widget/src/generated examples/widget/lib examples/widget/tsconfig.tsbuildinfo && ./dist/conjure-lite.mjs generate --ir examples/widget/ir.json --outDir examples/widget/src/generated && tsc --build examples/widget",
+    "generateExamples": "rm -rf examples/widget/src/generated examples/widget/lib examples/widget/tsconfig.tsbuildinfo && ./dist/conjure-lite.mjs generate --ir examples/widget/ir.json --outDir examples/widget/src/generated --header '/* sample header */' && pnpm run format && tsc --build examples/widget",
     "prepack": "pnpm run clean && pnpm run build && pnpm run generateExamples && pnpm run format",
     "prepare": "husky"
   },
@@ -54,5 +54,7 @@
     "typescript": "^5.4.5",
     "yargs": "^17.7.2"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "packageManager": "pnpm@9.0.6+sha512.f6d863130973207cb7a336d6b439a242a26ac8068077df530d6a86069419853dc1ffe64029ec594a9c505a3a410d19643c870aba6776330f5cfddcf10a9c1617",
+  "type": "module"
 }

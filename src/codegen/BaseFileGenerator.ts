@@ -133,7 +133,9 @@ export class BaseFileGenerator<D> {
   async writeFile(body: string) {
     await writeCodeFile(
       this.filePath,
-      `${Array.from(this.imports.values()).join("\n")}\n${body}`,
+      `${this.codeGen.header}${this.codeGen.header.length > 0 ? "\n" : ""}${
+        Array.from(this.imports.values()).join("\n")
+      }${this.imports.size > 0 ? "\n" : ""}${body}`,
     );
   }
 }

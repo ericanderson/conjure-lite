@@ -3,6 +3,7 @@ import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import type { HandleGenerateArgs } from "./cli/HandleGenerateArgs.js";
 import type {} from "node:process";
+import { handleGenerate } from "./cli/handleGenerate.js";
 
 export async function cli() {
   const generate: CommandModule<{}, HandleGenerateArgs> = {
@@ -22,9 +23,12 @@ export async function cli() {
           type: "boolean",
           default: true,
         },
+        header: {
+          type: "string",
+        },
       });
     },
-    handler: async (argv) => (await import("./cli/handleGenerate.js")).handleGenerate(argv),
+    handler: handleGenerate,
   };
 
   await yargs(hideBin(process.argv))

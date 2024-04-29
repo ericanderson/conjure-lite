@@ -1,3 +1,4 @@
+/* sample header */
 import { type ConjureContext, conjureFetch } from "conjure-lite";
 import type { Widget } from "../Widget.js";
 
