@@ -1,5 +1,11 @@
 # conjure-lite
 
+## 0.4.3
+
+### Patch Changes
+
+- a372f22: CLI learns optional --header for codegen
+
 ## 0.4.2
 
 ### Patch Changes
