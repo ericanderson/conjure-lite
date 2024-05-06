@@ -1,5 +1,11 @@
 # conjure-lite
 
+## 0.4.4
+
+### Patch Changes
+
+- 36836e4: Name collisions should no longer happen
+
 ## 0.4.3
 
 ### Patch Changes
