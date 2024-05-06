@@ -123,6 +123,10 @@ export class CodeGen {
     );
   }
 
+  getShortPackage(fullPackage: string) {
+    return fullPackage.substring(this.#commonPackageBase.length);
+  }
+
   getFilePath(typeName: ConjureApi.ITypeName) {
     return `${path.join(this.getPackageDir(typeName.package), `${typeName.name}.ts`)}`;
   }
