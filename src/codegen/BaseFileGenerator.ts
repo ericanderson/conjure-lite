@@ -3,7 +3,14 @@ import * as path from "node:path";
 import { writeCodeFile } from "../util/writeCodeFile.js";
 import type { CodeGen } from "./CodeGen.js";
 
-export class BaseFileGenerator<D> {
+export class BaseFileGenerator<
+  D extends
+    | ConjureApi.IUnionDefinition
+    | ConjureApi.IAliasDefinition
+    | ConjureApi.IServiceDefinition
+    | ConjureApi.IEnumDefinition
+    | ConjureApi.IEndpointDefinition,
+> {
   public readonly def: D;
   public readonly filePath: string;
   public readonly codeGen: CodeGen;
@@ -28,9 +35,19 @@ export class BaseFileGenerator<D> {
       }
       const importPath = this.getImportModuleSpecifier(type);
 
+      // This won't quite catch all conflicts but I am willing to bet its 99.9%
+      const importSpecifier = (
+          "typeName" in this.def
+          && this.def.typeName.name === type.name
+        )
+        ? `${type.name} as ${
+          this.codeGen.getShortPackage(type.package).replaceAll(".", "_")
+        }_${type.name}`
+        : `${type.name}`;
+
       this.imports.set(
         `${type.package}.${type.name}`,
-        `import type { ${type.name} } from "${importPath}";`,
+        `import type { ${importSpecifier} } from "${importPath}";`,
       );
       return;
     }
@@ -123,8 +140,32 @@ export class BaseFileGenerator<D> {
             return `/* OOPS */ any`;
         }
 
-      case "reference":
+      case "reference": {
+        if (this.codeGen.getFilePath(type.reference) === this.filePath) {
+          // local ref
+          return type.reference.name;
+        }
+        if (
+          "typeName" in this.def
+          && this.def.typeName.name === type.reference.name
+        ) {
+          return `${
+            this.codeGen.getShortPackage(type.reference.package).replaceAll(".", "_")
+          }_${type.reference.name}`;
+        }
         return type.reference.name;
+
+        if (
+          "typeName" in this.def
+          && this.def.typeName.package == type.reference.package
+          && this.def.typeName.name === type.reference.name
+        ) {
+          return `${type.reference.name}`;
+        }
+        return `${
+          this.codeGen.getShortPackage(type.reference.package).replaceAll(".", "_")
+        }_${type.reference.name}`;
+      }
     }
 
     return `/* OOOOOOPS */any`;
