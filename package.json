@@ -39,7 +39,7 @@
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.15.3",
     "@changesets/cli": "^2.27.3",
-    "@microsoft/api-extractor": "^7.43.7",
+    "@microsoft/api-extractor": "^7.46.2",
     "@types/node": "^20.12.12",
     "@types/yargs": "^17.0.31",
     "@typescript-eslint/eslint-plugin": "^7.10.0",
