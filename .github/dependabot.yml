@@ -4,7 +4,12 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
-
+    groups:
+      typescript-eslint:
+        applies-to: version-updates
+        patterns:
+          - "typescript-eslint"
+          - "@typescript-eslint/*"
   # Enable version updates for Docker
   - package-ecosystem: "github-actions"
     directory: "/"
