@@ -3,13 +3,12 @@
     "indentWidth": 2,
     "lineWidth": 100
   },
-  "json": {
-  },
-  "markdown": {
-  },
+  "json": {},
+  "markdown": {},
   "excludes": [
     "**/node_modules",
-    "**/*-lock.json"
+    "**/*-lock.json",
+    "etc/conjure-lite.api.md"
   ],
   "plugins": [
     "https://plugins.dprint.dev/typescript-0.89.3.wasm",
