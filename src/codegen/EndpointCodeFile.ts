@@ -41,13 +41,13 @@ export const endpointCodeGenerator = generatorFactory<IEndpointDefinition>(
       "ctx",
       templatedUrl,
       `"${this.def.httpMethod}"`,
-      bodyArg == null && queryArg ? "undefined" : bodyArg?.argName,
-      queryArg,
-      bodyArgContentType === "application/json" ? undefined : bodyArgContentType,
-      acceptContentType === "application/json" ? undefined : acceptContentType,
+      bodyArg?.argName ?? "undefined",
+      queryArg ?? "undefined",
+      bodyArgContentType === "application/json" ? "undefined" : `"${bodyArgContentType}"`,
+      acceptContentType === "application/json" ? "undefined" : `"${acceptContentType}"`,
     ];
     for (let i = conjureFetchArgs.length - 1; i >= 0; i--) {
-      if (conjureFetchArgs[i] === undefined) {
+      if (conjureFetchArgs[i] === "undefined") {
         conjureFetchArgs.pop();
       } else {
         break;
