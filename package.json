@@ -46,7 +46,7 @@
     "@typescript-eslint/parser": "^8.1.0",
     "conjure-api": "^4.48.0",
     "dedent": "^1.5.3",
-    "dprint": "^0.47.2",
+    "dprint": "^0.47.5",
     "eslint": "^8.57.0",
     "husky": "^9.1.4",
     "lint-staged": "^15.2.10",
