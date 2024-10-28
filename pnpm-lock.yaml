@@ -48,8 +48,8 @@ importers:
         specifier: ^15.2.10
         version: 15.2.10
       pkgroll:
-        specifier: ^2.4.2
-        version: 2.4.2(typescript@5.6.3)
+        specifier: ^2.5.1
+        version: 2.5.1(typescript@5.6.3)
       typescript:
         specifier: ^5.6.3
         version: 5.6.3
@@ -1725,8 +1725,8 @@ packages:
     resolution: {integrity: sha512-HRDzbaKjC+AOWVXxAU/x54COGeIv9eb+6CkDSQoNTt4XyWoIJvuPsXizxu/Fr23EiekbtZwmh1IcIG/l/a10GQ==}
     engines: {node: '>=8'}
 
-  pkgroll@2.4.2:
-    resolution: {integrity: sha512-9seL/4BNQsE+eL+kefjfh5jSLqQPSKXQE/adw1L76k49KFw/XnOnyU8dRwuWpVtvMyIVyecaSBIpvFYrmnZq6A==}
+  pkgroll@2.5.1:
+    resolution: {integrity: sha512-rehzSpQ1T/gh+tlVSxlUeqUPR9W1ZtJXDG00cuussNeCPdS9w1Wv0MWxwL116HbugsTZTrd+lVem+ipinT2JUg==}
     engines: {node: '>=18'}
     hasBin: true
     peerDependencies:
@@ -3844,7 +3844,7 @@ snapshots:
     dependencies:
       find-up: 4.1.0
 
-  pkgroll@2.4.2(typescript@5.6.3):
+  pkgroll@2.5.1(typescript@5.6.3):
     dependencies:
       '@rollup/plugin-alias': 5.1.0(rollup@4.19.1)
       '@rollup/plugin-commonjs': 26.0.1(rollup@4.19.1)
