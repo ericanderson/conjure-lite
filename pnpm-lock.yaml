@@ -30,8 +30,8 @@ importers:
         specifier: ^8.20.0
         version: 8.20.0(eslint@8.57.0)(typescript@5.6.3)
       conjure-api:
-        specifier: ^4.48.0
-        version: 4.48.0
+        specifier: ^4.51.0
+        version: 4.51.0
       dedent:
         specifier: ^1.5.3
         version: 1.5.3
@@ -1149,8 +1149,8 @@ packages:
   concat-map@0.0.1:
     resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
 
-  conjure-api@4.48.0:
-    resolution: {integrity: sha512-lV0C/wCzZinskYys3SEIA0Pk8TZo+DVU/fOYkxlZqEBsL8/XhEb1xjiFZtECNd/Fx0pAZFd5ycD3AnGdMERNNw==}
+  conjure-api@4.51.0:
+    resolution: {integrity: sha512-cATg0Vwn/fwc0gFtgO3bWsx/0Mf2uyzzoz3bVtCkWJQpeHghlBOaCPrn/DKc4LMO005ieOvJcG8VokvnF7O5cA==}
 
   conjure-client@2.9.0:
     resolution: {integrity: sha512-w+k9B9arhVzi4A6DIAGvW9hobKa+6R9LvnvkQxmJwZueqhj1WyOVxvNnSB/RKuXszi/dphZuVQqu6f6toje8bA==}
@@ -3291,7 +3291,7 @@ snapshots:
 
   concat-map@0.0.1: {}
 
-  conjure-api@4.48.0:
+  conjure-api@4.51.0:
     dependencies:
       conjure-client: 2.9.0
 
