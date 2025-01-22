@@ -52,7 +52,7 @@
     "lint-staged": "^15.2.10",
     "pkgroll": "^2.6.1",
     "typescript": "^5.7.3",
-    "vitest": "^3.0.2",
+    "vitest": "^3.0.3",
     "yargs": "^17.7.2"
   },
   "dependencies": {},
