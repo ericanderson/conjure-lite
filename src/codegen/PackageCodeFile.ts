@@ -28,7 +28,7 @@ export const packageIndexCodeGenerator = generatorFactory<
       t.package === this.def.packageName
     );
 
-    const childPackagesSet = new Set();
+    const childPackagesSet = new Set<string>();
     this.codeGen.packages.forEach(p => {
       if (p.startsWith(`${this.def.packageName}.`)) {
         const childPackage = p.substring(this.def.packageName.length + 1).split(".")[0];

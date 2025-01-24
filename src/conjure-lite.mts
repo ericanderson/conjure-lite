@@ -1,2 +1,2 @@
 import { cli } from "./cli.js";
-cli();
+void cli();

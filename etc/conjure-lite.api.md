@@ -17,8 +17,8 @@ export interface ConjureContext {
 }
 
 // @public (undocumented)
-export function conjureFetch<T>({ fetchFn, baseUrl, servicePath, tokenProvider }: ConjureContext, url: string, method: string, body?: ArrayBuffer | Blob | FormData | URLSearchParams | null | string | {}, params?: {
-    [key: string]: string | number | boolean | any[] | undefined | null;
+export function conjureFetch<T>({ fetchFn, baseUrl, servicePath, tokenProvider }: ConjureContext, url: string, method: string, body?: ArrayBuffer | Blob | FormData | URLSearchParams | null | string | object, params?: {
+    [key: string]: string | string[] | number | number[] | boolean | boolean[] | undefined | null;
 }, contentType?: "application/json" | "application/octet-stream", accept?: "application/json" | "application/octet-stream"): Promise<T>;
 
 // (No @packageDocumentation comment for this package)

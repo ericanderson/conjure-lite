@@ -6,7 +6,7 @@ import type {} from "node:process";
 import { handleGenerate } from "./cli/handleGenerate.js";
 
 export async function cli() {
-  const generate: CommandModule<{}, HandleGenerateArgs> = {
+  const generate: CommandModule<object, HandleGenerateArgs> = {
     command: "generate",
     describe: "Generate code from IR",
     builder: (yargs) => {

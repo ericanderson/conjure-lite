@@ -16,8 +16,10 @@ export async function conjureFetch<T>(
     | URLSearchParams
     | null
     | string
-    | {},
-  params?: { [key: string]: string | number | boolean | any[] | undefined | null },
+    | object,
+  params?: {
+    [key: string]: string | string[] | number | number[] | boolean | boolean[] | undefined | null;
+  },
   contentType?: "application/json" | "application/octet-stream",
   accept?: "application/json" | "application/octet-stream",
 ): Promise<T> {
@@ -38,7 +40,7 @@ export async function conjureFetch<T>(
         return [];
       }
       if (Array.isArray(value)) {
-        return value.map(item => [key, item]);
+        return value.map(item => [key, "" + item]);
       }
       const stringValue = "" + value;
       return stringValue.length === 0 ? [] : [[key, stringValue]];
@@ -57,7 +59,7 @@ export async function conjureFetch<T>(
       accept: accept ?? "application/json",
       ...(tokenProvider ? { "Authorization": `Bearer ${await tokenProvider()}` } : {}),
     },
-    ...(body ? { body } as any : {}),
+    ...(body ? { body } : {}),
   });
 
   try {
@@ -78,7 +80,7 @@ export async function conjureFetch<T>(
   }
 }
 
-async function readBody(response: Response) {
+async function readBody(response: Response): Promise<unknown> {
   const contentType = response.headers.get("Content-Type") != null
     ? (response.headers.get("Content-Type") as string)
     : "";
@@ -98,19 +100,22 @@ async function readBody(response: Response) {
 
 type ConjureErrorType = "NETWORK" | "OTHER" | "PARSE" | "STATUS";
 
-export class ConjureError<E> {
+export class ConjureError<E> extends Error {
   public readonly type: ConjureErrorType;
-  public readonly originalError?: any;
+  public readonly originalError?: unknown;
   public readonly status?: number;
   public readonly body?: string | E;
+  public readonly cause?: unknown;
 
   constructor(
     errorType: ConjureErrorType,
-    originalError?: any,
+    originalError?: unknown,
     status?: number,
     body?: string | E,
   ) {
+    super(`Conjure error of type ${errorType}, status: ${status}`);
     this.type = errorType;
+    this.cause = originalError;
     this.originalError = originalError;
     this.status = status;
     this.body = body;
@@ -120,7 +125,7 @@ export class ConjureError<E> {
     return JSON.stringify(
       {
         body: this.body,
-        originalError: this.originalError && this.originalError.toString(),
+        originalError: this.originalError && JSON.stringify(this.originalError),
         status: this.status,
         type: this.type,
       },

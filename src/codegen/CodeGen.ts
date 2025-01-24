@@ -8,7 +8,6 @@ import { enumCodeGenerator } from "./EnumCodeFile.js";
 import { objectCodeGenerator } from "./ObjectCodeFile.js";
 import { packageIndexCodeGenerator } from "./PackageCodeFile.js";
 import { serviceCodeGenerator } from "./ServiceCodeFile.js";
-import { spreadIntoTypes } from "./spreadIntoTypes.js";
 import { typeAliasCodeGenerator } from "./TypeAliasCodeFile.js";
 import { unionCodeGenerator } from "./UnionCodeFile.js";
 
@@ -18,6 +17,18 @@ const typeGenerators = {
   enum: enumCodeGenerator,
   union: unionCodeGenerator,
 } as const;
+
+type UnionTypeInner_<Q extends { type: K }, K extends string> =
+  (Q extends any ? (Q & { [KK in K]: KK extends keyof Q ? Q[KK] : never })
+    : "wm[")[K];
+type UnionTypeInner<Q extends { type: string }> = UnionTypeInner_<Q, Q["type"]>;
+
+function drillIntoUnion<Q extends { type: string }>(
+  conjureUnion: Q,
+): UnionTypeInner<Q> {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  return (conjureUnion as any)[conjureUnion.type] as UnionTypeInner<Q>;
+}
 
 export class CodeGen {
   #outDir: string;
@@ -37,7 +48,7 @@ export class CodeGen {
     this.packages = new Set<string>();
 
     for (const t of ir.types) {
-      this.packages.add((t as any)[t.type].typeName.package);
+      this.packages.add(drillIntoUnion(t).typeName.package);
     }
 
     this.#commonPackageBase = findCommonPrefix(Array.from(this.packages));
@@ -83,11 +94,12 @@ export class CodeGen {
     for (const type of this.ir.types) {
       // Typescript does not express this situation well
       // `type[type.type]` is the value portion of the enum
-      const valuePortion = spreadIntoTypes(type);
+      const valuePortion = drillIntoUnion(type);
 
       codeFiles.push(typeGenerators[type.type](
         this.getFilePath(valuePortion.typeName),
         this,
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         valuePortion as any,
       ));
     }

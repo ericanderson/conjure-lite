@@ -1,4 +1,4 @@
-import { IConjureDefinition, IEndpointDefinition } from "conjure-api";
+import type { IConjureDefinition, IEndpointDefinition } from "conjure-api";
 import * as fs from "node:fs/promises";
 import * as os from "node:os";
 import * as path from "node:path";
@@ -24,7 +24,7 @@ const MINIMAL_CONJURE_DEF = {
   services: [],
 } satisfies IConjureDefinition;
 
-function unionEntry<K extends string, B extends {}>(k: K, b: B): { type: K } & Record<K, B> {
+function unionEntry<K extends string, B>(k: K, b: B): { type: K } & Record<K, B> {
   return {
     type: k,
     [k]: b,
@@ -73,6 +73,7 @@ describe(endpointCodeGenerator, () => {
           },
         ],
         returns: unionEntry("primitive", "BINARY"),
+        errors: [],
       }),
     )();
 
@@ -111,6 +112,7 @@ describe(endpointCodeGenerator, () => {
           },
         ],
         returns: unionEntry("primitive", "STRING"),
+        errors: [],
       }),
     )();
 
@@ -148,6 +150,7 @@ describe(endpointCodeGenerator, () => {
           },
         ],
         returns: unionEntry("primitive", "STRING"),
+        errors: [],
       }),
     )();
 

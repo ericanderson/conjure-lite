@@ -9,7 +9,8 @@ export class BaseFileGenerator<
     | ConjureApi.IAliasDefinition
     | ConjureApi.IServiceDefinition
     | ConjureApi.IEnumDefinition
-    | ConjureApi.IEndpointDefinition,
+    | ConjureApi.IEndpointDefinition
+    | { packageName: string },
 > {
   public readonly def: D;
   public readonly filePath: string;
@@ -155,16 +156,16 @@ export class BaseFileGenerator<
         }
         return type.reference.name;
 
-        if (
-          "typeName" in this.def
-          && this.def.typeName.package == type.reference.package
-          && this.def.typeName.name === type.reference.name
-        ) {
-          return `${type.reference.name}`;
-        }
-        return `${
-          this.codeGen.getShortPackage(type.reference.package).replaceAll(".", "_")
-        }_${type.reference.name}`;
+        // if (
+        //   "typeName" in this.def
+        //   && this.def.typeName.package == type.reference.package
+        //   && this.def.typeName.name === type.reference.name
+        // ) {
+        //   return `${type.reference.name}`;
+        // }
+        // return `${
+        //   this.codeGen.getShortPackage(type.reference.package).replaceAll(".", "_")
+        // }_${type.reference.name}`;
       }
     }
 
