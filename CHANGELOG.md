@@ -1,5 +1,11 @@
 # conjure-lite
 
+## 0.5.0
+
+### Minor Changes
+
+- c42edb6: All component types are generated into a single \_\_components.js file
+
 ## 0.4.4
 
 ### Patch Changes
