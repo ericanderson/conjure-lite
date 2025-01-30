@@ -1,3 +1,3 @@
 /* sample header */
 
-export type { ExampleEnum } from "./ExampleEnum.js";
+export type { ExampleEnum } from "./__components.js";

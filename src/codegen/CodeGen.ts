@@ -3,32 +3,12 @@ import * as fs from "node:fs";
 import * as path from "node:path";
 import type { HandleGenerateArgs } from "../cli/HandleGenerateArgs.js";
 import { findCommonPrefix } from "../util/findCommonPrefix.js";
+import { objectCodeGenerator as componentCodeGenerator } from "./ComponentsCodeFile.js";
+import { drillIntoUnion } from "./drillIntoUnion.js";
 import { endpointCodeGenerator } from "./EndpointCodeFile.js";
-import { enumCodeGenerator } from "./EnumCodeFile.js";
-import { objectCodeGenerator } from "./ObjectCodeFile.js";
+import { fqName } from "./fqName.js";
 import { packageIndexCodeGenerator } from "./PackageCodeFile.js";
 import { serviceCodeGenerator } from "./ServiceCodeFile.js";
-import { typeAliasCodeGenerator } from "./TypeAliasCodeFile.js";
-import { unionCodeGenerator } from "./UnionCodeFile.js";
-
-const typeGenerators = {
-  object: objectCodeGenerator,
-  alias: typeAliasCodeGenerator,
-  enum: enumCodeGenerator,
-  union: unionCodeGenerator,
-} as const;
-
-type UnionTypeInner_<Q extends { type: K }, K extends string> =
-  (Q extends any ? (Q & { [KK in K]: KK extends keyof Q ? Q[KK] : never })
-    : "wm[")[K];
-type UnionTypeInner<Q extends { type: string }> = UnionTypeInner_<Q, Q["type"]>;
-
-function drillIntoUnion<Q extends { type: string }>(
-  conjureUnion: Q,
-): UnionTypeInner<Q> {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-  return (conjureUnion as any)[conjureUnion.type] as UnionTypeInner<Q>;
-}
 
 export class CodeGen {
   #outDir: string;
@@ -38,6 +18,8 @@ export class CodeGen {
   header: string;
 
   readonly includeExtensions: boolean;
+
+  resolvedFileForType = new Map<string, string>();
 
   constructor(ir: ConjureApi.IConjureDefinition, args: HandleGenerateArgs) {
     this.ir = ir;
@@ -91,16 +73,24 @@ export class CodeGen {
       }
     }
 
+    const f: Record<string, ConjureApi.ITypeDefinition[]> = {};
     for (const type of this.ir.types) {
-      // Typescript does not express this situation well
-      // `type[type.type]` is the value portion of the enum
-      const valuePortion = drillIntoUnion(type);
+      const q = drillIntoUnion(type);
 
-      codeFiles.push(typeGenerators[type.type](
-        this.getFilePath(valuePortion.typeName),
+      f[q.typeName.package] ??= [];
+      f[q.typeName.package].push(type);
+
+      const destinationFile = path.join(this.getPackageDir(q.typeName.package), "__components.ts");
+      this.resolvedFileForType.set(fqName(q.typeName), destinationFile);
+    }
+
+    for (const [packageOfType, def] of Object.entries(f)) {
+      const destinationFile = path.join(this.getPackageDir(packageOfType), "__components.ts");
+
+      codeFiles.push(componentCodeGenerator(
+        destinationFile,
         this,
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-        valuePortion as any,
+        def,
       ));
     }
 
@@ -140,13 +130,17 @@ export class CodeGen {
   }
 
   getFilePath(typeName: ConjureApi.ITypeName) {
-    return `${path.join(this.getPackageDir(typeName.package), `${typeName.name}.ts`)}`;
+    return this.resolvedFileForType.get(`${typeName.package}.${typeName.name}`)
+      ?? `${path.join(this.getPackageDir(typeName.package), `${typeName.name}.ts`)}`;
   }
 
   getFilePathForImport(typeName: ConjureApi.ITypeName | string) {
     const withoutExt = typeof typeName === "string"
       ? path.join(path.dirname(typeName), path.basename(typeName, path.extname(typeName)))
-      : path.join(this.getPackageDir(typeName.package), `${typeName.name}`);
+      : (
+        this.resolvedFileForType.get(`${typeName.package}.${typeName.name}`)?.slice(0, -3)
+          ?? path.join(this.getPackageDir(typeName.package), `${typeName.name}`)
+      );
 
     return this.includeExtensions ? withoutExt + ".js" : withoutExt;
   }

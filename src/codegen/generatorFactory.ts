@@ -4,16 +4,14 @@ import type { CodeGen } from "./CodeGen.js";
 
 export function generatorFactory<
   T extends
-    | ConjureApi.IUnionDefinition
-    | ConjureApi.IAliasDefinition
     | ConjureApi.IServiceDefinition
-    | ConjureApi.IEnumDefinition
     | ConjureApi.IEndpointDefinition
+    | ConjureApi.ITypeDefinition
     | { packageName: string },
 >(
   generateFunction: (this: BaseFileGenerator<T>) => Promise<void>,
-): (filePath: string, codeGen: CodeGen, def: T) => () => Promise<void> {
-  return (filePath: string, codeGen: CodeGen, def: T) => {
+): (filePath: string, codeGen: CodeGen, def: T | T[]) => () => Promise<void> {
+  return (filePath: string, codeGen: CodeGen, def: T | T[]) => {
     return async () => {
       const base = new BaseFileGenerator(filePath, codeGen, def);
       await generateFunction.apply(base);

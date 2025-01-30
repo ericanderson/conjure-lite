@@ -37,6 +37,42 @@
       }
     },
     {
+      "type": "object",
+      "object": {
+        "typeName": {
+          "name": "AWidget2",
+          "package": "com.palantir.widget"
+        },
+        "fields": [
+          {
+            "fieldName": "description",
+            "type": {
+              "type": "primitive",
+              "primitive": "STRING"
+            }
+          },
+          {
+            "fieldName": "exampleEnum",
+            "type": {
+              "type": "reference",
+              "reference": {
+                "name": "ExampleEnum",
+                "package": "com.palantir.foo"
+              }
+            }
+          },
+          {
+            "fieldName": "dash-separated",
+            "type": {
+              "type": "primitive",
+              "primitive": "BOOLEAN"
+            }
+          }
+        ],
+        "docs": "ExampleObject has two fields, a string description and a reference to ExampleEnum."
+      }
+    },
+    {
       "type": "enum",
       "enum": {
         "typeName": {

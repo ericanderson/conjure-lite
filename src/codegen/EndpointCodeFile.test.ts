@@ -2,7 +2,7 @@ import type { IConjureDefinition, IEndpointDefinition } from "conjure-api";
 import * as fs from "node:fs/promises";
 import * as os from "node:os";
 import * as path from "node:path";
-import { describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 import { CodeGen } from "./CodeGen.js";
 import { endpointCodeGenerator } from "./EndpointCodeFile.js";
 
@@ -46,14 +46,19 @@ function makeEndpoint<K extends Exclude<keyof IEndpointDefinition, "endpointName
 }
 
 describe(endpointCodeGenerator, () => {
-  it("should properly generate mime types for return type BINARY", async () => {
+  let tmpdir: string;
+  beforeEach(async () => {
     const osTmpdir = os.tmpdir();
-    const tmpdir = await fs.mkdtemp(path.join(osTmpdir, "conjure-lite-"));
+    tmpdir = await fs.mkdtemp(path.join(osTmpdir, "conjure-lite-"));
+  });
 
+  it("should properly generate mime types for return type BINARY", async () => {
     const codegen = new CodeGen(MINIMAL_CONJURE_DEF, {
       includeExtensions: true,
       outDir: tmpdir,
       ir: "wat",
+      header: undefined,
+      // include: [],
     });
 
     await endpointCodeGenerator(
@@ -81,25 +86,26 @@ describe(endpointCodeGenerator, () => {
 
     expect(contents).toMatchInlineSnapshot(`
       "import { conjureFetch, type ConjureContext } from "conjure-lite"
-      import type { SomeRequest } from "./api/SomeRequest.js";
-      export async function returnsBinary(ctx: ConjureContext, request: SomeRequest): Promise<Blob> {
+      import type { SomeRequest as _api_SomeRequest } from "./api/SomeRequest.js";
+      export async function returnsBinary(ctx: ConjureContext, request: _api_SomeRequest): Promise<Blob> {
         return conjureFetch(ctx, \`/returnsBinary\`, "POST", request, undefined, undefined, "application/octet-stream")
       }"
     `);
   });
 
   it("should properly generate mime types for return type BINARY", async () => {
-    const osTmpdir = os.tmpdir();
-    const tmpdir = await fs.mkdtemp(path.join(osTmpdir, "conjure-lite-"));
-
     const codegen = new CodeGen(MINIMAL_CONJURE_DEF, {
       includeExtensions: true,
       outDir: tmpdir,
       ir: "wat",
+      header: undefined,
+      // include: [],
     });
 
+    const outFilePath = path.join(tmpdir, "foo.ts");
+
     await endpointCodeGenerator(
-      path.join(tmpdir, "foo.ts"),
+      outFilePath,
       codegen,
       makeEndpoint("returnsBinary", {
         args: [
@@ -116,7 +122,7 @@ describe(endpointCodeGenerator, () => {
       }),
     )();
 
-    const contents = await fs.readFile(path.join(tmpdir, "foo.ts"), "utf-8");
+    const contents = await fs.readFile(outFilePath, "utf-8");
 
     expect(contents).toMatchInlineSnapshot(`
       "import { conjureFetch, type ConjureContext } from "conjure-lite"
@@ -127,13 +133,12 @@ describe(endpointCodeGenerator, () => {
   });
 
   it("should drop params that are undefined", async () => {
-    const osTmpdir = os.tmpdir();
-    const tmpdir = await fs.mkdtemp(path.join(osTmpdir, "conjure-lite-"));
-
     const codegen = new CodeGen(MINIMAL_CONJURE_DEF, {
       includeExtensions: true,
       outDir: tmpdir,
       ir: "wat",
+      header: undefined,
+      // include: [],
     });
 
     await endpointCodeGenerator(
