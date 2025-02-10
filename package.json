@@ -47,7 +47,7 @@
     "conjure-api": "^4.51.0",
     "dedent": "^1.5.3",
     "dprint": "^0.48.0",
-    "eslint": "^9.18.0",
+    "eslint": "^9.20.0",
     "husky": "^9.1.7",
     "lint-staged": "^15.4.2",
     "pkgroll": "^2.6.1",
