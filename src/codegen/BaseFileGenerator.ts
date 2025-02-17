@@ -120,7 +120,7 @@ export class BaseFileGenerator<
           case "DATETIME":
             return "string";
           case "DOUBLE":
-            return "number";
+            return `number | "NaN" | "Infinity" | "-Infinity"`;
           case "INTEGER":
             return "number";
           case "RID":
