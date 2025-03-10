@@ -61,7 +61,7 @@ export const objectCodeGenerator = generatorFactory<
           + getDocs(docs)
           + dedent`
               export type ${name} = ${union.map(u => `${name}_${u.fieldName}`).join(" | ")}
-            `;
+            \n`;
       }
     }
 
