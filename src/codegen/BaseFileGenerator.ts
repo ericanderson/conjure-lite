@@ -114,7 +114,7 @@ export class BaseFileGenerator<
           case "BEARERTOKEN":
             return "string";
           case "BINARY":
-            return "Blob";
+            return "string";
           case "BOOLEAN":
             return "boolean";
           case "DATETIME":
