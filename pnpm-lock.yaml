@@ -9,8 +9,8 @@ importers:
   .:
     devDependencies:
       '@arethetypeswrong/cli':
-        specifier: ^0.17.3
-        version: 0.17.3
+        specifier: ^0.17.4
+        version: 0.17.4
       '@changesets/cli':
         specifier: ^2.27.12
         version: 2.27.12
@@ -77,18 +77,21 @@ packages:
   '@andrewbranch/untar.js@1.0.3':
     resolution: {integrity: sha512-Jh15/qVmrLGhkKJBdXlK1+9tY4lZruYjsgkDFj08ZmDiWVBLJcqkok7Z0/R0In+i1rScBpJlSvrTS2Lm41Pbnw==}
 
-  '@arethetypeswrong/cli@0.17.3':
-    resolution: {integrity: sha512-wI9ZSTweunmzHboSyYtWRFpba9fM9mpX1g7EUoRr+86zHSd7NR7svb6EmJD2hv1V+SoisB2fERu6EQGGEfQ8oQ==}
+  '@arethetypeswrong/cli@0.17.4':
+    resolution: {integrity: sha512-AeiKxtf67XD/NdOqXgBOE5TZWH3EOCt+0GkbUpekOzngc+Q/cRZ5azjWyMxISxxfp0EItgm5NoSld9p7BAA5xQ==}
     engines: {node: '>=18'}
     hasBin: true
 
-  '@arethetypeswrong/core@0.17.3':
-    resolution: {integrity: sha512-2TB7O5JmC7UX7QHRGGftxRVQjV4Ce6oOIDGIDDERyT9dQ8lK/tRGfFubzO80rWeXm/gSrA8jirlXSWSE1i5ynQ==}
+  '@arethetypeswrong/core@0.17.4':
+    resolution: {integrity: sha512-Izvir8iIoU+X4SKtDAa5kpb+9cpifclzsbA8x/AZY0k0gIfXYQ1fa1B6Epfe6vNA2YfDX8VtrZFgvnXB6aPEoQ==}
     engines: {node: '>=18'}
 
   '@babel/runtime@7.26.0':
     resolution: {integrity: sha512-FDSOghenHTiToteC/QRlv2q3DhPZ/oOXTBoirfWNx1Cx3TMVcGWQtMMmQcSvb/JjpNeGzx8Pq/b4fKEJuWm1sw==}
     engines: {node: '>=6.9.0'}
+
+  '@braidai/lang@1.1.0':
+    resolution: {integrity: sha512-xyJYkiyNQtTyCLeHxZmOs7rnB94D+N1IjKNArQIh8+8lTBOY7TFgwEV+Ow5a1uaBi5j2w9fLbWcJFTWLDItl5g==}
 
   '@changesets/apply-release-plan@7.0.8':
     resolution: {integrity: sha512-qjMUj4DYQ1Z6qHawsn7S71SujrExJ+nceyKKyI9iB+M5p9lCL55afuEd6uLBPRpLGWQwkwvWegDHtwHJb1UjpA==}
@@ -554,6 +557,9 @@ packages:
 
   '@jridgewell/sourcemap-codec@1.5.0':
     resolution: {integrity: sha512-gv3ZRaISU3fjPAgNsriBRqGWQL6quFx04YMPW/zD8XMLsU32mhCCbfbO6KZFLjvYpCZ8zyDEgqsgf+PwPaM7GQ==}
+
+  '@loaderkit/resolve@1.0.3':
+    resolution: {integrity: sha512-oo51csrgEfeHO593bqoPOGwrX093QzDWrc/7y876b/ObDqp2Hbw+rl+3s26WRXIbnhty40T403nwU4UFX3KQCg==}
 
   '@manypkg/find-root@1.1.0':
     resolution: {integrity: sha512-mki5uBvhHzO8kYYix/WRy2WX8S3B5wdVSc9D6KcU5lQNglP2yt58/VfLuAK49glRXChosY8ap2oJ1qgma3GUVA==}
@@ -1106,8 +1112,8 @@ packages:
     resolution: {integrity: sha512-NIxF55hv4nSqQswkAeiOi1r83xy8JldOFDTWiug55KBu9Jnblncd2U6ViHmYgHf01TPZS77NJBhBMKdWj9HQMQ==}
     engines: {node: '>=8'}
 
-  cjs-module-lexer@1.4.1:
-    resolution: {integrity: sha512-cuSVIHi9/9E/+821Qjdvngor+xpnlwnuwIyZOaLmHBVdXL+gP+I6QQB9VkO7RI77YIcTV+S1W9AreJ5eN63JBA==}
+  cjs-module-lexer@1.4.3:
+    resolution: {integrity: sha512-9z8TZaGM1pfswYeXrUpzPrkx8UnWYdhJclsiYMm6x/w5+nN+8Tf/LnAgfLGQCm59qAOxU8WwHEq2vNwF6i4j+Q==}
 
   cli-cursor@5.0.0:
     resolution: {integrity: sha512-aCj4O5wKyszjMmDT4tZj93kxyydN/K5zPWSCe6/0AV/AA1pqe5ZBIw0a2ZfPQV7lL5/yb5HsUreJ6UFAF1tEQw==}
@@ -1592,11 +1598,11 @@ packages:
   magic-string@0.30.17:
     resolution: {integrity: sha512-sNPKHvyjVf7gyjwS4xGTaW/mCnF8wnjtifKBEhxfZ7E/S8tQ0rssrwGNn6q8JH/ohItJfSQp9mBtQYuTlH5QnA==}
 
-  marked-terminal@7.2.1:
-    resolution: {integrity: sha512-rQ1MoMFXZICWNsKMiiHwP/Z+92PLKskTPXj+e7uwXmuMPkNn7iTqC+IvDekVm1MPeC9wYQeLxeFaOvudRR/XbQ==}
+  marked-terminal@7.3.0:
+    resolution: {integrity: sha512-t4rBvPsHc57uE/2nJOLmMbZCQ4tgAccAED3ngXQqW6g+TxA488JzJ+FK3lQkzBQOI1mRV/r/Kq+1ZlJ4D0owQw==}
     engines: {node: '>=16.0.0'}
     peerDependencies:
-      marked: '>=1 <15'
+      marked: '>=1 <16'
 
   marked@9.1.6:
     resolution: {integrity: sha512-jcByLnIFkd5gSXZmjNvS1TlmRhCXZjIzHYlaGkPlLIekG55JDR2Z4va9tZwCiP+/RDERiNhMOFu01xd6O5ct1Q==}
@@ -1962,8 +1968,8 @@ packages:
     resolution: {integrity: sha512-MpUEN2OodtUzxvKQl72cUF7RQ5EiHsGvSsVG0ia9c5RbWGL2CI4C7EpPS8UTBIplnlzZiNuV56w+FuNxy3ty2Q==}
     engines: {node: '>=10'}
 
-  supports-hyperlinks@3.1.0:
-    resolution: {integrity: sha512-2rn0BZ+/f7puLOHZm1HOJfwBggfaHXUpPUSSG/SWM4TWp5KCfmNYwnC3hruy2rZlMnmWZ+QAGpZfchu3f3695A==}
+  supports-hyperlinks@3.2.0:
+    resolution: {integrity: sha512-zFObLMyZeEwzAoKCyu1B91U79K2t7ApXuQfo8OuxwXLDgcKxuwM+YvcbIhm6QWqz7mHUH1TVytR1PwVVjEuMig==}
     engines: {node: '>=14.18'}
 
   supports-preserve-symlinks-flag@1.0.0:
@@ -2192,29 +2198,32 @@ snapshots:
 
   '@andrewbranch/untar.js@1.0.3': {}
 
-  '@arethetypeswrong/cli@0.17.3':
+  '@arethetypeswrong/cli@0.17.4':
     dependencies:
-      '@arethetypeswrong/core': 0.17.3
+      '@arethetypeswrong/core': 0.17.4
       chalk: 4.1.2
       cli-table3: 0.6.5
       commander: 10.0.1
       marked: 9.1.6
-      marked-terminal: 7.2.1(marked@9.1.6)
-      semver: 7.6.3
+      marked-terminal: 7.3.0(marked@9.1.6)
+      semver: 7.7.1
 
-  '@arethetypeswrong/core@0.17.3':
+  '@arethetypeswrong/core@0.17.4':
     dependencies:
       '@andrewbranch/untar.js': 1.0.3
-      cjs-module-lexer: 1.4.1
+      '@loaderkit/resolve': 1.0.3
+      cjs-module-lexer: 1.4.3
       fflate: 0.8.2
       lru-cache: 10.4.3
-      semver: 7.6.3
+      semver: 7.7.1
       typescript: 5.6.1-rc
       validate-npm-package-name: 5.0.1
 
   '@babel/runtime@7.26.0':
     dependencies:
       regenerator-runtime: 0.14.1
+
+  '@braidai/lang@1.1.0': {}
 
   '@changesets/apply-release-plan@7.0.8':
     dependencies:
@@ -2230,7 +2239,7 @@ snapshots:
       outdent: 0.5.0
       prettier: 2.8.8
       resolve-from: 5.0.0
-      semver: 7.6.3
+      semver: 7.7.1
 
   '@changesets/assemble-release-plan@6.0.5':
     dependencies:
@@ -2239,7 +2248,7 @@ snapshots:
       '@changesets/should-skip-package': 0.1.1
       '@changesets/types': 6.0.0
       '@manypkg/get-packages': 1.1.3
-      semver: 7.6.3
+      semver: 7.7.1
 
   '@changesets/changelog-git@0.2.0':
     dependencies:
@@ -2295,7 +2304,7 @@ snapshots:
       '@changesets/types': 6.0.0
       '@manypkg/get-packages': 1.1.3
       picocolors: 1.1.1
-      semver: 7.6.3
+      semver: 7.7.1
 
   '@changesets/get-release-plan@4.0.6':
     dependencies:
@@ -2596,6 +2605,10 @@ snapshots:
   '@humanwhocodes/retry@0.4.2': {}
 
   '@jridgewell/sourcemap-codec@1.5.0': {}
+
+  '@loaderkit/resolve@1.0.3':
+    dependencies:
+      '@braidai/lang': 1.1.0
 
   '@manypkg/find-root@1.1.0':
     dependencies:
@@ -3123,7 +3136,7 @@ snapshots:
 
   ci-info@3.9.0: {}
 
-  cjs-module-lexer@1.4.1: {}
+  cjs-module-lexer@1.4.3: {}
 
   cli-cursor@5.0.0:
     dependencies:
@@ -3649,7 +3662,7 @@ snapshots:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.5.0
 
-  marked-terminal@7.2.1(marked@9.1.6):
+  marked-terminal@7.3.0(marked@9.1.6):
     dependencies:
       ansi-escapes: 7.0.0
       ansi-regex: 6.1.0
@@ -3658,7 +3671,7 @@ snapshots:
       cli-table3: 0.6.5
       marked: 9.1.6
       node-emoji: 2.2.0
-      supports-hyperlinks: 3.1.0
+      supports-hyperlinks: 3.2.0
 
   marked@9.1.6: {}
 
@@ -4000,7 +4013,7 @@ snapshots:
     dependencies:
       has-flag: 4.0.0
 
-  supports-hyperlinks@3.1.0:
+  supports-hyperlinks@3.2.0:
     dependencies:
       has-flag: 4.0.0
       supports-color: 7.2.0
