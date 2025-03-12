@@ -25,7 +25,7 @@ export const objectCodeGenerator = generatorFactory<
               f.fieldName.includes("-") || f.fieldName.includes("_")
                 ? `"${f.fieldName}"`
                 : f.fieldName
-            }: ${this.getTypeForCode(f.type)};`
+            }${f.type.type === "optional" ? "?" : ""}: ${this.getTypeForCode(f.type)};`
           )
           .join(
             "\n",
