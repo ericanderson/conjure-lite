@@ -100,7 +100,7 @@ export class BaseFileGenerator<
         return `Array<${this.getTypeForCode(type.set.itemType)}>`;
 
       case "optional":
-        return `${this.getTypeForCode(type.optional.itemType)} | undefined`;
+        return `${this.getTypeForCode(type.optional.itemType)} | null | undefined`;
 
       case "map":
         return `Record<${this.getTypeForCode(type.map.keyType)}, ${
