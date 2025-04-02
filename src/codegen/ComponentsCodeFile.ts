@@ -55,12 +55,14 @@ export const objectCodeGenerator = generatorFactory<
             }\n`;
         };
 
+        const joined = union.map(u => `${name}_${u.fieldName}`).join(" | ");
+
         source += dedent`
             ${union.map(createUnionInterface).join("\n")}
             `
           + getDocs(docs)
           + dedent`
-              export type ${name} = ${union.map(u => `${name}_${u.fieldName}`).join(" | ")}
+              export type ${name} = ${joined == "" ? "{}" : joined}
             \n`;
       }
     }
