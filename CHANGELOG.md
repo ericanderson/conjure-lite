@@ -1,5 +1,11 @@
 # conjure-lite
 
+## 0.7.2
+
+### Patch Changes
+
+- 0e5b43b: Upgrade dependency versions
+
 ## 0.7.1
 
 ### Patch Changes
