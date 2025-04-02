@@ -1,5 +1,11 @@
 # conjure-lite
 
+## 0.7.1
+
+### Patch Changes
+
+- 98dde6b: Fixed generation of empty unions
+
 ## 0.5.0
 
 ### Minor Changes
