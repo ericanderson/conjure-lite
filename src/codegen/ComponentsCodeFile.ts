@@ -18,7 +18,7 @@ export const objectCodeGenerator = generatorFactory<
     ) {
       if (def.type === "object") {
         const { typeName: { name }, docs } = def.object;
-        const fields = def.object.fields
+        const fields = (def.object.fields ?? [])
           .sort((a, b) => a.fieldName.localeCompare(b.fieldName))
           .map(f =>
             `  ${
