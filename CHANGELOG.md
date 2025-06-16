@@ -1,5 +1,11 @@
 # conjure-lite
 
+## 0.7.3
+
+### Patch Changes
+
+- 2aba0cd: handle empty list
+
 ## 0.7.2
 
 ### Patch Changes
