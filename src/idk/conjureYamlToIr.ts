@@ -1,8 +1,8 @@
-import * as yaml from "yaml";
-import { z } from "zod";
+// import * as yaml from "yaml";
+// import { z } from "zod";
 
 export function conjureYamlToIr(
-  yaml: string,
+  _yaml: string,
 ): {
   packageName: string;
   types: Record<string, any>;

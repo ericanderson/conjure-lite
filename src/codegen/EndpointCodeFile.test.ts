@@ -88,7 +88,7 @@ describe(endpointCodeGenerator, () => {
 
     expect(contents).toMatchInlineSnapshot(`
       "import { conjureFetch, type ConjureContext } from "conjure-lite"
-      import type { SomeRequest as _api_SomeRequest } from "./api/SomeRequest.js";
+      import { SomeRequest as _api_SomeRequest } from "./api/SomeRequest.js";
       export async function returnsBinary(ctx: ConjureContext, request: _api_SomeRequest): Promise<string> {
         return conjureFetch(ctx, \`/returnsBinary\`, "POST", request, undefined, undefined, "application/octet-stream")
       }"

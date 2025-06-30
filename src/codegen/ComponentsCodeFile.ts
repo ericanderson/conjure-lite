@@ -65,6 +65,12 @@ export const objectCodeGenerator = generatorFactory<
 
         source += getDocs(docs) + dedent`
         export type ${name} = ${this.getTypeForCode(def.alias.alias)};\n`;
+
+        if (this.includeZod) {
+          source += dedent`
+          export const ${name} = ${this.getZodTypeForCode(def.alias.alias)};
+          `;
+        }
       } else if (def.type === "enum") {
         const { typeName: { name }, values, docs } = def.enum;
         source += getDocs(docs) + dedent`
