@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "zod/v4";
 
 /**
  * Built-in types are always lowercase, to distinguish them from user-defined types which are PascalCase.

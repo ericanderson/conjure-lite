@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "zod/v4";
 import { ConjureTypeSchema } from "./ConjureType.js";
 import { DocStringSchema } from "./DocString.js";
 import { FieldDefinitionSchema } from "./FieldDefinition.js";
@@ -11,7 +11,7 @@ export const UnionTypeDefinitionSchema = z.object({
   union: z.record(
     z.string().regex(
       /^[a-z][a-zA-Z0-9]*$/,
-      "Union names must be in lowerCamelCase",
+      { error: "Union names must be in lowerCamelCase" },
     ),
     z.union([FieldDefinitionSchema, ConjureTypeSchema]),
   ),

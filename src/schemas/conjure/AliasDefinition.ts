@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "zod/v4";
 import { ConjureTypeSchema } from "./ConjureType.js";
 import { DocStringSchema } from "./DocString.js";
 import { LogSafetySchema } from "./LogSafety.js";

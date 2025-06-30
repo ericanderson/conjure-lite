@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "zod/v4";
 import { ExternalTypeDefinitionSchema } from "./ExternalTypeDefinition.js";
 import { NamedTypesDefinitionSchema } from "./NamedTypesDefinition.js";
 import { TypeNameSchema } from "./TypeName.js";

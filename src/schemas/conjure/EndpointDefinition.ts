@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "zod/v4";
 import { ArgumentDefinitionSchema } from "./ArgumentDefinition.js";
 import { AuthDefinitionSchema } from "./AuthDefinition.js";
 import { ConjureTypeSchema } from "./ConjureType.js";

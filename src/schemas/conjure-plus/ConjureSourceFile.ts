@@ -1,4 +1,4 @@
-import type { z } from "zod";
+import type { z } from "zod/v4";
 import { ConjureSourceFileSchema as BaseConjureSourceFileSchema } from "../conjure/ConjureSourceFile.js";
 import { TypesDefinitionSchema } from "./TypesDefinition.js";
 
