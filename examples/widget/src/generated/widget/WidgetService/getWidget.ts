@@ -1,6 +1,6 @@
 /* sample header */
 import { type ConjureContext, conjureFetch } from "conjure-lite";
-import type { Widget as _widget_Widget } from "../__components.js";
+import { Widget as _widget_Widget } from "../__components.js";
 
 /**
  * An endpoint for retrieving a widget. The RID of the desired widget is specified in the path of the request.

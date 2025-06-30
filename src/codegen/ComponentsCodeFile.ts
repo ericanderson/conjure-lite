@@ -5,11 +5,19 @@ import { fqName } from "./fqName.js";
 import { generatorFactory } from "./generatorFactory.js";
 import { getDocs } from "./getDocs.js";
 
+import * as z from "zod";
+
+z.object({
+  foo: z.string().optional(),
+  bar: z.any(),
+});
+
 export const objectCodeGenerator = generatorFactory<
   ITypeDefinition
 >(
   async function() {
     let source = "";
+    this.imports.set("$z", `import * as $z from "zod";`);
 
     for (
       const def of this.defs.sort((a, b) => {
@@ -34,7 +42,24 @@ export const objectCodeGenerator = generatorFactory<
         export interface ${name} {
         ${fields}
         }
-            `;
+        `;
+
+        if (this.includeZod) {
+          source += dedent`
+          export const ${name} = $z.object({
+            ${
+            def.object.fields
+              ?.sort((a, b) => a.fieldName.localeCompare(b.fieldName))
+              .map(f => {
+                const fieldName = f.fieldName.includes("-") || f.fieldName.includes("_")
+                  ? `"${f.fieldName}"`
+                  : f.fieldName;
+                return `${fieldName}: ${this.getZodTypeForCode(f.type)}`;
+              })
+          }
+          });
+        `;
+        }
       } else if (def.type === "alias") {
         const { typeName: { name }, docs } = def.alias;
 
@@ -44,6 +69,14 @@ export const objectCodeGenerator = generatorFactory<
         const { typeName: { name }, values, docs } = def.enum;
         source += getDocs(docs) + dedent`
           export type ${name} = ${values.map(({ value }) => `"${value}"`).join("|")};\n`;
+
+        if (this.includeZod) {
+          source += dedent`
+          export const ${name} = $z.union([
+            ${values.map(({ value }) => `$z.literal("${value}")`).join(",\n")}
+          ]);
+          `;
+        }
       } else if (def.type === "union") {
         const { typeName: { name }, union, docs } = def.union;
 
@@ -64,6 +97,23 @@ export const objectCodeGenerator = generatorFactory<
           + dedent`
               export type ${name} = ${joined == "" ? "{}" : joined}
             \n`;
+
+        if (this.includeZod) {
+          source += dedent`
+            export const ${name} = $z.discriminatedUnion("type", [
+              ${
+            union
+              .map(
+                u =>
+                  `$z.object({ type: $z.literal("${u.fieldName}"), ${u.fieldName}: ${
+                    this.getZodTypeForCode(u.type)
+                  } })`,
+              )
+              .join(",\n")
+          }
+            ]);
+          `;
+        }
       }
     }
 

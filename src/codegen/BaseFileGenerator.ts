@@ -15,15 +15,18 @@ export class BaseFileGenerator<
   public readonly codeGen: CodeGen;
   public readonly imports = new Map<string, string>();
   public readonly typeImports = new Map<string, Set<string>>();
+  includeZod: boolean;
 
   constructor(
     filePath: string,
     codeGen: CodeGen,
     def: D | D[],
+    includeZod: boolean,
   ) {
     this.filePath = filePath;
     this.codeGen = codeGen;
     this.defs = Array.isArray(def) ? def : [def];
+    this.includeZod = includeZod;
   }
 
   ensureImportForType(
@@ -42,7 +45,7 @@ export class BaseFileGenerator<
 
       this.imports.set(
         `${type.package}.${type.name}`,
-        `import type { ${importSpecifier} } from "${importPath}";`,
+        `import ${this.includeZod ? "" : "type "}{ ${importSpecifier} } from "${importPath}";`,
       );
       return;
     }
@@ -83,6 +86,74 @@ export class BaseFileGenerator<
 
     if (this.codeGen.includeExtensions) {
       return importPath;
+    }
+  }
+
+  getZodTypeForCode(type: ConjureApi.IType): string {
+    switch (type.type) {
+      case "external":
+        return this.getZodTypeForCode(type.external.fallback);
+
+      case "list":
+        return `$z.array(${this.getZodTypeForCode(type.list.itemType)})`;
+
+      case "map":
+        return `$z.record(${
+          this.getZodTypeForCode(
+            type.map.keyType,
+          )
+        }, ${this.getZodTypeForCode(type.map.valueType)})`;
+
+      case "set":
+        return `$z.array(${this.getZodTypeForCode(type.set.itemType)})`;
+
+      case "optional":
+        return `$z.union([${
+          this.getZodTypeForCode(
+            type.optional.itemType,
+          )
+        }.optional(), $z.null(), $z.undefined()])`;
+
+      case "primitive":
+        switch (type.primitive) {
+          case "ANY":
+            return "$z.any()";
+          case "BEARERTOKEN":
+            return "$z.string()";
+          case "BINARY":
+            return "$z.string()";
+          case "BOOLEAN":
+            return "$z.boolean()";
+          case "DATETIME":
+            return "$z.string()";
+          case "DOUBLE":
+            return `$z.union([$z.number(), $z.literal("NaN"), $z.literal("Infinity"), $z.literal("-Infinity")])`;
+          case "INTEGER":
+            return "$z.number()";
+          case "RID":
+            return "$z.string()";
+          case "SAFELONG":
+            return "$z.number()";
+          case "STRING":
+            return "$z.string()";
+          case "UUID":
+            return "$z.string().uuid()";
+          default:
+            return `/* OOPS */ $z.any()`;
+        }
+
+      case "reference":
+        //
+        this.ensureImportForType(type.reference);
+
+        if (this.codeGen.getFilePath(type.reference) === this.filePath) {
+          // local ref
+          return type.reference.name;
+        }
+
+        return `$z.lazy(() => ${
+          this.codeGen.getShortPackage(type.reference.package).replaceAll(".", "_")
+        }_${type.reference.name})`;
     }
   }
 

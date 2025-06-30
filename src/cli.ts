@@ -23,6 +23,11 @@ export async function cli() {
           type: "boolean",
           default: true,
         },
+        zod: {
+          type: "boolean",
+          default: false,
+          description: "Generate Zod schemas",
+        },
         header: {
           type: "string",
         },

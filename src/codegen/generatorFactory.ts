@@ -10,10 +10,10 @@ export function generatorFactory<
     | { packageName: string },
 >(
   generateFunction: (this: BaseFileGenerator<T>) => Promise<void>,
-): (filePath: string, codeGen: CodeGen, def: T | T[]) => () => Promise<void> {
-  return (filePath: string, codeGen: CodeGen, def: T | T[]) => {
+): (filePath: string, codeGen: CodeGen, def: T | T[], includeZod: boolean) => () => Promise<void> {
+  return (filePath: string, codeGen: CodeGen, def: T | T[], includeZod: boolean) => {
     return async () => {
-      const base = new BaseFileGenerator(filePath, codeGen, def);
+      const base = new BaseFileGenerator(filePath, codeGen, def, includeZod);
       await generateFunction.apply(base);
     };
   };
