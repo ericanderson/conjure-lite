@@ -3,4 +3,5 @@ export interface HandleGenerateArgs {
   ir: string;
   includeExtensions: boolean;
   header?: string;
+  zod: boolean;
 }

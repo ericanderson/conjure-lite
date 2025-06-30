@@ -20,12 +20,14 @@ export class CodeGen {
   readonly includeExtensions: boolean;
 
   resolvedFileForType = new Map<string, string>();
+  includeZod: boolean;
 
   constructor(ir: ConjureApi.IConjureDefinition, args: HandleGenerateArgs) {
     this.ir = ir;
     this.#outDir = args.outDir;
     this.includeExtensions = args.includeExtensions;
     this.header = args.header ?? "";
+    this.includeZod = args.zod;
 
     this.packages = new Set<string>();
 
@@ -52,7 +54,7 @@ export class CodeGen {
       codeFiles.push(
         packageIndexCodeGenerator(path.join(packagePath, "index.ts"), this, {
           packageName,
-        }),
+        }, this.includeZod),
       );
       completedPackages.add(packageName);
     };
@@ -91,6 +93,7 @@ export class CodeGen {
         destinationFile,
         this,
         def,
+        this.includeZod,
       ));
     }
 
@@ -105,12 +108,18 @@ export class CodeGen {
           this.getFilePath(service.serviceName),
           this,
           service,
+          this.includeZod,
         ),
       );
 
       for (const endpoint of service.endpoints) {
         codeFiles.push(
-          endpointCodeGenerator(this.getEndpointPath(service, endpoint), this, endpoint),
+          endpointCodeGenerator(
+            this.getEndpointPath(service, endpoint),
+            this,
+            endpoint,
+            this.includeZod,
+          ),
         );
       }
     }

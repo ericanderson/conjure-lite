@@ -58,6 +58,7 @@ describe(endpointCodeGenerator, () => {
       outDir: tmpdir,
       ir: "wat",
       header: undefined,
+      zod: true,
       // include: [],
     });
 
@@ -80,6 +81,7 @@ describe(endpointCodeGenerator, () => {
         returns: unionEntry("primitive", "BINARY"),
         errors: [],
       }),
+      true, // includeZod
     )();
 
     const contents = await fs.readFile(path.join(tmpdir, "foo.ts"), "utf-8");
@@ -87,7 +89,7 @@ describe(endpointCodeGenerator, () => {
     expect(contents).toMatchInlineSnapshot(`
       "import { conjureFetch, type ConjureContext } from "conjure-lite"
       import type { SomeRequest as _api_SomeRequest } from "./api/SomeRequest.js";
-      export async function returnsBinary(ctx: ConjureContext, request: _api_SomeRequest): Promise<Blob> {
+      export async function returnsBinary(ctx: ConjureContext, request: _api_SomeRequest): Promise<string> {
         return conjureFetch(ctx, \`/returnsBinary\`, "POST", request, undefined, undefined, "application/octet-stream")
       }"
     `);
@@ -99,6 +101,7 @@ describe(endpointCodeGenerator, () => {
       outDir: tmpdir,
       ir: "wat",
       header: undefined,
+      zod: true,
       // include: [],
     });
 
@@ -120,13 +123,14 @@ describe(endpointCodeGenerator, () => {
         returns: unionEntry("primitive", "STRING"),
         errors: [],
       }),
+      true, // includeZod
     )();
 
     const contents = await fs.readFile(outFilePath, "utf-8");
 
     expect(contents).toMatchInlineSnapshot(`
       "import { conjureFetch, type ConjureContext } from "conjure-lite"
-      export async function returnsBinary(ctx: ConjureContext, request: Blob): Promise<string> {
+      export async function returnsBinary(ctx: ConjureContext, request: string): Promise<string> {
         return conjureFetch(ctx, \`/returnsBinary\`, "POST", request, undefined, "application/octet-stream")
       }"
     `);
@@ -138,6 +142,7 @@ describe(endpointCodeGenerator, () => {
       outDir: tmpdir,
       ir: "wat",
       header: undefined,
+      zod: true,
       // include: [],
     });
 
@@ -157,6 +162,7 @@ describe(endpointCodeGenerator, () => {
         returns: unionEntry("primitive", "STRING"),
         errors: [],
       }),
+      true, // includeZod
     )();
 
     const contents = await fs.readFile(path.join(tmpdir, "foo.ts"), "utf-8");
