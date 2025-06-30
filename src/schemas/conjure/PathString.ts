@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "zod/v4";
 
 /**
  * A PathString consists of segments separated by forward slashes, /.
@@ -9,7 +9,7 @@ import { z } from "zod";
  */
 export const PathStringSchema = z.string().regex(
   /^\/[a-zA-Z0-9._\-{}/]*$/,
-  "Path must start with / and contain only valid path characters and parameters",
+  { error: "Path must start with / and contain only valid path characters and parameters" },
 );
 
 export type PathString = z.infer<typeof PathStringSchema>;

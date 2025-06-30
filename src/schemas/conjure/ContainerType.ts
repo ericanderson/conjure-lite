@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "zod/v4";
 
 /**
  * Container types like optional<T>, list<T>, set<T> and map<K, V> can be referenced using their lowercase names,
@@ -13,7 +13,7 @@ import { z } from "zod";
  */
 export const ContainerTypeSchema = z.string().regex(
   /^(optional|list|set)<.+>$|^map<.+,.+>$/,
-  "Container type must be optional<T>, list<T>, set<T>, or map<K,V>",
+  { error: "Container type must be optional<T>, list<T>, set<T>, or map<K,V>" },
 );
 
 export type ContainerType = z.infer<typeof ContainerTypeSchema>;

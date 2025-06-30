@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "zod/v4";
 import { BuiltInSchema } from "./BuiltIn.js";
 import { ContainerTypeSchema } from "./ContainerType.js";
 import { TypeNameSchema } from "./TypeName.js";

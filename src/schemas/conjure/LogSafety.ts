@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "zod/v4";
 
 /**
  * The safety of the type with regard to logging in accordance with the SLS specification.

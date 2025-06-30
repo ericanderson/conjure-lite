@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "zod/v4";
 import { DocStringSchema } from "./DocString.js";
 
 /**
@@ -8,7 +8,7 @@ import { DocStringSchema } from "./DocString.js";
 export const EnumValueDefinitionSchema = z.object({
   value: z.string().regex(
     /^[A-Z][A-Z0-9_]*$/,
-    "Enum values must be UPPERCASE",
+    { error: "Enum values must be UPPERCASE" },
   ),
   docs: DocStringSchema.optional(),
   deprecated: DocStringSchema.optional(),

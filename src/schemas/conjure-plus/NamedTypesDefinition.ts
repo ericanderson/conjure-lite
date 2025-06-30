@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "zod/v4";
 import { NamedTypesDefinitionSchema as BaseNamedTypesDefinitionSchema } from "../conjure/NamedTypesDefinition.js";
 import { TypeNameSchema } from "../conjure/TypeName.js";
 import { AliasDefinitionSchema } from "./AliasDefinition.js";

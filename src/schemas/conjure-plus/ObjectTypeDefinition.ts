@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "zod/v4";
 import { ConjureTypeSchema } from "../conjure/ConjureType.js";
 import { ObjectTypeDefinitionSchema as BaseObjectTypeDefinitionSchema } from "../conjure/ObjectTypeDefinition.js";
 import { FieldDefinitionSchema } from "./FieldDefinition.js";
@@ -13,7 +13,7 @@ export const ObjectTypeDefinitionSchema = BaseObjectTypeDefinitionSchema.extend(
   fields: z.record(
     z.string().regex(
       /^[a-z][a-zA-Z0-9]*$|^[a-z][a-zA-Z0-9]*(-[a-z][a-zA-Z0-9]*)*$|^[a-z][a-zA-Z0-9]*(_[a-z][a-zA-Z0-9]*)*$/,
-      "Field names must be in lowerCamelCase, kebab-case, or snake_case",
+      { error: "Field names must be in lowerCamelCase, kebab-case, or snake_case" },
     ),
     z.union([FieldDefinitionSchema, ConjureTypeSchema]),
   ),

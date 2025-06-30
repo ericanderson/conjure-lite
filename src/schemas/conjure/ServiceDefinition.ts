@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "zod/v4";
 import { AuthDefinitionSchema } from "./AuthDefinition.js";
 import { DocStringSchema } from "./DocString.js";
 import { EndpointDefinitionSchema } from "./EndpointDefinition.js";

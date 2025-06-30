@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "zod/v4";
 import { ConjureTypeSchema } from "../conjure/ConjureType.js";
 import { ErrorDefinitionSchema as BaseErrorDefinitionSchema } from "../conjure/ErrorDefinition.js";
 import { FieldDefinitionSchema } from "./FieldDefinition.js";

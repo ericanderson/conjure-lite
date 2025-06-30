@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "zod/v4";
 import { AliasDefinitionSchema } from "./AliasDefinition.js";
 import { EnumTypeDefinitionSchema } from "./EnumTypeDefinition.js";
 import { ErrorDefinitionSchema } from "./ErrorDefinition.js";
