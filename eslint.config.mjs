@@ -40,6 +40,18 @@ export default tseslint.config(
     },
   },
   {
-    ignores: ["dist/**", "examples/**"],
+    ignores: [
+      "dist/**",
+      "examples/**",
+      "coverage/**",
+      "node_modules/**",
+      ".vscode/**",
+      ".idea/**",
+      ".git/**",
+      "tsconfig.tsbuildinfo",
+      "tsconfig.json",
+      "tsconfig.lib.json",
+      "tsconfig.test.json",
+    ],
   },
 );

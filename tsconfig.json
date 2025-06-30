@@ -21,6 +21,10 @@
       "node:*": ["./node_modules/@types/node/*.d.ts"]
     }
   },
-  "exclude": ["adsrc/tmp/**/*"],
-  "include": ["src"]
+  "include": ["src"],
+  "references": [
+    {
+      "path": "./tsconfig.vitest.json"
+    }
+  ]
 }
