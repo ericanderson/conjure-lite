@@ -1,0 +1,109 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "ui": "stream",
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build", "generate"],
+      "inputs": [
+        "src/**/*.ts",
+        "src/**/*.mts",
+        "tsconfig.json",
+        "package.json"
+      ],
+      "outputs": [
+        "dist/**",
+        "tsconfig.tsbuildinfo"
+      ]
+    },
+    "test": {
+      "dependsOn": ["^build"],
+      "inputs": [
+        "src/**/*.ts",
+        "src/**/*.test.ts",
+        "vitest.config.ts",
+        "tsconfig.vitest.json",
+        "package.json"
+      ],
+      "outputs": [
+        "coverage/**"
+      ]
+    },
+    "check:lint": {
+      "inputs": [
+        "src/**/*.ts",
+        "src/**/*.mts",
+        "eslint.config.mjs",
+        "package.json"
+      ]
+    },
+    "check:types": {
+      "inputs": [
+        "src/**/*.ts",
+        "src/**/*.mts",
+        "eslint.config.mjs",
+        "package.json",
+        "tsconfig*.json"
+      ],
+      "outputs": [
+        "build/**/*.tsbuildinfo"
+      ]
+    },
+    "check:format": {
+      "inputs": [
+        "src/**/*.ts",
+        "src/**/*.mts",
+        "examples/**/*.ts",
+        "examples/**/*.json",
+        "*.json",
+        "*.md",
+        "dprint.json"
+      ]
+    },
+    "check:api": {
+      "dependsOn": ["build"],
+      "inputs": [
+        "dist/**",
+        "api-extractor.json",
+        "package.json"
+      ],
+      "outputs": [
+        "etc/**"
+      ]
+    },
+    "check:attw": {
+      "dependsOn": ["build"],
+      "inputs": [
+        "dist/**",
+        "package.json"
+      ]
+    },
+    "generate": {
+      "dependsOn": ["^build"],
+      "inputs": [
+        "ir.json",
+        "package.json",
+        "tsconfig.json"
+      ],
+      "outputs": [
+        "src/generated/**",
+        "lib/**",
+        "tsconfig.tsbuildinfo"
+      ]
+    },
+    "check": {
+      "dependsOn": [
+        "build",
+        "check:format",
+        "check:api",
+        "check:attw",
+        "check:lint",
+        "check:types",
+        "test"
+      ]
+    }
+  },
+  "globalDependencies": [
+    "pnpm-lock.yaml",
+    "pnpm-workspace.yaml"
+  ]
+}

@@ -6,6 +6,5 @@ export type UnionTypeInner<Q extends { type: string }> = UnionTypeInner_<Q, Q["t
 export function drillIntoUnion<Q extends { type: string }>(
   conjureUnion: Q,
 ): UnionTypeInner<Q> {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
   return (conjureUnion as any)[conjureUnion.type] as UnionTypeInner<Q>;
 }

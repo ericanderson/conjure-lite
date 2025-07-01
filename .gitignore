@@ -177,6 +177,9 @@ dist
 lib
 src/tmp
 /artifacts-*.json
-tsconfig.tsbuildinfo
+*.tsbuildinfo
 
-/temp/
+temp/
+build/
+
+.turbo

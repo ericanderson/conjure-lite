@@ -1,30 +1,15 @@
 {
   "compilerOptions": {
-    "rootDir": "src",
-    "outDir": "dist",
-    "lib": ["ESNext", "webworker"],
-    "module": "Node16",
-    "target": "ESNext",
-    "moduleResolution": "Node16",
-    "moduleDetection": "force",
-    "composite": true,
-    "strict": true,
-    "emitDeclarationOnly": true,
-    "downlevelIteration": true,
-    "skipLibCheck": true,
-    "allowSyntheticDefaultImports": true,
-    "forceConsistentCasingInFileNames": true,
-    "noEmitOnError": false,
-    "types": [],
-    "paths": {
-      "conjure-lite": ["./src"],
-      "node:*": ["./node_modules/@types/node/*.d.ts"]
-    }
+    "outDir": "./build/tsc-main"
   },
-  "include": ["src"],
+  "include": [],
+  "files": [],
   "references": [
     {
       "path": "./tsconfig.vitest.json"
+    },
+    {
+      "path": "./tsconfig.src.json"
     }
   ]
 }

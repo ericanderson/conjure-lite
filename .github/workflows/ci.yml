@@ -33,7 +33,7 @@ jobs:
         run: pnpm install
 
       - name: Build, lint, and test
-        run: pnpm check
+        run: pnpm exec turbo check
 
       - name: Verify nothing changed
         run: git diff --exit-code

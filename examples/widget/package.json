@@ -4,6 +4,9 @@
   "dependencies": {
     "conjure-lite": "workspace:*"
   },
-  "type": "module",
-  "version": null
+  "scripts": {
+    "build": "tsc --build",
+    "generate": "rm -rf src/generated lib tsconfig.tsbuildinfo && conjure-lite generate --ir ir.json --outDir src/generated --header '/* sample header */' --zod && dprint fmt 'src/generated/**/*'"
+  },
+  "type": "module"
 }
