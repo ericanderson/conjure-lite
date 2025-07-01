@@ -35,7 +35,7 @@ export async function conjureFetch<T>(
   }
 
   const queryParams = Object.entries(params ?? {}).flatMap(
-    ([key, value]) => {
+    ([key, value]): Array<[string, string]> => {
       if (value == null) {
         return [];
       }

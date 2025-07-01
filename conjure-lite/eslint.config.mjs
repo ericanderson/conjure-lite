@@ -1,5 +1,3 @@
-// @ts-check
-
 import eslint from "@eslint/js";
 import tseslint from "typescript-eslint";
 
@@ -12,7 +10,6 @@ export default tseslint.config(
         projectService: {
           allowDefaultProject: ["*.js", "*.mjs", ".lintstagedrc.mjs"],
         },
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         tsconfigRootDir: import.meta.dirname,
       },
     },
@@ -25,6 +22,7 @@ export default tseslint.config(
       "@typescript-eslint/ban-types": "off",
       "@typescript-eslint/no-unsafe-call": "off",
       "@typescript-eslint/no-unsafe-member-access": "off",
+      "@typescript-eslint/no-unsafe-argument": "off",
       "@typescript-eslint/no-unused-vars": [
         "error",
         {

@@ -8,7 +8,7 @@
   "excludes": [
     "**/node_modules",
     "**/*-lock.json",
-    "etc/conjure-lite.api.md"
+    "**/etc/*"
   ],
   "plugins": [
     "https://plugins.dprint.dev/typescript-0.89.3.wasm",
