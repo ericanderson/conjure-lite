@@ -6,7 +6,7 @@
   },
   "scripts": {
     "build": "tsc --build",
-    "generate": "rm -rf src/generated lib tsconfig.tsbuildinfo && conjure-lite generate --ir ir.json --outDir src/generated --header '/* sample header */' --zod && dprint fmt 'src/generated/**/*'"
+    "generate": "rm -rf src/generated lib tsconfig.tsbuildinfo && ../../conjure-lite/dist/conjure-lite.mjs generate --ir ir.json --outDir src/generated --header '/* sample header */' --zod && dprint fmt 'src/generated/**/*'"
   },
   "type": "module"
 }
