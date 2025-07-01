@@ -1,0 +1,110 @@
+{
+  "version": 1,
+  "errors": [{
+    "errorName": {
+      "name": "AdminRepositoryPermissionDenied",
+      "package": "com.palantir.artifacts.admin.api"
+    },
+    "namespace": "ArtifactsAdmin",
+    "code": "PERMISSION_DENIED",
+    "safeArgs": [{
+      "fieldName": "repositoryRid",
+      "type": {
+        "type": "primitive",
+        "primitive": "RID"
+      }
+    }],
+    "unsafeArgs": []
+  }],
+  "types": [{
+    "type": "object",
+    "object": {
+      "typeName": {
+        "name": "ClearDeletedUserRepositoriesRequest",
+        "package": "com.palantir.artifacts.admin.api"
+      },
+      "fields": [{
+        "fieldName": "dryRun",
+        "type": {
+          "type": "primitive",
+          "primitive": "BOOLEAN"
+        },
+        "docs": "When set to true, the task will only log the user repositories that would be deleted as a result of calling\nthis endpoint with dryRun=false. No deletion takes place when dryRun=true.\n",
+        "safety": "SAFE"
+      }]
+    }
+  }, {
+    "type": "object",
+    "object": {
+      "typeName": {
+        "name": "ContainerRegistryDomainResponse",
+        "package": "com.palantir.artifacts.admin.api"
+      },
+      "fields": [{
+        "fieldName": "domain",
+        "type": {
+          "type": "primitive",
+          "primitive": "STRING"
+        },
+        "safety": "UNSAFE"
+      }]
+    }
+  }],
+  "services": [{
+    "serviceName": {
+      "name": "ArtifactsAdminService",
+      "package": "com.palantir.artifacts.admin.api"
+    },
+    "endpoints": [{
+      "endpointName": "clearDeletedUserRepositories",
+      "httpMethod": "POST",
+      "httpPath": "/admin/clearDeletedRepositories",
+      "auth": {
+        "type": "header",
+        "header": {}
+      },
+      "args": [{
+        "argName": "request",
+        "type": {
+          "type": "reference",
+          "reference": {
+            "name": "ClearDeletedUserRepositoriesRequest",
+            "package": "com.palantir.artifacts.admin.api"
+          }
+        },
+        "paramType": {
+          "type": "body",
+          "body": {}
+        },
+        "markers": [],
+        "tags": []
+      }],
+      "docs": "Kicks off a background task that will iterate over all Stemma repositories and delete all contents from\nuser repositories that no longer exist in Stemma.\n",
+      "markers": [],
+      "tags": []
+    }, {
+      "endpointName": "getContainerRegistryDomain",
+      "httpMethod": "GET",
+      "httpPath": "/admin/container-registry",
+      "auth": {
+        "type": "header",
+        "header": {}
+      },
+      "args": [],
+      "returns": {
+        "type": "reference",
+        "reference": {
+          "name": "ContainerRegistryDomainResponse",
+          "package": "com.palantir.artifacts.admin.api"
+        }
+      },
+      "docs": "Get the container registry domain, e.g, papaya-container-registry.palantircloud.com",
+      "markers": [],
+      "tags": []
+    }],
+    "docs": "Administer artifacts repositories"
+  }],
+  "extensions": {
+    "recommended-product-dependencies": []
+  }
+}
