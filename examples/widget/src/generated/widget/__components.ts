@@ -1,5 +1,5 @@
 /* sample header */
-import * as $z from "zod";
+import * as $z from "zod/v4";
 import { ExampleEnum as _foo_ExampleEnum } from "../foo/__components.js";
 
 /**
@@ -11,9 +11,15 @@ export interface AWidget2 {
   exampleEnum: _foo_ExampleEnum;
 }
 export const AWidget2 = $z.object({
-  "dash-separated": $z.boolean(),
-  description: $z.string(),
-  exampleEnum: $z.lazy(() => _foo_ExampleEnum),
+  get "dash-separated"() {
+    return $z.boolean();
+  },
+  get description() {
+    return $z.string();
+  },
+  get exampleEnum() {
+    return _foo_ExampleEnum;
+  },
 });
 /**
  * ExampleObject has two fields, a string description and a reference to ExampleEnum.
@@ -24,7 +30,13 @@ export interface Widget {
   exampleEnum: _foo_ExampleEnum;
 }
 export const Widget = $z.object({
-  "dash-separated": $z.boolean(),
-  description: $z.string(),
-  exampleEnum: $z.lazy(() => _foo_ExampleEnum),
+  get "dash-separated"() {
+    return $z.boolean();
+  },
+  get description() {
+    return $z.string();
+  },
+  get exampleEnum() {
+    return _foo_ExampleEnum;
+  },
 });

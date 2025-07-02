@@ -16,11 +16,11 @@ export const ErrorDefinitionSchema = z.object({
   "safe-args": z.record(
     z.string(),
     z.union([FieldDefinitionSchema, ConjureTypeSchema]),
-  ),
+  ).optional(),
   "unsafe-args": z.record(
     z.string(),
     z.union([FieldDefinitionSchema, ConjureTypeSchema]),
-  ),
+  ).optional(),
   docs: DocStringSchema.optional(),
 });
 

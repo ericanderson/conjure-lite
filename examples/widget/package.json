@@ -4,9 +4,16 @@
   "dependencies": {
     "conjure-lite": "workspace:*"
   },
+  "devDependencies": {
+    "@types/node": "^22.15.23",
+    "dprint": "^0.49.1",
+    "typescript": "^5.8.3",
+    "zod": "^3.25.67"
+  },
   "scripts": {
     "build": "tsc --build",
-    "generate": "rm -rf src/generated lib tsconfig.tsbuildinfo && ../../conjure-lite/dist/conjure-lite.mjs generate --ir ir.json --outDir src/generated --header '/* sample header */' --zod && dprint fmt 'src/generated/**/*'"
+    "generate": "rm -rf src/generated lib tsconfig.tsbuildinfo && ../../conjure-lite/dist/conjure-lite.mjs generate --ir ir.json --outDir src/generated --header '/* sample header */' --zod && dprint fmt 'src/generated/**/*'",
+    "test": "vitest run"
   },
   "type": "module"
 }

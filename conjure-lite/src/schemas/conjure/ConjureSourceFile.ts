@@ -16,6 +16,8 @@ export const ConjureSourceFileSchema = z.object({
     ),
     ServiceDefinitionSchema,
   ).optional().describe("A map between a service name and its definition"),
+}).refine((d) => d.types || d.services, {
+  message: "At least one of 'types' or 'services' must be defined",
 });
 
 export type ConjureSourceFile = z.infer<typeof ConjureSourceFileSchema>;

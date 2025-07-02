@@ -1,0 +1,35 @@
+types:
+  definitions:
+    default-package: com.palantir.artifacts.admin.api
+    objects:
+      ClearDeletedUserRepositoriesRequest:
+        fields:
+          dryRun:
+            type: boolean
+            safety: safe
+            docs: |
+              When set to true, the task will only log the user repositories that would be deleted as a result of calling
+              this endpoint with dryRun=false. No deletion takes place when dryRun=true.
+
+    errors:
+      AdminRepositoryPermissionDenied:
+        namespace: ArtifactsAdmin
+        code: PERMISSION_DENIED
+        safe-args:
+          repositoryRid: rid
+
+services:
+  ArtifactsAdminService:
+    name: Artifacts admin service.
+    docs: Administer artifacts repositories
+    package: com.palantir.artifacts.admin.api
+    default-auth: header
+    base-path: /admin
+    endpoints:
+      clearDeletedUserRepositories:
+        http: POST /clearDeletedRepositories
+        docs: |
+          Kicks off a background task that will iterate over all Stemma repositories and delete all contents from
+          user repositories that no longer exist in Stemma.
+        args:
+          request: ClearDeletedUserRepositoriesRequest

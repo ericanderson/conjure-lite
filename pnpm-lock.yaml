@@ -158,6 +158,19 @@ importers:
       conjure-lite:
         specifier: workspace:*
         version: link:../../conjure-lite
+    devDependencies:
+      '@types/node':
+        specifier: ^22.15.23
+        version: 22.15.23
+      dprint:
+        specifier: ^0.49.1
+        version: 0.49.1
+      typescript:
+        specifier: ^5.8.3
+        version: 5.8.3
+      zod:
+        specifier: ^3.25.67
+        version: 3.25.67
 
 packages:
 
