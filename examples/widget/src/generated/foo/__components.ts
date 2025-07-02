@@ -1,5 +1,5 @@
 /* sample header */
-import * as $z from "zod";
+import * as $z from "zod/v4";
 
 /**
  * Valid values for ExampleEnum include "FOO" and "BAR".

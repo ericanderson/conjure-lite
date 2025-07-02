@@ -17,7 +17,7 @@ export const objectCodeGenerator = generatorFactory<
 >(
   async function() {
     let source = "";
-    this.imports.set("$z", `import * as $z from "zod";`);
+    this.imports.set("$z", `import * as $z from "zod/v4";`);
 
     for (
       const def of this.defs.sort((a, b) => {
@@ -54,7 +54,7 @@ export const objectCodeGenerator = generatorFactory<
                 const fieldName = f.fieldName.includes("-") || f.fieldName.includes("_")
                   ? `"${f.fieldName}"`
                   : f.fieldName;
-                return `${fieldName}: ${this.getZodTypeForCode(f.type)}`;
+                return `get ${fieldName}(){ return ${this.getZodTypeForCode(f.type)} }`;
               })
           }
           });

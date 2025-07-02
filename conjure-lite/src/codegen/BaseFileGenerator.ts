@@ -151,9 +151,9 @@ export class BaseFileGenerator<
           return type.reference.name;
         }
 
-        return `$z.lazy(() => ${
+        return `${
           this.codeGen.getShortPackage(type.reference.package).replaceAll(".", "_")
-        }_${type.reference.name})`;
+        }_${type.reference.name}`;
     }
   }
 

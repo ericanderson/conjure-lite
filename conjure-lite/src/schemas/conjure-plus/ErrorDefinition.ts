@@ -11,11 +11,11 @@ export const ErrorDefinitionSchema = BaseErrorDefinitionSchema.extend({
   "safe-args": z.record(
     z.string(),
     z.union([FieldDefinitionSchema, ConjureTypeSchema]),
-  ),
+  ).optional(),
   "unsafe-args": z.record(
     z.string(),
     z.union([FieldDefinitionSchema, ConjureTypeSchema]),
-  ),
+  ).optional(),
   "x-tags": z.record(z.string(), z.string()).optional().describe(
     "Additional metadata tags for the error type",
   ),
