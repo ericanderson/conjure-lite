@@ -5,13 +5,6 @@ import { fqName } from "./fqName.js";
 import { generatorFactory } from "./generatorFactory.js";
 import { getDocs } from "./getDocs.js";
 
-import * as z from "zod";
-
-z.object({
-  foo: z.string().optional(),
-  bar: z.any(),
-});
-
 export const objectCodeGenerator = generatorFactory<
   ITypeDefinition
 >(
