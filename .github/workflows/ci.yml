@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: [18, 20, 21]
+        node: [20, 22, 24]
 
     steps:
       - name: Check out code
@@ -33,7 +33,7 @@ jobs:
         run: pnpm install
 
       - name: Build, lint, and test
-        run: pnpm check
+        run: pnpm exec turbo check
 
       - name: Verify nothing changed
         run: git diff --exit-code

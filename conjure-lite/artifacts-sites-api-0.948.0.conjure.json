@@ -1,0 +1,979 @@
+{
+  "version": 1,
+  "errors": [{
+    "errorName": {
+      "name": "CannotDeployNonExistentVersion",
+      "package": "com.palantir.artifacts.sites.api.admin"
+    },
+    "namespace": "Sites",
+    "code": "INVALID_ARGUMENT",
+    "safeArgs": [{
+      "fieldName": "repositoryRid",
+      "type": {
+        "type": "primitive",
+        "primitive": "RID"
+      }
+    }],
+    "unsafeArgs": [{
+      "fieldName": "version",
+      "type": {
+        "type": "primitive",
+        "primitive": "STRING"
+      }
+    }]
+  }, {
+    "errorName": {
+      "name": "DomainAlreadyInUse",
+      "package": "com.palantir.artifacts.sites.api.admin"
+    },
+    "namespace": "Sites",
+    "code": "INVALID_ARGUMENT",
+    "safeArgs": [],
+    "unsafeArgs": [{
+      "fieldName": "domain",
+      "type": {
+        "type": "reference",
+        "reference": {
+          "name": "DomainName",
+          "package": "com.palantir.artifacts.sites.api.admin"
+        }
+      }
+    }]
+  }, {
+    "errorName": {
+      "name": "DomainRegistryUseNotAllowed",
+      "package": "com.palantir.artifacts.sites.api.admin"
+    },
+    "namespace": "Sites",
+    "code": "PERMISSION_DENIED",
+    "safeArgs": [],
+    "unsafeArgs": []
+  }, {
+    "errorName": {
+      "name": "InvalidDomainName",
+      "package": "com.palantir.artifacts.sites.api.admin"
+    },
+    "namespace": "Sites",
+    "code": "INVALID_ARGUMENT",
+    "safeArgs": [],
+    "unsafeArgs": [{
+      "fieldName": "domain",
+      "type": {
+        "type": "reference",
+        "reference": {
+          "name": "DomainName",
+          "package": "com.palantir.artifacts.sites.api.admin"
+        }
+      }
+    }]
+  }, {
+    "errorName": {
+      "name": "NoSiteVersionDeployed",
+      "package": "com.palantir.artifacts.sites.api.admin"
+    },
+    "namespace": "Sites",
+    "code": "INVALID_ARGUMENT",
+    "safeArgs": [],
+    "unsafeArgs": [{
+      "fieldName": "domain",
+      "type": {
+        "type": "reference",
+        "reference": {
+          "name": "DomainName",
+          "package": "com.palantir.artifacts.sites.api.admin"
+        }
+      }
+    }]
+  }, {
+    "errorName": {
+      "name": "SiteNotFound",
+      "package": "com.palantir.artifacts.sites.api.admin"
+    },
+    "namespace": "Sites",
+    "code": "INVALID_ARGUMENT",
+    "safeArgs": [],
+    "unsafeArgs": [{
+      "fieldName": "domain",
+      "type": {
+        "type": "primitive",
+        "primitive": "STRING"
+      }
+    }]
+  }, {
+    "errorName": {
+      "name": "SitesLoginError",
+      "package": "com.palantir.artifacts.sites.api.admin"
+    },
+    "namespace": "Sites",
+    "code": "INVALID_ARGUMENT",
+    "safeArgs": [{
+      "fieldName": "msg",
+      "type": {
+        "type": "primitive",
+        "primitive": "STRING"
+      }
+    }],
+    "unsafeArgs": []
+  }, {
+    "errorName": {
+      "name": "UnknownDomain",
+      "package": "com.palantir.artifacts.sites.api.admin"
+    },
+    "namespace": "Sites",
+    "code": "INVALID_ARGUMENT",
+    "safeArgs": [],
+    "unsafeArgs": [{
+      "fieldName": "domain",
+      "type": {
+        "type": "primitive",
+        "primitive": "STRING"
+      }
+    }]
+  }],
+  "types": [{
+    "type": "object",
+    "object": {
+      "typeName": {
+        "name": "ContentSecurityPolicyAdditions",
+        "package": "com.palantir.artifacts.sites.api.admin"
+      },
+      "fields": [{
+        "fieldName": "policy",
+        "type": {
+          "type": "map",
+          "map": {
+            "keyType": {
+              "type": "reference",
+              "reference": {
+                "name": "ContentSecurityPolicyDirectiveName",
+                "package": "com.palantir.artifacts.sites.api.admin"
+              }
+            },
+            "valueType": {
+              "type": "set",
+              "set": {
+                "itemType": {
+                  "type": "reference",
+                  "reference": {
+                    "name": "ContentSecurityPolicyDirectiveValue",
+                    "package": "com.palantir.artifacts.sites.api.admin"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }]
+    }
+  }, {
+    "type": "enum",
+    "enum": {
+      "typeName": {
+        "name": "ContentSecurityPolicyDirectiveName",
+        "package": "com.palantir.artifacts.sites.api.admin"
+      },
+      "values": [{
+        "value": "CONNECT_SRC"
+      }, {
+        "value": "FRAME_SRC"
+      }, {
+        "value": "IMG_SRC"
+      }, {
+        "value": "SCRIPT_SRC"
+      }]
+    }
+  }, {
+    "type": "alias",
+    "alias": {
+      "typeName": {
+        "name": "ContentSecurityPolicyDirectiveValue",
+        "package": "com.palantir.artifacts.sites.api.admin"
+      },
+      "alias": {
+        "type": "primitive",
+        "primitive": "STRING"
+      },
+      "safety": "UNSAFE"
+    }
+  }, {
+    "type": "alias",
+    "alias": {
+      "typeName": {
+        "name": "ContentSecurityPolicyHeaderValue",
+        "package": "com.palantir.artifacts.sites.api.admin"
+      },
+      "alias": {
+        "type": "primitive",
+        "primitive": "STRING"
+      },
+      "safety": "UNSAFE"
+    }
+  }, {
+    "type": "object",
+    "object": {
+      "typeName": {
+        "name": "ControlPanelManagedDomainInfo",
+        "package": "com.palantir.artifacts.sites.api.admin"
+      },
+      "fields": [{
+        "fieldName": "requestRid",
+        "type": {
+          "type": "reference",
+          "reference": {
+            "name": "SiteDomainRegistrationRequestRid",
+            "package": "com.palantir.artifacts.sites.api.admin"
+          }
+        }
+      }, {
+        "fieldName": "siteDomain",
+        "type": {
+          "type": "reference",
+          "reference": {
+            "name": "DomainName",
+            "package": "com.palantir.artifacts.sites.api.admin"
+          }
+        }
+      }],
+      "docs": "Domain that is managed through control panel and requires an enrollment-level Information Security Officer\napproval to be fully registered.\nThe domain should be validated with control panel before use, its status can be fetched through\napprovals APIs.\n"
+    }
+  }, {
+    "type": "object",
+    "object": {
+      "typeName": {
+        "name": "DeploySiteRequest",
+        "package": "com.palantir.artifacts.sites.api.admin"
+      },
+      "fields": [{
+        "fieldName": "repositoryRid",
+        "type": {
+          "type": "primitive",
+          "primitive": "RID"
+        },
+        "safety": "SAFE"
+      }, {
+        "fieldName": "siteDomain",
+        "type": {
+          "type": "reference",
+          "reference": {
+            "name": "DomainName",
+            "package": "com.palantir.artifacts.sites.api.admin"
+          }
+        }
+      }, {
+        "fieldName": "siteVersion",
+        "type": {
+          "type": "reference",
+          "reference": {
+            "name": "SiteVersion",
+            "package": "com.palantir.artifacts.sites.api.admin"
+          }
+        }
+      }]
+    }
+  }, {
+    "type": "object",
+    "object": {
+      "typeName": {
+        "name": "DeploymentInfo",
+        "package": "com.palantir.artifacts.sites.api.admin"
+      },
+      "fields": [{
+        "fieldName": "siteDomain",
+        "type": {
+          "type": "reference",
+          "reference": {
+            "name": "DomainName",
+            "package": "com.palantir.artifacts.sites.api.admin"
+          }
+        }
+      }, {
+        "fieldName": "siteVersion",
+        "type": {
+          "type": "reference",
+          "reference": {
+            "name": "SiteVersion",
+            "package": "com.palantir.artifacts.sites.api.admin"
+          }
+        }
+      }]
+    }
+  }, {
+    "type": "object",
+    "object": {
+      "typeName": {
+        "name": "DomainName",
+        "package": "com.palantir.artifacts.sites.api.admin"
+      },
+      "fields": [{
+        "fieldName": "domain",
+        "type": {
+          "type": "primitive",
+          "primitive": "STRING"
+        },
+        "safety": "UNSAFE"
+      }]
+    }
+  }, {
+    "type": "object",
+    "object": {
+      "typeName": {
+        "name": "PreviewContentSecurityPolicyRequest",
+        "package": "com.palantir.artifacts.sites.api.admin"
+      },
+      "fields": [{
+        "fieldName": "baseDomain",
+        "type": {
+          "type": "reference",
+          "reference": {
+            "name": "DomainName",
+            "package": "com.palantir.artifacts.sites.api.admin"
+          }
+        },
+        "docs": "The base domain to substitute in the CSP, since the default CSP dynamically include entries for \nthe base domain based on the site domain.\n"
+      }]
+    }
+  }, {
+    "type": "union",
+    "union": {
+      "typeName": {
+        "name": "SiteDomainInfo",
+        "package": "com.palantir.artifacts.sites.api.admin"
+      },
+      "union": [{
+        "fieldName": "controlPanelManaged",
+        "type": {
+          "type": "reference",
+          "reference": {
+            "name": "ControlPanelManagedDomainInfo",
+            "package": "com.palantir.artifacts.sites.api.admin"
+          }
+        }
+      }]
+    }
+  }, {
+    "type": "alias",
+    "alias": {
+      "typeName": {
+        "name": "SiteDomainRegistrationRequestRid",
+        "package": "com.palantir.artifacts.sites.api.admin"
+      },
+      "alias": {
+        "type": "primitive",
+        "primitive": "RID"
+      },
+      "safety": "SAFE"
+    }
+  }, {
+    "type": "object",
+    "object": {
+      "typeName": {
+        "name": "SiteVersion",
+        "package": "com.palantir.artifacts.sites.api.admin"
+      },
+      "fields": [{
+        "fieldName": "version",
+        "type": {
+          "type": "primitive",
+          "primitive": "STRING"
+        },
+        "safety": "UNSAFE"
+      }]
+    }
+  }, {
+    "type": "object",
+    "object": {
+      "typeName": {
+        "name": "SubmitDomainRegistrationRequest",
+        "package": "com.palantir.artifacts.sites.api.admin"
+      },
+      "fields": [{
+        "fieldName": "siteDomain",
+        "type": {
+          "type": "reference",
+          "reference": {
+            "name": "DomainName",
+            "package": "com.palantir.artifacts.sites.api.admin"
+          }
+        },
+        "docs": "Domain to register."
+      }, {
+        "fieldName": "baseDomain",
+        "type": {
+          "type": "reference",
+          "reference": {
+            "name": "DomainName",
+            "package": "com.palantir.artifacts.sites.api.admin"
+          }
+        },
+        "docs": "Base domain under which the domain will be registered, this is the domain that the\nsite users will be sent to for log in.\n"
+      }, {
+        "fieldName": "requestTitle",
+        "type": {
+          "type": "primitive",
+          "primitive": "STRING"
+        },
+        "safety": "UNSAFE"
+      }, {
+        "fieldName": "requestDescription",
+        "type": {
+          "type": "optional",
+          "optional": {
+            "itemType": {
+              "type": "primitive",
+              "primitive": "STRING"
+            }
+          }
+        },
+        "safety": "UNSAFE"
+      }]
+    }
+  }, {
+    "type": "object",
+    "object": {
+      "typeName": {
+        "name": "UnregisterDomainRequest",
+        "package": "com.palantir.artifacts.sites.api.admin"
+      },
+      "fields": [{
+        "fieldName": "siteDomain",
+        "type": {
+          "type": "reference",
+          "reference": {
+            "name": "DomainName",
+            "package": "com.palantir.artifacts.sites.api.admin"
+          }
+        },
+        "docs": "Domain to unregister."
+      }]
+    }
+  }, {
+    "type": "object",
+    "object": {
+      "typeName": {
+        "name": "UpdateDeployedVersionRequest",
+        "package": "com.palantir.artifacts.sites.api.admin"
+      },
+      "fields": [{
+        "fieldName": "siteVersion",
+        "type": {
+          "type": "reference",
+          "reference": {
+            "name": "SiteVersion",
+            "package": "com.palantir.artifacts.sites.api.admin"
+          }
+        }
+      }]
+    }
+  }],
+  "services": [{
+    "serviceName": {
+      "name": "ArtifactsSitesAdminService",
+      "package": "com.palantir.artifacts.sites.api.admin"
+    },
+    "endpoints": [{
+      "endpointName": "deploySite",
+      "httpMethod": "POST",
+      "httpPath": "/sites/admin/deploy",
+      "auth": {
+        "type": "header",
+        "header": {}
+      },
+      "args": [{
+        "argName": "deploySiteRequest",
+        "type": {
+          "type": "reference",
+          "reference": {
+            "name": "DeploySiteRequest",
+            "package": "com.palantir.artifacts.sites.api.admin"
+          }
+        },
+        "paramType": {
+          "type": "body",
+          "body": {}
+        },
+        "markers": [],
+        "tags": []
+      }],
+      "markers": [],
+      "tags": []
+    }, {
+      "endpointName": "deleteSiteDeployment",
+      "httpMethod": "DELETE",
+      "httpPath": "/sites/admin/{repositoryRid}",
+      "auth": {
+        "type": "header",
+        "header": {}
+      },
+      "args": [{
+        "argName": "repositoryRid",
+        "type": {
+          "type": "primitive",
+          "primitive": "RID"
+        },
+        "paramType": {
+          "type": "path",
+          "path": {}
+        },
+        "safety": "SAFE",
+        "markers": [],
+        "tags": []
+      }],
+      "markers": [],
+      "tags": []
+    }, {
+      "endpointName": "getDeployedVersion",
+      "httpMethod": "GET",
+      "httpPath": "/sites/admin/{repositoryRid}/deployedVersion",
+      "auth": {
+        "type": "header",
+        "header": {}
+      },
+      "args": [{
+        "argName": "repositoryRid",
+        "type": {
+          "type": "primitive",
+          "primitive": "RID"
+        },
+        "paramType": {
+          "type": "path",
+          "path": {}
+        },
+        "safety": "SAFE",
+        "markers": [],
+        "tags": []
+      }],
+      "returns": {
+        "type": "optional",
+        "optional": {
+          "itemType": {
+            "type": "reference",
+            "reference": {
+              "name": "DeploymentInfo",
+              "package": "com.palantir.artifacts.sites.api.admin"
+            }
+          }
+        }
+      },
+      "markers": [],
+      "tags": []
+    }]
+  }, {
+    "serviceName": {
+      "name": "ArtifactsSitesAdminV2Service",
+      "package": "com.palantir.artifacts.sites.api.admin"
+    },
+    "endpoints": [{
+      "endpointName": "requestSiteDomainForRepository",
+      "httpMethod": "POST",
+      "httpPath": "/sites/v2/admin/repository/{repositoryRid}/domains/submit-registration",
+      "auth": {
+        "type": "header",
+        "header": {}
+      },
+      "args": [{
+        "argName": "repositoryRid",
+        "type": {
+          "type": "primitive",
+          "primitive": "RID"
+        },
+        "paramType": {
+          "type": "path",
+          "path": {}
+        },
+        "safety": "SAFE",
+        "markers": [],
+        "tags": []
+      }, {
+        "argName": "request",
+        "type": {
+          "type": "reference",
+          "reference": {
+            "name": "SubmitDomainRegistrationRequest",
+            "package": "com.palantir.artifacts.sites.api.admin"
+          }
+        },
+        "paramType": {
+          "type": "body",
+          "body": {}
+        },
+        "markers": [],
+        "tags": []
+      }],
+      "returns": {
+        "type": "reference",
+        "reference": {
+          "name": "SiteDomainInfo",
+          "package": "com.palantir.artifacts.sites.api.admin"
+        }
+      },
+      "docs": "Requests the registration of a domain with the provided repository, this will result in an approvals task \ngetting created for approval by an admin.\n\nOnce the task has been approved, visiting the domain will serve the deployed version, if any is deployed.\n\nartifacts:sites:manage-domains permission is needed on the repository rid to call this endpoint.\n",
+      "markers": [],
+      "tags": []
+    }, {
+      "endpointName": "unregisterSiteDomain",
+      "httpMethod": "POST",
+      "httpPath": "/sites/v2/admin/repository/{repositoryRid}/domains/unregister",
+      "auth": {
+        "type": "header",
+        "header": {}
+      },
+      "args": [{
+        "argName": "repositoryRid",
+        "type": {
+          "type": "primitive",
+          "primitive": "RID"
+        },
+        "paramType": {
+          "type": "path",
+          "path": {}
+        },
+        "safety": "SAFE",
+        "markers": [],
+        "tags": []
+      }, {
+        "argName": "request",
+        "type": {
+          "type": "reference",
+          "reference": {
+            "name": "UnregisterDomainRequest",
+            "package": "com.palantir.artifacts.sites.api.admin"
+          }
+        },
+        "paramType": {
+          "type": "body",
+          "body": {}
+        },
+        "markers": [],
+        "tags": []
+      }],
+      "docs": "Unregisters a domain from a repository, visiting the domain will no longer serve the repository assets.\n\nDepending on how the domain for the repository was setup, this might also result in deleting the domain\nitself.\n\nartifacts:sites:manage-domains permission is needed on the repository rid to call this endpoint.\n",
+      "markers": [],
+      "tags": []
+    }, {
+      "endpointName": "getRegisteredSiteDomains",
+      "httpMethod": "GET",
+      "httpPath": "/sites/v2/admin/repository/{repositoryRid}/domains/registered",
+      "auth": {
+        "type": "header",
+        "header": {}
+      },
+      "args": [{
+        "argName": "repositoryRid",
+        "type": {
+          "type": "primitive",
+          "primitive": "RID"
+        },
+        "paramType": {
+          "type": "path",
+          "path": {}
+        },
+        "safety": "SAFE",
+        "markers": [],
+        "tags": []
+      }],
+      "returns": {
+        "type": "set",
+        "set": {
+          "itemType": {
+            "type": "reference",
+            "reference": {
+              "name": "SiteDomainInfo",
+              "package": "com.palantir.artifacts.sites.api.admin"
+            }
+          }
+        }
+      },
+      "docs": "Get domains that have been successfully registered with the given repository. Visiting a successfully \nregistered domain should serve the registered repository assets.\n\nartifacts:sites:read-deployment-info permission is needed on the repository rid to call this endpoint.\n",
+      "markers": [],
+      "tags": []
+    }, {
+      "endpointName": "getRequestedSiteDomains",
+      "httpMethod": "GET",
+      "httpPath": "/sites/v2/admin/repository/{repositoryRid}/domains/requested",
+      "auth": {
+        "type": "header",
+        "header": {}
+      },
+      "args": [{
+        "argName": "repositoryRid",
+        "type": {
+          "type": "primitive",
+          "primitive": "RID"
+        },
+        "paramType": {
+          "type": "path",
+          "path": {}
+        },
+        "safety": "SAFE",
+        "markers": [],
+        "tags": []
+      }],
+      "returns": {
+        "type": "set",
+        "set": {
+          "itemType": {
+            "type": "reference",
+            "reference": {
+              "name": "SiteDomainInfo",
+              "package": "com.palantir.artifacts.sites.api.admin"
+            }
+          }
+        }
+      },
+      "docs": "Get domains that have been requested for a given repository. For control panel domains that require \nan approval, this will also include pending requests. Closed/rejected requests will only be included as long\nas their domain hasn't been re-requested for another repository.\n\nartifacts:sites:read-deployment-info permission is needed on the repository rid to call this endpoint.\n",
+      "markers": [],
+      "tags": []
+    }, {
+      "endpointName": "updateDeployedVersion",
+      "httpMethod": "PUT",
+      "httpPath": "/sites/v2/admin/repository/{repositoryRid}/deployed-version",
+      "auth": {
+        "type": "header",
+        "header": {}
+      },
+      "args": [{
+        "argName": "repositoryRid",
+        "type": {
+          "type": "primitive",
+          "primitive": "RID"
+        },
+        "paramType": {
+          "type": "path",
+          "path": {}
+        },
+        "safety": "SAFE",
+        "markers": [],
+        "tags": []
+      }, {
+        "argName": "version",
+        "type": {
+          "type": "reference",
+          "reference": {
+            "name": "UpdateDeployedVersionRequest",
+            "package": "com.palantir.artifacts.sites.api.admin"
+          }
+        },
+        "paramType": {
+          "type": "body",
+          "body": {}
+        },
+        "markers": [],
+        "tags": []
+      }],
+      "docs": "Sets the asset version of the siteasset repository that will be served.  \n\nartifacts:sites:write-deployment-info permission is needed on the repository rid to call this endpoint.\n",
+      "markers": [],
+      "tags": []
+    }, {
+      "endpointName": "clearDeployedVersion",
+      "httpMethod": "DELETE",
+      "httpPath": "/sites/v2/admin/repository/{repositoryRid}/deployed-version",
+      "auth": {
+        "type": "header",
+        "header": {}
+      },
+      "args": [{
+        "argName": "repositoryRid",
+        "type": {
+          "type": "primitive",
+          "primitive": "RID"
+        },
+        "paramType": {
+          "type": "path",
+          "path": {}
+        },
+        "safety": "SAFE",
+        "markers": [],
+        "tags": []
+      }],
+      "docs": "Clears the deployed version while leaving the associated domain, visiting the associated domain in this state\nwill return an error.\n\nartifacts:sites:write-deployment-info permission is needed on the repository rid to call this endpoint.\n",
+      "markers": [],
+      "tags": []
+    }, {
+      "endpointName": "getDeployedVersion",
+      "httpMethod": "GET",
+      "httpPath": "/sites/v2/admin/repository/{repositoryRid}/deployed-version",
+      "auth": {
+        "type": "header",
+        "header": {}
+      },
+      "args": [{
+        "argName": "repositoryRid",
+        "type": {
+          "type": "primitive",
+          "primitive": "RID"
+        },
+        "paramType": {
+          "type": "path",
+          "path": {}
+        },
+        "safety": "SAFE",
+        "markers": [],
+        "tags": []
+      }],
+      "returns": {
+        "type": "optional",
+        "optional": {
+          "itemType": {
+            "type": "reference",
+            "reference": {
+              "name": "SiteVersion",
+              "package": "com.palantir.artifacts.sites.api.admin"
+            }
+          }
+        }
+      },
+      "docs": "Get the deployed version that will be served for a given siteasset repository.\n\nartifacts:sites:read-deployment-info permission is needed on the repository rid to call this endpoint.\n",
+      "markers": [],
+      "tags": []
+    }, {
+      "endpointName": "putContentSecurityPolicyAdditions",
+      "httpMethod": "PUT",
+      "httpPath": "/sites/v2/admin/repository/{repositoryRid}/csp/additions",
+      "auth": {
+        "type": "header",
+        "header": {}
+      },
+      "args": [{
+        "argName": "repositoryRid",
+        "type": {
+          "type": "primitive",
+          "primitive": "RID"
+        },
+        "paramType": {
+          "type": "path",
+          "path": {}
+        },
+        "safety": "SAFE",
+        "markers": [],
+        "tags": []
+      }, {
+        "argName": "contentSecurityPolicyAdditions",
+        "type": {
+          "type": "reference",
+          "reference": {
+            "name": "ContentSecurityPolicyAdditions",
+            "package": "com.palantir.artifacts.sites.api.admin"
+          }
+        },
+        "paramType": {
+          "type": "body",
+          "body": {}
+        },
+        "markers": [],
+        "tags": []
+      }],
+      "docs": "Set the CSP additions configured for a repository.\n\nartifacts:sites:write-deployment-info permission is needed on the repository rid to call this endpoint.\n",
+      "markers": [],
+      "tags": []
+    }, {
+      "endpointName": "getContentSecurityPolicyAdditions",
+      "httpMethod": "GET",
+      "httpPath": "/sites/v2/admin/repository/{repositoryRid}/csp/additions",
+      "auth": {
+        "type": "header",
+        "header": {}
+      },
+      "args": [{
+        "argName": "repositoryRid",
+        "type": {
+          "type": "primitive",
+          "primitive": "RID"
+        },
+        "paramType": {
+          "type": "path",
+          "path": {}
+        },
+        "safety": "SAFE",
+        "markers": [],
+        "tags": []
+      }],
+      "returns": {
+        "type": "reference",
+        "reference": {
+          "name": "ContentSecurityPolicyAdditions",
+          "package": "com.palantir.artifacts.sites.api.admin"
+        }
+      },
+      "docs": "Get the CSP additions configured for a repository.\n\nartifacts:sites:read-deployment-info permission is needed on the repository rid to call this endpoint.\n",
+      "markers": [],
+      "tags": []
+    }, {
+      "endpointName": "previewContentSecurityPolicy",
+      "httpMethod": "POST",
+      "httpPath": "/sites/v2/admin/repository/{repositoryRid}/csp/preview",
+      "auth": {
+        "type": "header",
+        "header": {}
+      },
+      "args": [{
+        "argName": "repositoryRid",
+        "type": {
+          "type": "primitive",
+          "primitive": "RID"
+        },
+        "paramType": {
+          "type": "path",
+          "path": {}
+        },
+        "safety": "SAFE",
+        "markers": [],
+        "tags": []
+      }, {
+        "argName": "request",
+        "type": {
+          "type": "reference",
+          "reference": {
+            "name": "PreviewContentSecurityPolicyRequest",
+            "package": "com.palantir.artifacts.sites.api.admin"
+          }
+        },
+        "paramType": {
+          "type": "body",
+          "body": {}
+        },
+        "markers": [],
+        "tags": []
+      }],
+      "returns": {
+        "type": "reference",
+        "reference": {
+          "name": "ContentSecurityPolicyHeaderValue",
+          "package": "com.palantir.artifacts.sites.api.admin"
+        }
+      },
+      "docs": "Preview what the CSP that will be served with the site looks like.\n\nartifacts:sites:read-deployment-info permission is needed on the repository rid to call this endpoint.\n",
+      "markers": [],
+      "tags": []
+    }]
+  }, {
+    "serviceName": {
+      "name": "SitesDomainRegistryService",
+      "package": "com.palantir.artifacts.sites.api.admin"
+    },
+    "endpoints": [{
+      "endpointName": "getRegisteredDomains",
+      "httpMethod": "GET",
+      "httpPath": "/sites/configRegisteredDomains/list",
+      "auth": {
+        "type": "header",
+        "header": {}
+      },
+      "args": [],
+      "returns": {
+        "type": "set",
+        "set": {
+          "itemType": {
+            "type": "primitive",
+            "primitive": "STRING"
+          }
+        }
+      },
+      "docs": "Get all registered domains regardless of whether they're in use or not.",
+      "markers": [],
+      "tags": []
+    }]
+  }],
+  "extensions": {
+    "recommended-product-dependencies": []
+  }
+}

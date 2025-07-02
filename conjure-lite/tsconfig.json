@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "outDir": "./build/tsc-main"
+  },
+  "include": [],
+  "files": [],
+  "references": [
+    {
+      "path": "./tsconfig.vitest.json"
+    },
+    {
+      "path": "./tsconfig.src.json"
+    }
+  ]
+}

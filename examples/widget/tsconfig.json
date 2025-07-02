@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "rootDir": "src",
-    "outDir": "lib",
+    "outDir": "dist",
     "lib": ["ESNext", "webworker"],
     "module": "Node16",
     "target": "ESNext",
