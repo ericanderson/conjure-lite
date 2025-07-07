@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "composite": true,
+    "module": "Node16",
+    "moduleResolution": "Node16",
+    "allowJs": true,
+    "target": "ES2022",
+    "types": ["vitest/globals", "node"],
+    "skipLibCheck": true,
+    "outDir": "${configDir}/build/tsc-vitest",
+    "rootDir": "${configDir}"
+  },
+  "include": ["${configDir}/vitest.config.ts", "${configDir}/build.config.ts"]
+}
