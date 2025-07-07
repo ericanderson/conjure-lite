@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { TypeNameSchema } from "./TypeName.js";
+import { TypeName } from "./index.js";
 
 describe("TypeName", () => {
   describe("valid type names", () => {
@@ -14,7 +14,7 @@ describe("TypeName", () => {
       ];
 
       for (const name of validNames) {
-        const result = TypeNameSchema.safeParse(name);
+        const result = TypeName.safeParse(name);
         expect(result.success).toBe(true);
         if (result.success) {
           expect(result.data).toBe(name);
@@ -31,7 +31,7 @@ describe("TypeName", () => {
       ];
 
       for (const name of validNames) {
-        const result = TypeNameSchema.safeParse(name);
+        const result = TypeName.safeParse(name);
         expect(result.success).toBe(true);
         if (result.success) {
           expect(result.data).toBe(name);
@@ -51,7 +51,7 @@ describe("TypeName", () => {
       ];
 
       for (const name of invalidNames) {
-        const result = TypeNameSchema.safeParse(name);
+        const result = TypeName.safeParse(name);
         expect(result.success).toBe(false);
         if (!result.success) {
           expect(result.error.issues[0].message).toBe("Type names must be in PascalCase");
@@ -70,7 +70,7 @@ describe("TypeName", () => {
       ];
 
       for (const name of invalidNames) {
-        const result = TypeNameSchema.safeParse(name);
+        const result = TypeName.safeParse(name);
         expect(result.success).toBe(false);
         if (!result.success) {
           expect(result.error.issues[0].message).toBe("Type names must be in PascalCase");
@@ -90,7 +90,7 @@ describe("TypeName", () => {
       ];
 
       for (const name of invalidNames) {
-        const result = TypeNameSchema.safeParse(name);
+        const result = TypeName.safeParse(name);
         expect(result.success).toBe(false);
         if (!result.success) {
           expect(result.error.issues[0].message).toBe("Type names must be in PascalCase");
@@ -109,7 +109,7 @@ describe("TypeName", () => {
       ];
 
       for (const name of invalidNames) {
-        const result = TypeNameSchema.safeParse(name);
+        const result = TypeName.safeParse(name);
         expect(result.success).toBe(false);
         if (!result.success) {
           expect(result.error.issues[0].message).toBe("Type names must be in PascalCase");
@@ -120,7 +120,7 @@ describe("TypeName", () => {
 
   describe("specific test cases from requirements", () => {
     it("should parse 'foo.Bar'", () => {
-      const result = TypeNameSchema.safeParse("foo.Bar");
+      const result = TypeName.safeParse("foo.Bar");
       expect(result.success).toBe(true);
       if (result.success) {
         expect(result.data).toBe("foo.Bar");
@@ -128,7 +128,7 @@ describe("TypeName", () => {
     });
 
     it("should parse 'Bar'", () => {
-      const result = TypeNameSchema.safeParse("Bar");
+      const result = TypeName.safeParse("Bar");
       expect(result.success).toBe(true);
       if (result.success) {
         expect(result.data).toBe("Bar");
@@ -136,7 +136,7 @@ describe("TypeName", () => {
     });
 
     it("should NOT parse 'bar.bar.Bar'", () => {
-      const result = TypeNameSchema.safeParse("bar.bar.Bar");
+      const result = TypeName.safeParse("bar.bar.Bar");
       expect(result.success).toBe(false);
       if (!result.success) {
         expect(result.error.issues[0].message).toBe("Type names must be in PascalCase");
