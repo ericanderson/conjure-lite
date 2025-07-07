@@ -1,0 +1,27 @@
+{
+  "name": "@conjure-lite/tsconfig",
+  "version": "0.0.0",
+  "description": "Shared TypeScript configuration for conjure-lite packages",
+  "author": "Eric Anderson",
+  "license": "Apache-2.0",
+  "type": "module",
+  "files": [
+    "tsconfig.src.json",
+    "tsconfig.vitest.json"
+  ],
+  "devDependencies": {
+    "typescript": "^5.8.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ericanderson/conjure-lite.git"
+  },
+  "keywords": [
+    "typescript",
+    "tsconfig",
+    "conjure"
+  ]
+}

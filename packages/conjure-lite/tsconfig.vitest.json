@@ -1,13 +1,3 @@
 {
-  "compilerOptions": {
-    "composite": true,
-    "outDir": "./build/tsc-vitest",
-    "rootDir": ".",
-    "module": "Node16",
-    "moduleResolution": "Node16",
-    "target": "ES2022",
-    "types": ["vitest/globals", "node"],
-    "skipLibCheck": true
-  },
-  "include": ["vitest.config.ts", "build.config.ts"]
+  "extends": "@conjure-lite/tsconfig/tsconfig.vitest.json"
 }

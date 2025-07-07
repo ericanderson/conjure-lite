@@ -5,6 +5,7 @@
     "build": {
       "dependsOn": [
         "^build",
+        "^tsconfig",
         "codegen"
       ],
       "inputs": [
@@ -36,6 +37,9 @@
       ]
     },
     "check:lint": {
+      "dependsOn": [
+        "^tsconfig"
+      ],
       "inputs": [
         "src/**/*.ts",
         "src/**/*.mts",
@@ -44,6 +48,9 @@
       ]
     },
     "check:types": {
+      "dependsOn": [
+        "^tsconfig"
+      ],
       "inputs": [
         "src/**/*.ts",
         "src/**/*.mts",
@@ -101,10 +108,26 @@
         "src/generated/**"
       ]
     },
+    "tsconfig": {
+      "inputs": [
+        "tsconfig.src.json",
+        "tsconfig.vitest.json",
+        "package.json"
+      ]
+    },
+    "//#check:mrl": {
+      "inputs": [
+        "package.json",
+        ".monorepolint.config.mjs",
+        "packages/*/package.json",
+        "examples/*/package.json"
+      ]
+    },
     "check": {
       "dependsOn": [
         "build",
         "check:format",
+        "//#check:mrl",
         "check:api",
         "check:attw",
         "check:lint",
