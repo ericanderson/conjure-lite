@@ -1,6 +1,6 @@
 import { z } from "zod/v4";
-import { ConjureTypeSchema } from "../conjure/ConjureType.js";
 import { ObjectTypeDefinitionSchema as BaseObjectTypeDefinitionSchema } from "../conjure/ObjectTypeDefinition.js";
+import { ConjureTypeSchema } from "./ConjureType.js";
 import { FieldDefinitionSchema } from "./FieldDefinition.js";
 
 /**

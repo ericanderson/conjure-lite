@@ -39,7 +39,9 @@ export default tseslint.config(
   },
   {
     ignores: [
+      ".tsup/**",
       "dist/**",
+      "build/**",
       "examples/**",
       "coverage/**",
       "node_modules/**",

@@ -1,0 +1,11 @@
+types:
+  definitions:
+    default-package: com.palantir.common
+    objects:
+      ProductId:
+        alias: string
+      ProductInfo:
+        fields:
+          id: ProductId
+          name: string
+          description: string

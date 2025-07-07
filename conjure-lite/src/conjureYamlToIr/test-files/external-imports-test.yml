@@ -1,0 +1,20 @@
+types:
+  imports:
+    ExternalDateTime:
+      base-type: string
+      external:
+        java: com.external.library.DateTime
+    ExternalUuid:
+      base-type: string
+      external:
+        java: java.util.UUID
+  definitions:
+    default-package: com.palantir.test
+    objects:
+      TestObject:
+        fields:
+          id: ExternalUuid
+          timestamp: ExternalDateTime
+          name: string
+          items: list<ExternalDateTime>
+          mapping: map<string, ExternalUuid>

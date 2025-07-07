@@ -1,0 +1,13 @@
+types:
+  conjure-imports:
+    common: common.yml
+  definitions:
+    default-package: com.palantir.product
+    objects:
+      ProductId:
+        alias: integer
+      SomeRequest:
+        fields:
+          productId: common.ProductId
+          productInfo: common.ProductInfo
+          quantity: integer

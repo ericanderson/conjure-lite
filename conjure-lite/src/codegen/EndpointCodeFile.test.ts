@@ -56,7 +56,7 @@ describe(endpointCodeGenerator, () => {
     const codegen = new CodeGen(MINIMAL_CONJURE_DEF, {
       includeExtensions: true,
       outDir: tmpdir,
-      ir: "wat",
+      in: "wat",
       header: undefined,
       zod: true,
       // include: [],
@@ -99,7 +99,7 @@ describe(endpointCodeGenerator, () => {
     const codegen = new CodeGen(MINIMAL_CONJURE_DEF, {
       includeExtensions: true,
       outDir: tmpdir,
-      ir: "wat",
+      in: "wat",
       header: undefined,
       zod: true,
       // include: [],
@@ -140,7 +140,7 @@ describe(endpointCodeGenerator, () => {
     const codegen = new CodeGen(MINIMAL_CONJURE_DEF, {
       includeExtensions: true,
       outDir: tmpdir,
-      ir: "wat",
+      in: "wat",
       header: undefined,
       zod: true,
       // include: [],

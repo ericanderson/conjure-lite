@@ -1,4 +1,6 @@
 import type * as ConjureIr from "conjure-api";
+import * as fs from "node:fs";
+import * as path from "node:path";
 import invariant from "tiny-invariant";
 import * as yaml from "yaml";
 import type { AliasDefinition } from "../schemas/conjure-plus/AliasDefinition.js";
@@ -13,11 +15,29 @@ import type { ObjectTypeDefinition } from "../schemas/conjure-plus/ObjectTypeDef
 import type { ServiceDefinition } from "../schemas/conjure-plus/ServiceDefinition.js";
 import type { UnionTypeDefinition } from "../schemas/conjure-plus/UnionTypeDefinition.js";
 import type { ArgumentDefinition } from "../schemas/conjure/ArgumentDefinition.js";
+import type { ExternalTypeDefinition } from "../schemas/conjure/ExternalTypeDefinition.js";
 import type { LogSafety } from "../schemas/conjure/LogSafety.js";
 
-interface Ctx {
+interface QualifiedTypeName {
+  package: string;
+  name: string;
+  sourceFile: string; // which file defined this type
+}
+
+interface FileCtx {
+  filePath: string; // absolute path to this file
   cjs: ConjureSourceFile;
   defaultPackage: string | undefined;
+
+  // Import resolution
+  conjureImports: Record<string, string>; // namespace -> absolute file path
+  importedTypes: Map<string, QualifiedTypeName>; // local name -> fully qualified
+
+  /*
+   * Map of type name to external type definition from `imports`.
+   * Used to resolve external types during type conversion.
+   */
+  imports: Record<string, ExternalTypeDefinition>; // type name -> external def
   xtags: {
     types: {
       [typeName: string]: {
@@ -31,39 +51,60 @@ interface Ctx {
   };
 }
 
-export function conjureYamlToIr(
-  fileContents: string,
+interface Ctx {
+  // Global context for all files
+  fileContexts: Map<string, FileCtx>; // absolute path -> FileCtx
+  processedFiles: Set<string>; // prevent circular imports
+  rootFilePath: string; // entry point file
+  typeRegistry: Map<string, QualifiedTypeName>; // fully qualified name -> type info
+}
+
+/**
+ * Load and process a Conjure YAML file with full import resolution
+ */
+export function conjureYamlToIrFromFile(
+  filePath: string,
 ): ConjureIr.IConjureDefinition {
-  const yamlDocument = yaml.parseDocument(fileContents, {});
-  const cjs = ConjureSourceFileSchema.parse(yamlDocument.toJSON());
+  const absolutePath = path.resolve(filePath);
 
-  const ctx: Ctx = {
-    cjs,
-    defaultPackage: cjs.types?.definitions?.["default-package"],
-    xtags: {
-      types: {},
-      errors: {},
-    },
+  const globalCtx: Ctx = {
+    fileContexts: new Map(),
+    processedFiles: new Set(),
+    rootFilePath: absolutePath,
+    typeRegistry: new Map(),
   };
 
-  invariant(cjs.types, "Conjure source file must contain types");
-  const { types, errors } = convertDefinitions(cjs.types.definitions, ctx);
+  // Phase 1: Load all files and build contexts
+  loadConjureFile(absolutePath, globalCtx);
 
-  return {
-    version: 1,
-    types,
-    errors,
-    extensions: {
-      "recommended-product-dependencies": [],
-      "x-tags": ctx.xtags,
-    },
-    services: convertServices(cjs.services, ctx),
-  };
+  // Phase 2: Build type registry
+  buildTypeRegistry(globalCtx);
+
+  // Phase 3: Convert to IR using the root file
+  const rootFileCtx = globalCtx.fileContexts.get(absolutePath)!;
+  return convertFileToIr(rootFileCtx, globalCtx);
+}
+
+/**
+ * Find the namespace for an error by looking up its definition
+ */
+function findErrorNamespace(errorName: string, ctx: FileCtx): string {
+  // Look for the error in the current definitions
+  const errorDef = ctx.cjs.types?.definitions?.errors?.[errorName];
+  if (errorDef) {
+    // Return the namespace as-is since conjure-imports are file references, not namespace aliases
+    return errorDef.namespace;
+  }
+
+  // If not found, return a default namespace
+  // This could happen if the error is defined in an imported package
+  // FIXME
+  return "Unknown";
 }
 
 const listRegex = /^list<(.+)>$/;
 const mapRegex = /^map<(.+),\s*(.+)>$/;
-function convertDefinitions(definitions: NamedTypesDefinition | undefined, ctx: Ctx) {
+function convertDefinitions(definitions: NamedTypesDefinition | undefined, ctx: FileCtx) {
   const types: ConjureIr.ITypeDefinition[] = [];
 
   // const defaultPackage = definitions?.["default-package"];
@@ -104,7 +145,7 @@ function convertDefinitions(definitions: NamedTypesDefinition | undefined, ctx: 
 function convertUnion(
   typeName: string,
   typeInfo: UnionTypeDefinition,
-  ctx: Ctx,
+  ctx: FileCtx,
 ): ConjureIr.ITypeDefinition {
   const union = Object.entries(typeInfo.union).map(([name, value]) =>
     convertField(name, value, ctx)
@@ -124,7 +165,7 @@ function convertUnion(
 function convertEnum(
   typeName: string,
   typeInfo: EnumTypeDefinition,
-  ctx: Ctx,
+  ctx: FileCtx,
 ): ConjureIr.ITypeDefinition {
   const values = typeInfo.values.map<ConjureIr.IEnumValueDefinition>((value) => {
     if (typeof value === "string") return { value };
@@ -148,7 +189,7 @@ function convertEnum(
 function convertAlias(
   typeName: string,
   typeInfo: AliasDefinition,
-  ctx: Ctx,
+  ctx: FileCtx,
 ): ConjureIr.ITypeDefinition {
   if (typeInfo["x-tags"]) {
     ctx.xtags.types[typeName].object = typeInfo["x-tags"];
@@ -167,7 +208,7 @@ function convertAlias(
 
 function convertType(
   type: ConjureType,
-  ctx: Ctx,
+  ctx: FileCtx,
 ): ConjureIr.IType {
   if (isPrimitiveType(type)) {
     return {
@@ -197,23 +238,64 @@ function convertType(
     };
   }
 
+  // Check if this type is defined in imports (external types)
+  const externalType = ctx.imports[type];
+  if (externalType) {
+    // For external types, we need to extract the package from the Java type
+    // The Java type is typically in format "com.example.package.TypeName"
+    const javaType = externalType.external.java;
+    const lastDotIndex = javaType.lastIndexOf(".");
+
+    if (lastDotIndex > 0) {
+      const packageName = javaType.substring(0, lastDotIndex);
+      const typeName = javaType.substring(lastDotIndex + 1);
+
+      return {
+        type: "external",
+        external: {
+          externalReference: {
+            package: packageName,
+            name: typeName,
+          },
+          fallback: convertType(externalType["base-type"], ctx),
+        },
+      };
+    }
+
+    // If we can't parse the Java type, fall back to using the base type
+    return convertType(externalType["base-type"], ctx);
+  }
+
+  // Check if this is an imported type (namespace.TypeName)
+  const importedType = ctx.importedTypes.get(type);
+  if (importedType) {
+    return {
+      type: "reference",
+      reference: {
+        package: importedType.package,
+        name: importedType.name,
+      },
+    };
+  }
+
+  // Default case: create a reference to a type in the current package
   return {
     type: "reference",
     reference: {
-      package: ctx.defaultPackage!, // FIXME
+      package: ctx.defaultPackage ?? "default",
       name: type,
     },
   };
 }
 
-interface ObjectCtx extends Ctx {
+interface ObjectCtx extends FileCtx {
   typeName: string;
 }
 
 function convertObject(
   typeName: string,
   typeInfo: ObjectTypeDefinition,
-  ctx: Ctx,
+  ctx: FileCtx,
 ): ConjureIr.ITypeDefinition {
   const objectCtx: ObjectCtx = {
     ...ctx,
@@ -240,7 +322,7 @@ function convertObject(
 
 function convertTypeName(
   packageName: string | undefined,
-  ctx: Ctx,
+  ctx: FileCtx,
   typeName: string,
 ): ConjureIr.ITypeName {
   return {
@@ -265,7 +347,7 @@ function convertObjectField(
 function convertField(
   fieldName: string,
   fieldInfo: ConjureType | FieldDefinition,
-  ctx: Ctx,
+  ctx: FileCtx,
 ): ConjureIr.IFieldDefinition {
   if (typeof fieldInfo === "string") {
     return {
@@ -336,7 +418,7 @@ function convertEndpointArgument(
   argName: string,
   argInfo: ConjureType | ArgumentDefinition,
   pathArgs: Set<string>,
-  ctx: Ctx,
+  ctx: FileCtx,
 ): ConjureIr.IArgumentDefinition {
   if (typeof argInfo === "string") {
     return {
@@ -379,7 +461,7 @@ function convertEndpoint(
   endpointInfo: EndpointDefinition,
   basePath: string,
   defaultAuth: string,
-  ctx: Ctx,
+  ctx: FileCtx,
 ): ConjureIr.IEndpointDefinition {
   const [, httpMethod, httpPath] = endpointInfo.http.match(httpMethodRegex) || [];
   invariant(
@@ -390,7 +472,7 @@ function convertEndpoint(
   const errors = endpointInfo.errors?.map<ConjureIr.IEndpointError>(error => ({
     error: {
       ...convertTypeName(undefined, ctx, error.error),
-      namespace: "FIXME",
+      namespace: findErrorNamespace(error.error, ctx),
     },
     docs: error.docs,
   })) ?? [];
@@ -436,7 +518,7 @@ function convertEndpoint(
 function convertService(
   serviceName: string,
   serviceInfo: ServiceDefinition,
-  ctx: Ctx,
+  ctx: FileCtx,
 ): ConjureIr.IServiceDefinition {
   const basePath = serviceInfo["base-path"];
   const defaultAuth = serviceInfo["default-auth"];
@@ -451,11 +533,183 @@ function convertService(
 }
 function convertServices(
   services: Record<string, ServiceDefinition> | undefined,
-  ctx: Ctx,
+  ctx: FileCtx,
 ): ConjureIr.IServiceDefinition[] {
   if (!services) return [];
 
   return Object.entries(services).map<ConjureIr.IServiceDefinition>(
     ([name, service]) => convertService(name, service, ctx),
   );
+}
+
+/**
+ * Load a Conjure file and all its imports recursively
+ */
+function loadConjureFile(filePath: string, globalCtx: Ctx): FileCtx {
+  // Check if already processed to prevent circular imports
+  if (globalCtx.processedFiles.has(filePath)) {
+    const existing = globalCtx.fileContexts.get(filePath);
+    if (existing) {
+      return existing;
+    }
+    throw new Error(`Circular import detected: ${filePath}`);
+  }
+
+  globalCtx.processedFiles.add(filePath);
+
+  // Read and parse the YAML file
+  const fileContents = fs.readFileSync(filePath, "utf8");
+  const yamlDocument = yaml.parseDocument(fileContents, {});
+  const cjs = ConjureSourceFileSchema.parse(yamlDocument.toJSON());
+
+  // Create file context
+  const fileCtx: FileCtx = {
+    filePath,
+    cjs,
+    defaultPackage: cjs.types?.definitions?.["default-package"],
+    conjureImports: {},
+    importedTypes: new Map(),
+    imports: {},
+    xtags: {
+      types: {},
+      errors: {},
+    },
+  };
+
+  // Store in global context
+  globalCtx.fileContexts.set(filePath, fileCtx);
+
+  // Process conjure-imports and load referenced files
+  if (cjs.types?.["conjure-imports"]) {
+    const baseDir = path.dirname(filePath);
+
+    for (const [namespace, relativePath] of Object.entries(cjs.types["conjure-imports"])) {
+      // Resolve relative path to absolute path
+      let importPath = path.resolve(baseDir, relativePath);
+
+      // Try different extensions if file doesn't exist
+      if (!fs.existsSync(importPath)) {
+        const extensions = [".yml", ".yaml"];
+        let found = false;
+
+        for (const ext of extensions) {
+          const pathWithExt = importPath + ext;
+          if (fs.existsSync(pathWithExt)) {
+            importPath = pathWithExt;
+            found = true;
+            break;
+          }
+        }
+
+        if (!found) {
+          throw new Error(`Cannot find imported file: ${relativePath} (resolved to ${importPath})`);
+        }
+      }
+
+      // Store the resolved absolute path
+      fileCtx.conjureImports[namespace] = importPath;
+
+      // Recursively load the imported file
+      loadConjureFile(importPath, globalCtx);
+    }
+  }
+
+  // Process external imports
+  if (cjs.types?.imports) {
+    fileCtx.imports = cjs.types.imports;
+  }
+
+  return fileCtx;
+}
+
+/**
+ * Build a global type registry from all loaded files
+ */
+function buildTypeRegistry(globalCtx: Ctx): void {
+  for (const [_filePath, fileCtx] of globalCtx.fileContexts) {
+    const definitions = fileCtx.cjs.types?.definitions;
+    if (!definitions?.objects) continue;
+
+    for (const [typeName, typeInfo] of Object.entries(definitions.objects)) {
+      const packageName = typeInfo.package ?? fileCtx.defaultPackage ?? "default";
+      const fullyQualifiedName = `${packageName}.${typeName}`;
+
+      const qualifiedType: QualifiedTypeName = {
+        package: packageName,
+        name: typeName,
+        sourceFile: fileCtx.filePath,
+      };
+
+      globalCtx.typeRegistry.set(fullyQualifiedName, qualifiedType);
+    }
+  }
+
+  // Build import mappings for each file
+  for (const [_filePath, fileCtx] of globalCtx.fileContexts) {
+    for (const [namespace, importedFilePath] of Object.entries(fileCtx.conjureImports)) {
+      const importedFileCtx = globalCtx.fileContexts.get(importedFilePath);
+      if (!importedFileCtx) continue;
+
+      const importedDefinitions = importedFileCtx.cjs.types?.definitions;
+      if (!importedDefinitions?.objects) continue;
+
+      // Map namespace.TypeName to fully qualified type
+      for (const [typeName, typeInfo] of Object.entries(importedDefinitions.objects)) {
+        const packageName = typeInfo.package ?? importedFileCtx.defaultPackage ?? "default";
+        const localName = `${namespace}.${typeName}`;
+
+        const qualifiedType: QualifiedTypeName = {
+          package: packageName,
+          name: typeName,
+          sourceFile: importedFilePath,
+        };
+
+        fileCtx.importedTypes.set(localName, qualifiedType);
+      }
+    }
+  }
+}
+
+/**
+ * Convert a file context to Conjure IR
+ */
+function convertFileToIr(_fileCtx: FileCtx, globalCtx: Ctx): ConjureIr.IConjureDefinition {
+  // Collect all types from all files
+  const allTypes: ConjureIr.ITypeDefinition[] = [];
+  const allErrors: ConjureIr.IErrorDefinition[] = [];
+  const allServices: ConjureIr.IServiceDefinition[] = [];
+
+  // Merge x-tags from all files
+  const mergedXTags = {
+    types: {} as Record<string, any>,
+    errors: {} as Record<string, any>,
+  };
+
+  for (const [, ctx] of globalCtx.fileContexts) {
+    if (ctx.cjs.types?.definitions) {
+      const { types, errors } = convertDefinitions(ctx.cjs.types.definitions, ctx);
+      allTypes.push(...types);
+      allErrors.push(...errors);
+    }
+
+    if (ctx.cjs.services) {
+      const services = convertServices(ctx.cjs.services, ctx);
+      allServices.push(...services);
+    }
+
+    // Merge x-tags
+    Object.assign(mergedXTags.types, ctx.xtags.types);
+    Object.assign(mergedXTags.errors, ctx.xtags.errors);
+  }
+
+  return {
+    version: 1,
+    types: allTypes,
+    errors: allErrors,
+    extensions: {
+      "recommended-product-dependencies": [],
+      "x-tags": mergedXTags,
+    },
+    services: allServices,
+  };
 }

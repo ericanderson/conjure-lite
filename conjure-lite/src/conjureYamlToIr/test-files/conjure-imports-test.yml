@@ -1,0 +1,30 @@
+types:
+  conjure-imports:
+    common: common.yml
+  definitions:
+    default-package: com.palantir.test
+    errors:
+      TestError:
+        namespace: FirstNamespace
+        code: INVALID_ARGUMENT
+        safe-args:
+          message: string
+      DirectError:
+        namespace: SecondNamespace
+        code: PERMISSION_DENIED
+        unsafe-args:
+          details: string
+
+services:
+  TestService:
+    package: com.palantir.test.service
+    base-path: /test
+    default-auth: header
+    endpoints:
+      testEndpoint:
+        http: GET /test
+        errors:
+          - error: TestError
+            docs: Test error with direct namespace
+          - error: DirectError
+            docs: Direct error with full namespace

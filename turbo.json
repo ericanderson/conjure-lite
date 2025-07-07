@@ -3,20 +3,27 @@
   "ui": "stream",
   "tasks": {
     "build": {
-      "dependsOn": ["^build", "generate"],
+      "dependsOn": [
+        "^build",
+        "codegen"
+      ],
       "inputs": [
         "src/**/*.ts",
         "src/**/*.mts",
         "tsconfig.json",
-        "package.json"
+        "tsconfig.*.json",
+        "package.json",
+        "build.config.ts"
       ],
       "outputs": [
         "dist/**",
-        "tsconfig.tsbuildinfo"
+        "build/**/*.tsbuildinfo"
       ]
     },
     "test": {
-      "dependsOn": ["^build"],
+      "dependsOn": [
+        "^build"
+      ],
       "inputs": [
         "src/**/*.ts",
         "src/**/*.test.ts",
@@ -56,11 +63,14 @@
         "examples/**/*.json",
         "*.json",
         "*.md",
-        "dprint.json"
+        "dprint.json",
+        "turbo.json"
       ]
     },
     "check:api": {
-      "dependsOn": ["build"],
+      "dependsOn": [
+        "build"
+      ],
       "inputs": [
         "dist/**",
         "api-extractor.json",
@@ -71,23 +81,24 @@
       ]
     },
     "check:attw": {
-      "dependsOn": ["build"],
+      "dependsOn": [
+        "build"
+      ],
       "inputs": [
         "dist/**",
         "package.json"
       ]
     },
-    "generate": {
-      "dependsOn": ["^build"],
+    "codegen": {
+      "dependsOn": [
+        "^build"
+      ],
       "inputs": [
         "ir.json",
-        "package.json",
-        "tsconfig.json"
+        "package.json"
       ],
       "outputs": [
-        "src/generated/**",
-        "lib/**",
-        "tsconfig.tsbuildinfo"
+        "src/generated/**"
       ]
     },
     "check": {

@@ -27,7 +27,15 @@
   "scripts": {
     "prepare": "husky",
     "check:format": "dprint check",
-    "fix:format": "dprint fmt"
+    "fix:format": "dprint fmt",
+    "check": "turbo run check",
+    "check:api": "turbo run check:api",
+    "check:attw": "turbo run check:attw",
+    "check:lint": "turbo run check:lint",
+    "check:types": "turbo run check:types",
+    "test": "turbo run test",
+    "build": "turbo run build",
+    "clean": "turbo run clean && rm -rf node_modules"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.2",
@@ -36,24 +44,23 @@
     "@microsoft/api-extractor": "^7.52.8",
     "@types/node": "^22.16.0",
     "@types/yargs": "^17.0.33",
-    "@typescript-eslint/eslint-plugin": "^8.35.1",
-    "@typescript-eslint/parser": "^8.35.1",
-    "@vitest/coverage-v8": "3.1.3",
+    "@typescript-eslint/eslint-plugin": "^8.36.0",
+    "@typescript-eslint/parser": "^8.36.0",
+    "@vitest/coverage-v8": "^3.2.4",
     "conjure-api": "^4.51.0",
     "dedent": "^1.6.0",
     "dprint": "^0.50.1",
     "eslint": "^9.30.1",
     "husky": "^9.1.7",
     "lint-staged": "^16.1.2",
-    "pkgroll": "^2.13.1",
     "tiny-invariant": "^1.3.3",
     "turbo": "^2.5.4",
     "typescript": "^5.8.3",
-    "typescript-eslint": "^8.35.1",
+    "typescript-eslint": "^8.36.0",
     "vitest": "^3.2.4",
     "yaml": "^2.8.0",
     "yargs": "^18.0.0",
-    "zod": "^3.25.67"
+    "zod": "^3.25.75"
   },
   "type": "module",
   "packageManager": "pnpm@10.12.1+sha512.f0dda8580f0ee9481c5c79a1d927b9164f2c478e90992ad268bbb2465a736984391d6333d2c327913578b2804af33474ca554ba29c04a8b13060a717675ae3ac"

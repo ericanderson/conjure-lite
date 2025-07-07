@@ -1,4 +1,5 @@
 import { readFileSync } from "fs";
+import { packageDirectory } from "package-directory";
 import { join } from "path";
 import invariant from "tiny-invariant";
 import { describe, expect, it } from "vitest";
@@ -6,9 +7,12 @@ import { parse } from "yaml";
 import { ConjureSourceFileSchema } from "./index.js";
 
 describe("BasicConjure", () => {
-  it("should successfully parse and validate conjure-api.yml", () => {
+  it("should successfully parse and validate conjure-api.yml", async () => {
     // Read the conjure-api.yml file
-    const yamlFilePath = join(process.cwd(), "conjure-api.yml");
+    const packageDir = await packageDirectory({
+      cwd: __dirname,
+    });
+    const yamlFilePath = join(packageDir!, "conjure-api.yml");
     const yamlContent = readFileSync(yamlFilePath, "utf-8");
 
     // Parse YAML content
