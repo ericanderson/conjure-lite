@@ -25,7 +25,7 @@ The `x-tags` field is always:
 ## Usage
 
 ```typescript
-import { ObjectTypeDefinitionSchema } from "./src/schemas/conjure-plus";
+import { ObjectTypeDefinition } from "./src/schemas/conjure-plus";
 
 // Example object with x-tags support
 const myObject = {
@@ -46,7 +46,7 @@ const myObject = {
 };
 
 // Validate with schema
-const result = ObjectTypeDefinitionSchema.safeParse(myObject);
+const result = ObjectTypeDefinition.safeParse(myObject);
 console.log("Valid:", result.success);
 ```
 
@@ -66,15 +66,15 @@ The schemas use Zod's `.extend()` method to cleanly extend the original schemas 
 
 ```typescript
 // Extended schemas - inherit all original functionality plus x-tags
-export const FieldDefinitionSchema = BaseFieldDefinitionSchema.extend({
+export const FieldDefinition = BaseFieldDefinition.extend({
   "x-tags": z.record(z.string(), z.string()).optional().describe(
     "Additional metadata tags for the field",
   ),
 });
 
-export const ObjectTypeDefinitionSchema = BaseObjectTypeDefinitionSchema.extend(
+export const ObjectTypeDefinition = BaseObjectTypeDefinition.extend(
   {
-    fields: z.record(/* field validation with new FieldDefinitionSchema */),
+    fields: z.record(/* field validation with new FieldDefinition */),
     "x-tags": z.record(z.string(), z.string()).optional().describe(
       "Additional metadata tags for the object type",
     ),
@@ -82,18 +82,18 @@ export const ObjectTypeDefinitionSchema = BaseObjectTypeDefinitionSchema.extend(
 );
 
 // Hierarchical schemas - updated references to use extended types
-export const NamedTypesDefinitionSchema = BaseNamedTypesDefinitionSchema.extend(
+export const NamedTypesDefinition = BaseNamedTypesDefinition.extend(
   {
     objects: z.record(
-      TypeNameSchema,
+      TypeName,
       z.union([
-        AliasDefinitionSchema, // Uses extended version
-        ObjectTypeDefinitionSchema, // Uses extended version
-        UnionTypeDefinitionSchema, // Uses extended version
-        EnumTypeDefinitionSchema, // Uses extended version
+        AliasDefinition, // Uses extended version
+        ObjectTypeDefinition, // Uses extended version
+        UnionTypeDefinition, // Uses extended version
+        EnumTypeDefinition, // Uses extended version
       ]),
     ).optional(),
-    errors: z.record(TypeNameSchema, ErrorDefinitionSchema).optional(), // Extended version
+    errors: z.record(TypeName, ErrorDefinition).optional(), // Extended version
   },
 );
 ```

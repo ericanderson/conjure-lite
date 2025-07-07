@@ -4,7 +4,7 @@ import { join } from "path";
 import invariant from "tiny-invariant";
 import { describe, expect, it } from "vitest";
 import { parse } from "yaml";
-import { ConjureSourceFileSchema } from "./index.js";
+import { ConjureSourceFile } from "./index.js";
 
 describe("BasicConjure", () => {
   it("should successfully parse and validate conjure-api.yml", async () => {
@@ -19,7 +19,7 @@ describe("BasicConjure", () => {
     const parsedYaml: unknown = parse(yamlContent);
 
     // Validate against ConjureSourceFile schema
-    const result = ConjureSourceFileSchema.safeParse(parsedYaml);
+    const result = ConjureSourceFile.safeParse(parsedYaml);
 
     // Assert validation succeeds
     expect(result.success).toBe(true);
@@ -120,7 +120,7 @@ describe("BasicConjure", () => {
       },
     };
 
-    const result = ConjureSourceFileSchema.safeParse(invalidData);
+    const result = ConjureSourceFile.safeParse(invalidData);
     expect(result.success).toBe(false);
 
     if (!result.success) {

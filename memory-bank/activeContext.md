@@ -55,6 +55,14 @@
 - Set up comprehensive TypeScript configuration
 - Implemented Vitest testing with coverage
 - Added ESLint with modern flat config
+- **Comprehensive verification workflow**: Use `pnpm turbo check` from workspace root to verify entire repo (compiles, builds, passes lint, passes tests)
+
+### Schema Consolidation (Recently Completed)
+- ✅ **Consolidated conjure-plus schemas**: Combined all 25 individual TypeScript files into single `index.ts`
+- ✅ **Maintained full functionality**: All x-tags support and extended schemas preserved
+- ✅ **Eliminated circular dependencies**: Single file approach prevents import issues
+- ✅ **Improved maintainability**: Easier to understand and modify schema structure
+- ✅ **Verified with full test suite**: All builds, tests, linting, and type checking pass
 
 ## Next Steps & Priorities
 

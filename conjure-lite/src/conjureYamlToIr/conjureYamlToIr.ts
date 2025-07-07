@@ -3,20 +3,23 @@ import * as fs from "node:fs";
 import * as path from "node:path";
 import invariant from "tiny-invariant";
 import * as yaml from "yaml";
-import type { AliasDefinition } from "../schemas/conjure-plus/AliasDefinition.js";
-import type { ConjureSourceFile } from "../schemas/conjure-plus/ConjureSourceFile.js";
-import { ConjureSourceFileSchema } from "../schemas/conjure-plus/ConjureSourceFile.js";
-import type { ConjureType } from "../schemas/conjure-plus/ConjureType.js";
-import type { EndpointDefinition } from "../schemas/conjure-plus/EndpointDefinition.js";
-import type { EnumTypeDefinition } from "../schemas/conjure-plus/EnumTypeDefinition.js";
-import type { FieldDefinition } from "../schemas/conjure-plus/FieldDefinition.js";
-import type { NamedTypesDefinition } from "../schemas/conjure-plus/NamedTypesDefinition.js";
-import type { ObjectTypeDefinition } from "../schemas/conjure-plus/ObjectTypeDefinition.js";
-import type { ServiceDefinition } from "../schemas/conjure-plus/ServiceDefinition.js";
-import type { UnionTypeDefinition } from "../schemas/conjure-plus/UnionTypeDefinition.js";
-import type { ArgumentDefinition } from "../schemas/conjure/ArgumentDefinition.js";
-import type { ExternalTypeDefinition } from "../schemas/conjure/ExternalTypeDefinition.js";
-import type { LogSafety } from "../schemas/conjure/LogSafety.js";
+import type {
+  AliasDefinition,
+  ConjureType,
+  EndpointDefinition,
+  EnumTypeDefinition,
+  FieldDefinition,
+  NamedTypesDefinition,
+  ObjectTypeDefinition,
+  ServiceDefinition,
+  UnionTypeDefinition,
+} from "../schemas/conjure-plus/index.js";
+import { ConjureSourceFile } from "../schemas/conjure-plus/index.js";
+import type {
+  ArgumentDefinition,
+  ExternalTypeDefinition,
+  LogSafety,
+} from "../schemas/conjure/index.js";
 
 interface QualifiedTypeName {
   package: string;
@@ -560,7 +563,7 @@ function loadConjureFile(filePath: string, globalCtx: Ctx): FileCtx {
   // Read and parse the YAML file
   const fileContents = fs.readFileSync(filePath, "utf8");
   const yamlDocument = yaml.parseDocument(fileContents, {});
-  const cjs = ConjureSourceFileSchema.parse(yamlDocument.toJSON());
+  const cjs = ConjureSourceFile.parse(yamlDocument.toJSON());
 
   // Create file context
   const fileCtx: FileCtx = {
