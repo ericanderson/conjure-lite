@@ -39,6 +39,7 @@ export default tseslint.config(
   },
   {
     ignores: [
+      "bin/**",
       ".tsup/**",
       "dist/**",
       "build/**",

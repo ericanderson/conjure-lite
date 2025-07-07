@@ -12,7 +12,7 @@
   },
   "scripts": {
     "build": "tsc --build",
-    "codegen": "rm -rf src/generated lib tsconfig.tsbuildinfo && node ../../conjure-lite/dist/conjure-lite.mjs generate --ir ir.json --outDir src/generated --header '/* sample header */' --zod && dprint fmt 'src/generated/**/*'",
+    "codegen": "rm -rf src/generated lib tsconfig.tsbuildinfo && conjure-lite generate --ir ir.json --outDir src/generated --header '/* sample header */' --zod && dprint fmt 'src/generated/**/*'",
     "test": "vitest run"
   },
   "type": "module"

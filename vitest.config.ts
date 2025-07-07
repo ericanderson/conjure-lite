@@ -2,6 +2,6 @@ import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   test: {
-    projects: ["conjure-lite", "examples/widget"],
+    projects: ["packages/*", "examples/widget"],
   },
 });

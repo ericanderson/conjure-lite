@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "build/tsc-src",
+    "lib": ["ESNext"],
+    "module": "Node16",
+    "target": "ESNext",
+    "moduleResolution": "Node16",
+    "moduleDetection": "force",
+    "composite": true,
+    "strict": true,
+    "emitDeclarationOnly": true,
+    "downlevelIteration": true,
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmitOnError": false,
+    "paths": {
+      "node:*": ["./node_modules/@types/node/*.d.ts"]
+    }
+  },
+  "include": ["./src/**/*", "bin/conjure-lite.mts"]
+}
