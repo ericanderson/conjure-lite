@@ -5,6 +5,10 @@ import type { HandleGenerateArgs } from "./cli/HandleGenerateArgs.js";
 import type {} from "node:process";
 import { handleGenerate } from "./cli/handleGenerate.js";
 
+/**
+ * Entry point for the CLI.
+ * @public
+ */
 export async function cli() {
   const generate: CommandModule<object, HandleGenerateArgs> = {
     command: "generate",
