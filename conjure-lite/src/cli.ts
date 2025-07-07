@@ -15,9 +15,11 @@ export async function cli() {
           type: "string",
           required: true,
         },
-        ir: {
+        in: {
+          alias: "ir",
           type: "string",
           required: true,
+          description: "Path to IR JSON file or Conjure YAML file",
         },
         includeExtensions: {
           type: "boolean",

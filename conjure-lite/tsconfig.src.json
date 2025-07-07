@@ -16,9 +16,8 @@
     "forceConsistentCasingInFileNames": true,
     "noEmitOnError": false,
     "paths": {
-      "conjure-lite": ["./src"],
       "node:*": ["./node_modules/@types/node/*.d.ts"]
     }
   },
-  "include": ["src"]
+  "include": ["./src/**/*"]
 }

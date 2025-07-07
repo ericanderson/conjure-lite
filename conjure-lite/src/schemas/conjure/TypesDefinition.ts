@@ -5,6 +5,8 @@ import { TypeNameSchema } from "./TypeName.js";
 
 /**
  * The object specifies the types available in the Conjure definition.
+ * conjure-imports: Maps namespace -> file path for referencing other YAML files
+ * imports: Maps type alias -> external type definition for external Java types
  * Namespace aliases MUST match ^[_a-zA-Z][_a-zA-Z0-9]*$
  * Type aliases MUST be in PascalCase.
  */

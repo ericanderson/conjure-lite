@@ -1,6 +1,6 @@
 export interface HandleGenerateArgs {
   outDir: string;
-  ir: string;
+  in: string;
   includeExtensions: boolean;
   header?: string;
   zod: boolean;
