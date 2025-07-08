@@ -20,6 +20,9 @@ importers:
       '@microsoft/api-extractor':
         specifier: ^7.52.8
         version: 7.52.8(@types/node@22.16.0)
+      '@monorepolint/archetypes':
+        specifier: 0.6.0-alpha.5
+        version: 0.6.0-alpha.5
       '@monorepolint/cli':
         specifier: 0.6.0-alpha.5
         version: 0.6.0-alpha.5
@@ -93,15 +96,42 @@ importers:
         specifier: workspace:*
         version: link:../../packages/conjure-lite
     devDependencies:
+      '@conjure-lite/tsconfig':
+        specifier: workspace:*
+        version: link:../../packages/tsconfig
+      '@eslint/js':
+        specifier: ^9.30.1
+        version: 9.30.1
       '@types/node':
         specifier: ^22.16.0
         version: 22.16.0
+      '@typescript-eslint/eslint-plugin':
+        specifier: ^8.36.0
+        version: 8.36.0(@typescript-eslint/parser@8.36.0(eslint@9.30.1(jiti@2.4.2))(typescript@5.8.3))(eslint@9.30.1(jiti@2.4.2))(typescript@5.8.3)
+      '@typescript-eslint/parser':
+        specifier: ^8.36.0
+        version: 8.36.0(eslint@9.30.1(jiti@2.4.2))(typescript@5.8.3)
+      '@vitest/coverage-v8':
+        specifier: ^3.2.4
+        version: 3.2.4(vitest@3.2.4(@types/node@22.16.0)(jiti@2.4.2)(yaml@2.8.0))
       dprint:
         specifier: ^0.50.1
         version: 0.50.1
+      eslint:
+        specifier: ^9.30.1
+        version: 9.30.1(jiti@2.4.2)
       typescript:
         specifier: ^5.8.3
         version: 5.8.3
+      typescript-eslint:
+        specifier: ^8.36.0
+        version: 8.36.0(eslint@9.30.1(jiti@2.4.2))(typescript@5.8.3)
+      unbuild:
+        specifier: ^3.5.0
+        version: 3.5.0(typescript@5.8.3)
+      vitest:
+        specifier: ^3.2.4
+        version: 3.2.4(@types/node@22.16.0)(jiti@2.4.2)(yaml@2.8.0)
       zod:
         specifier: ^3.25.75
         version: 3.25.75
@@ -265,7 +295,11 @@ importers:
         specifier: ^3.25.75
         version: 3.25.75
 
-  packages/tsconfig: {}
+  packages/tsconfig:
+    devDependencies:
+      typescript:
+        specifier: ^5.8.3
+        version: 5.8.3
 
 packages:
 
@@ -689,6 +723,10 @@ packages:
 
   '@microsoft/tsdoc@0.15.1':
     resolution: {integrity: sha512-4aErSrCR/On/e5G2hDP0wjooqDdauzEbIq8hIkIe5pXV0rtWJZvdCEKL0ykZxex+IxIwBp0eGeV48hQN07dXtw==}
+
+  '@monorepolint/archetypes@0.6.0-alpha.5':
+    resolution: {integrity: sha512-ek3vFCwjDdfFJhuusa9LUa50n+AvWFMqPmix0t+2cAS//nAI1v9UT9lDt6EcDYMlUpp3CLk82vmlBH7Lps5J1A==}
+    engines: {node: '>=18'}
 
   '@monorepolint/cli@0.6.0-alpha.5':
     resolution: {integrity: sha512-HdKoMhSIEQ+rrwE/7+EFJGsu3/T0U9pYOiLlLa1llMtrCiyTFi6fe/2CXvfoch/IdITspRD4Ix2QifYVwUQfIQ==}
@@ -3405,6 +3443,17 @@ snapshots:
       resolve: 1.22.10
 
   '@microsoft/tsdoc@0.15.1': {}
+
+  '@monorepolint/archetypes@0.6.0-alpha.5':
+    dependencies:
+      '@monorepolint/config': 0.6.0-alpha.5
+      '@monorepolint/rules': 0.6.0-alpha.5
+      find-packages: 10.0.4
+      find-up: 7.0.0
+      glob: 10.4.5
+      micromatch: 4.0.8
+      read-yaml-file: 2.1.0
+      tslib: 2.8.1
 
   '@monorepolint/cli@0.6.0-alpha.5':
     dependencies:
