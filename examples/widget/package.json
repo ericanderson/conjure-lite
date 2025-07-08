@@ -2,9 +2,13 @@
   "name": "conjure-lite.example",
   "version": "0.0.0",
   "license": "Apache-2.0",
+  "private": true,
   "type": "module",
   "scripts": {
     "build": "tsc --build",
+    "check:lint": "eslint .",
+    "check:types": "tsc --build --noEmit",
+    "clean": "rm -rf lib tsconfig.tsbuildinfo dist",
     "codegen": "rm -rf src/generated lib tsconfig.tsbuildinfo && conjure-lite generate --ir ir.json --outDir src/generated --header '/* sample header */' --zod && dprint fmt 'src/generated/**/*'",
     "test": "vitest run"
   },
@@ -29,6 +33,5 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/ericanderson/conjure-lite.git"
-  },
-  "private": true
+  }
 }

@@ -36,12 +36,17 @@
 - Runtime support: `ConjureContext`, `conjureFetch` (basic)
 - Example projects: Widget example with working generated code
 
-### Monorepo Management (NEW - COMPLETED)
-- Monorepolint integration: v0.6.0-alpha.5 with essential rules
+### Monorepo Management (ENHANCED - COMPLETED)
+- Monorepolint integration: v0.6.0-alpha.5 with archetype-based configuration
+- Archetype system: Package types defined with shared configurations
+  - `publishedLibraries`: @conjure-lite/cli, conjure-lite (full build/test/API checking)
+  - `configPackages`: @conjure-lite/tsconfig (minimal config-only packages)
+  - `examplePackages`: conjure-lite.example (private with build/test)
+  - `rootPackage`: conjure-lite-repo (workspace root with special handling)
 - Package consistency: Automatic field ordering, dependency alignment
 - Turbo integration: Monorepo checks in CI/CD pipeline
 - Scripts: `pnpm check:monorepo` and `pnpm fix:monorepo` commands
-- Rules configured: packageOrder, alphabeticalDependencies, consistentDependencies
+- Advanced rules: Conditional dependencies, exports structure, publishConfig
 
 ### TypeScript Configuration (NEW - COMPLETED)
 - Updated all tsconfig files to use `${configDir}` template variable (TypeScript 5.5+)
