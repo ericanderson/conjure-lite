@@ -51,7 +51,7 @@
     "eslint": "^9.29.0",
     "husky": "^9.1.7",
     "lint-staged": "^16.1.2",
-    "pkgroll": "^2.12.2",
+    "pkgroll": "^2.14.0",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.35.0",
     "vitest": "^3.2.4",
