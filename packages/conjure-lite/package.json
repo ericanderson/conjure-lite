@@ -39,7 +39,7 @@
     "@changesets/cli": "^2.29.5",
     "@conjure-lite/cli": "workspace:*",
     "@conjure-lite/tsconfig": "workspace:*",
-    "@eslint/js": "^9.30.1",
+    "@eslint/js": "^9.32.0",
     "@microsoft/api-extractor": "^7.52.8",
     "@types/node": "^22.16.0",
     "@types/yargs": "^17.0.33",
