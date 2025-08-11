@@ -47,7 +47,7 @@
     "@monorepolint/archetypes": "0.6.0-alpha.5",
     "@monorepolint/cli": "0.6.0-alpha.5",
     "@monorepolint/rules": "0.6.0-alpha.5",
-    "@types/node": "^22.16.0",
+    "@types/node": "^24.2.1",
     "@types/yargs": "^17.0.33",
     "@typescript-eslint/eslint-plugin": "^8.36.0",
     "@typescript-eslint/parser": "^8.36.0",
